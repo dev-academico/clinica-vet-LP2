@@ -26,6 +26,7 @@ public class Cliente extends Pessoa {
 
     @Override
     public void exibirDados() {
+        super.exibirDados();
         for (Animal animal : this.listaDePets) {
             System.out.println(animal);
         }

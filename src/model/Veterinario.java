@@ -43,6 +43,7 @@ public class Veterinario extends Pessoa {
 
     @Override
     public void exibirDados() {
+        super.exibirDados();
         System.out.println("Salario: " + this.salario);
         System.out.println("CRM: " + this.CRMV);
     }

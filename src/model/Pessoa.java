@@ -25,7 +25,6 @@ public class Pessoa {
         this.cpf = cpf;
         this.endereco = endereco;
         this.telefone = telefone;
-        System.out.println("Cliente inserido com sucesso!");
     }
 
     //se for null, continua o mesmo, não precisa lançar exceção
@@ -43,7 +42,6 @@ public class Pessoa {
             throw new DadosObrigatoriosException("Uma pessoa deve ter obrigatoriamente um CPF");
         }
         this.cpf = cpf;
-        System.out.println("Dados atualizados com sucesso!");
     }
 
     public void exibirDados() {
