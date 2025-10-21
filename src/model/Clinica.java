@@ -10,11 +10,7 @@ public class Clinica {
 
     //create Veterinário
     public void adicionarVeterinário(Veterinario veterinario) {
-        try{
-            veterinariosDaClinica.add(veterinario);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+        veterinariosDaClinica.add(veterinario);
         System.out.println("Veterinário adicionado com sucesso!");
     }
 
