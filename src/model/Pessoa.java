@@ -25,7 +25,6 @@ public class Pessoa {
         this.cpf = cpf;
         this.endereco = endereco;
         this.telefone = telefone;
-        System.out.println("Cliente inserido com sucesso!");
     }
 
     //se for null, continua o mesmo, não precisa lançar exceção

@@ -26,9 +26,28 @@ public class Cliente extends Pessoa {
 
     @Override
     public void exibirDados() {
+        // Dados do cliente
+        super.exibirDados();
+        // Dados dos animais
+        System.out.println("-------------- Animais ---------------");
         for (Animal animal : this.listaDePets) {
-            System.out.println(animal);
+            animal.exibirAnimal();
         }
     }
 
+    public void registrarPesoAnimal(int id, float peso) {
+        for(Animal animal: this.listaDePets) {
+            if(animal.getId() == id) {
+                animal.registrarPeso(peso);
+            }
+        }
+    }
+
+    public void registrarObservacaoAnimal(int id, String observacao) {
+        for(Animal animal: this.listaDePets) {
+            if(animal.getId() == id) {
+                animal.registrarObservacao(observacao);
+            }
+        }
+    }
 }

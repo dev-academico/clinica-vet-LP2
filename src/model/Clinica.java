@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Clinica {
     private ArrayList<Veterinario> veterinariosDaClinica = new ArrayList<>();
-    private static int proximoId = 1;
 
     public Clinica() {};
 
