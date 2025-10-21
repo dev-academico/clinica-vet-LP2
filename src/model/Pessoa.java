@@ -42,7 +42,6 @@ public class Pessoa {
             throw new DadosObrigatoriosException("Uma pessoa deve ter obrigatoriamente um CPF");
         }
         this.cpf = cpf;
-        System.out.println("Dados atualizados com sucesso!");
     }
 
     public void exibirDados() {
