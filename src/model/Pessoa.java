@@ -5,7 +5,7 @@ import exception.DadosObrigatoriosException;
 public class Pessoa {
 
     private String nome;
-    private String cpf;
+    private final String cpf;
     private String endereco;
     private String telefone;
 
@@ -28,7 +28,7 @@ public class Pessoa {
     }
 
     //se for null, continua o mesmo, não precisa lançar exceção
-    public void atualizarDados(String nome, String cpf, String endereco, String telefone) {
+    public void atualizarDados(String nome, String endereco, String telefone) {
         if(nome!=null){
             this.nome = nome;
         }
@@ -38,10 +38,7 @@ public class Pessoa {
         if(telefone!=null){
             this.telefone = telefone;
         }
-        if(cpf == null){
-            throw new DadosObrigatoriosException("Uma pessoa deve ter obrigatoriamente um CPF");
-        }
-        this.cpf = cpf;
+        
     }
 
     public void exibirDados() {

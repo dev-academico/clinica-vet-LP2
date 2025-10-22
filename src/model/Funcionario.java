@@ -20,7 +20,7 @@ public class Funcionario extends Pessoa {
         this.identificadorCarteiraTrabalho = identificadorCarteiraTrabalho;
         this.cargo = cargo;
     }
-    public void atualizarDados(String nome, String cpf, String endereco, String telefone, float salario, String identificadorCarteiraTrabalho, Cargo cargo) {
+    public void atualizarDados(String nome, String endereco, String telefone, float salario, String identificadorCarteiraTrabalho, Cargo cargo) {
         if (salario <= 0) {
             throw new SalarioInvalidoException("Um funcionário deverá ter um salário positivo e pelo menos maior que zero.");
         }
@@ -32,7 +32,7 @@ public class Funcionario extends Pessoa {
         this.identificadorCarteiraTrabalho = identificadorCarteiraTrabalho;
         this.cargo = cargo;
 
-        super.atualizarDados(nome, cpf, endereco, telefone); //sobrecarga do pai
+        super.atualizarDados(nome, endereco, telefone); //sobrecarga do pai
     }
 
     @Override

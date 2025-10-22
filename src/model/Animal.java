@@ -19,8 +19,6 @@ public class Animal {
         this.especie = especie;
         this.raca = raca;
         this.dataNascimento = dataNascimento;
-        this.peso = peso;
-        this.observacao = observacao;
         this.id = animalCount++;
     }
 
@@ -32,18 +30,25 @@ public class Animal {
         this.observacao = observacao;
     }
 
+    void atualizarDados(String nome, Especie especie, String raca, Date dataNascimento) {
+        this.nome = nome;
+        this.especie = especie;
+        this.raca = raca;
+        this.dataNascimento = dataNascimento;
+    }
+
     public int getId() {
         return id;
     }
 
     void exibirAnimal() {
+        System.out.println();
         System.out.println("ID: " + this.id);
         System.out.println("Nome: " + nome);
         System.out.println("Especie: " + especie);
         System.out.println("Raca: " + raca);
         System.out.println("Data de nascimento: " + dataNascimento);
         System.out.println("Peso: " + peso);
-        System.out.println("--------------------------------------");
         System.out.println("Observacao: " + observacao);
     }
 }

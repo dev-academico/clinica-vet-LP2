@@ -1,5 +1,8 @@
 import exception.DadosObrigatoriosException;
+import java.util.ArrayList;
+import model.Animal;
 import model.Cargo;
+import model.Cliente;
 import model.Clinica;
 import model.Funcionario;
 import model.Veterinario;
@@ -30,7 +33,7 @@ public class Main {
             System.out.println();
 
             // update veterinário
-            clinica.atualizarVeterinário(null, "111.111.111-11", null, null, 300000, "1010101");
+            clinica.atualizarVeterinário(null, null, null, 300000, "1010101");
 
             System.out.println();
 
@@ -63,7 +66,7 @@ public class Main {
         System.out.println();
 
         // update
-        clinica.atualizarFuncionario(null, "111.111.111-11", null, null, 300000, "2020202", Cargo.TOSADOR);
+        clinica.atualizarFuncionario(null, null, null, 300000, "2020202", Cargo.TOSADOR);
 
         System.out.println();
 
@@ -71,5 +74,30 @@ public class Main {
         clinica.lerFuncionario("2020202");
 
         System.out.println();
+
+        Animal animal1 = new Animal("Rex", model.Especie.CACHORRO, "Labrador", new java.util.Date(), 30.0f, "Nenhuma observação");
+
+        ArrayList<Animal> animaisDoCliente1 = new ArrayList<>();
+        animaisDoCliente1.add(animal1);
+
+        Cliente clienteA = new Cliente("Pedro Varela", "123.456.789-00", "Rua A, 123", "84 99999-9999", animaisDoCliente1);
+        clinica.adicionarCliente(clienteA);
+
+        // listar clientes
+        clinica.listarClientes();
+
+        Cliente clienteB = clinica.lerCliente("123.456.789-00");
+
+        Animal animal2 = new Animal("Miau", model.Especie.GATO, "Siamês", new java.util.Date(), 10.0f, "Nenhuma observação");
+        Animal animal3 = new Animal("Bolt", model.Especie.CACHORRO, "Vira-lata", new java.util.Date(), 20.0f, "Nenhuma observação");
+
+        clienteB.adicionarAnimal(animal2);
+
+        clienteB.adicionarAnimal(animal3);
+        
+        clienteB.atualizarAnimal(1, "Rexauro", model.Especie.CACHORRO, "Caramelo", new java.util.Date());
+
+        clinica.atualizarCliente(clienteB.getNome(), clienteB.getEndereco(), clienteB.getTelefone(), clienteB.getAnimais(), clienteB.getCpf());
+        clinica.listarClientes();
     }
 }
