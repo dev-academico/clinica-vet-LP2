@@ -1,52 +1,72 @@
 package model;
 
 import exception.DescontoInvalidoException;
-import exception.DescontoInvalidoException;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+// Hello, acabei fazendo boas práticas na suas classes - Nomeclatura e tals Ass. Pedro
 
 public class ItemComercial {
-    static private int contItem=0;
+    static private int contItens = 0;
 
     final private Integer id;
     final private String nome;
-    private String desc;
-    private HashMap<Integer, Veterinario> responsaveisServ;
+    private String descricao;
+    private HashMap<Integer, Funcionario> responsaveisServico;
 
-    ItemComercial(Integer id, String nome, String desc, Veterinario fnr, HashMap<Integer, Veterinario> responsaveisServ){
-        this.id=id;
+    ItemComercial( String nome, String descricao, Funcionario funcionario){ // Inicia com 1 funcionário
+        HashMap<Integer, Funcionario> responsavelServico = new HashMap<Integer, Funcionario>();
+        responsavelServico.put(contItens++,funcionario);
+
+        this.id=contItens++; // Id incremental - Acho mais fácil assim - Ass.Pedro
+
         this.nome=nome;
-        this.desc=desc;
-        this.contItem+=1;
-        this.responsaveisServ=responsaveisServ;
+        this.descricao=descricao;
+        this.responsaveisServico=responsavelServico;
     }
 
-    //uso de polim. aq ↓
     public boolean aplicarDesconto(Double v) throws DescontoInvalidoException {
-        boolean apply=false;
-
         try{
             DescontoInvalidoException.validaPercentual(v);
-            //impl logica do produto/serv. a ser descontado nas classes
-            apply=true;
-            return apply;
-        }catch(DescontoInvalidoException e){
+            /*
+            IMPLEMENTAR : logica do produto/serv. a ser descontado nas classes
+             */
+            return true;
+        } catch ( DescontoInvalidoException e ){
             System.out.println(e.getMessage());
-            return apply;
+            return false;
         }
     }
 
-    //Identifica um serviço e um responsável
-    public void incluiFuncionario(Veterinario F){
-        HashMap itemC = new HashMap<Integer, Veterinario>(); //Necessário um getter
-        System.out.println("Funcionário do responsável pelo serviço: "+this.nome+" é" +
-                F.getNome());
-        //implementar: controle para identificar se é produto ou não
-    }
-    public boolean consumoItem(){
-        //mostra se um cliente consumiu um prod. ou serviço
-        boolean cons=false;
+    public void incluiFuncionario(Funcionario funcionario){
+        Map<Integer, Veterinario> novoFuncionario;
+        System.out.println("Funcionário do responsável pelo serviço: " + this.nome + " é" + funcionario.getNome());
 
-        return cons;
+        Scanner scanner =new Scanner(System.in);
+        System.out.println("Informe o código do serviço: ");
+        int idTyped = scanner.nextInt();
+        /*
+        A IMPLEMENTAR: ACESSO AO NOME DO FUNCIONARIO
+
+        novoFuncionario.put(idTyped, funcionario.getNome());
+        System.out.println("Funcionário do responsável pelo serviço: "+ this.nome +" é " + funcionario.getNome());
+
+        implementar: controle para identificar se é produto ou não
+
+        Obs.: Não seria depois responsaveisServico.put(novoFuncionario)? - Ass. Pedro
+         */
+    }
+
+    public boolean consumoItem(){
+
+        /*
+        CRIA UM RELATÓRIO A RESPEITO DO CONSUMO DO CLIENTE
+
+        parâmetros do 'cl': preço, data_hora, id do serviço/produto, nome do cliente, forma de pagamento
+         */
+
+        return true;
     }
 }

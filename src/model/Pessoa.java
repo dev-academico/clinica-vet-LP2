@@ -54,6 +54,7 @@ public class Pessoa {
     public String getNome() {
         return nome;
     }
+
     public String getCpf() { return cpf; }
     public String getTelefone() { return telefone; }
     public String getEndereco() { return endereco; }
