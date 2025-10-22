@@ -42,13 +42,13 @@ public class Animal {
     }
 
     void exibirAnimal() {
+        System.out.println();
         System.out.println("ID: " + this.id);
         System.out.println("Nome: " + nome);
         System.out.println("Especie: " + especie);
         System.out.println("Raca: " + raca);
         System.out.println("Data de nascimento: " + dataNascimento);
         System.out.println("Peso: " + peso);
-        System.out.println("--------------------------------------");
         System.out.println("Observacao: " + observacao);
     }
 }

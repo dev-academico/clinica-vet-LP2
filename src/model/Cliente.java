@@ -21,15 +21,25 @@ public class Cliente extends Pessoa {
         // Implementar
     }
 
-    public void atualizarDados(String nome, String cpf, String endereco, String telefone, ArrayList<Animal> listaDeAnimais) {
+    public void atualizarDados(String nome, String endereco, String telefone, ArrayList<Animal> listaDeAnimais) {
+        if (listaDeAnimais == null) {
+            throw new DadosObrigatoriosException("Um cliente deverá ter pelo menos um animal");
+        } 
         this.listaDeAnimais = listaDeAnimais;
-        super.atualizarDados(nome, cpf, endereco, telefone); //sobrecarga do pai
+        super.atualizarDados(nome, endereco, telefone); //sobrecarga do pai
     }
 
     @Override
     public void exibirDados() {
         // Dados do cliente
         super.exibirDados();
+
+        // Dados dos animais
+        System.out.println();
+        System.out.println("Lista de Animais do Cliente:");
+        for (Animal animal : listaDeAnimais) {
+            this.mostrarAnimal(animal.getId());
+        }
     }
 
     // CRUD de animais do cliente
@@ -79,5 +89,9 @@ public class Cliente extends Pessoa {
         } else {
             throw new AnimalInexistenteException("Animal de ID: " + id + " , não foi encontrado"); 
         }
+    }
+
+    public ArrayList<Animal> getAnimais() {
+        return this.listaDeAnimais;
     }
 }

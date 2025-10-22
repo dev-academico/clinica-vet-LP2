@@ -28,7 +28,7 @@ public class Veterinario extends Pessoa {
         //Implementar
     }
 
-    public void atualizarDados(String nome, String cpf, String endereco, String telefone, float salario, String CRMV) {
+    public void atualizarDados(String nome, String endereco, String telefone, float salario, String CRMV) {
         if (salario <= 0) {
             throw new SalarioInvalidoException("Um veterinário deverá ter um salário positivo e pelo menos maior que zero.");
         }
@@ -38,7 +38,7 @@ public class Veterinario extends Pessoa {
         }
         this.salario = salario;
         this.CRMV = CRMV;
-        super.atualizarDados(nome, cpf, endereco, telefone); //sobrecarga do pai
+        super.atualizarDados(nome, endereco, telefone); //sobrecarga do pai
     }
 
     @Override
