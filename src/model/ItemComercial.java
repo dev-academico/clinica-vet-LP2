@@ -1,72 +1,38 @@
-package model;
-
-import exception.DescontoInvalidoException;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-// Hello, acabei fazendo boas práticas na suas classes - Nomeclatura e tals Ass. Pedro
 
-public class ItemComercial {
-    static private int contItens = 0;
+//adicionando modificações
+abstract class ItemComercial {
+    static private int contItem=0;
 
-    final private Integer id;
-    final private String nome;
-    private String descricao;
-    private HashMap<Integer, Funcionario> responsaveisServico;
+    private Integer id;
+    private String nome;//talvez seja melhor final
+    private String desc;
 
-    ItemComercial( String nome, String descricao, Funcionario funcionario){ // Inicia com 1 funcionário
-        HashMap<Integer, Funcionario> responsavelServico = new HashMap<Integer, Funcionario>();
-        responsavelServico.put(contItens++,funcionario);
-
-        this.id=contItens++; // Id incremental - Acho mais fácil assim - Ass.Pedro
-
+    ItemComercial(Integer id, String nome, String desc, Funcionario fnr){
+        this.id=id;
         this.nome=nome;
-        this.descricao=descricao;
-        this.responsaveisServico=responsavelServico;
+        this.desc=desc;
+        contItem++;
+        //this.responsaveisServ.put(this.id, fnr); //movido para serviço
     }
 
-    public boolean aplicarDesconto(Double v) throws DescontoInvalidoException {
-        try{
-            DescontoInvalidoException.validaPercentual(v);
-            /*
-            IMPLEMENTAR : logica do produto/serv. a ser descontado nas classes
-             */
-            return true;
-        } catch ( DescontoInvalidoException e ){
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
+    //ovr
+    public abstract boolean aplicarDesconto(Double v) throws DescontoInvalidoE;
 
-    public void incluiFuncionario(Funcionario funcionario){
-        Map<Integer, Veterinario> novoFuncionario;
-        System.out.println("Funcionário do responsável pelo serviço: " + this.nome + " é" + funcionario.getNome());
+    //Identifica um serviço e um responsável
 
-        Scanner scanner =new Scanner(System.in);
-        System.out.println("Informe o código do serviço: ");
-        int idTyped = scanner.nextInt();
-        /*
-        A IMPLEMENTAR: ACESSO AO NOME DO FUNCIONARIO
-
-        novoFuncionario.put(idTyped, funcionario.getNome());
-        System.out.println("Funcionário do responsável pelo serviço: "+ this.nome +" é " + funcionario.getNome());
-
-        implementar: controle para identificar se é produto ou não
-
-        Obs.: Não seria depois responsaveisServico.put(novoFuncionario)? - Ass. Pedro
-         */
-    }
-
-    public boolean consumoItem(){
-
+    public boolean consumoItem(Cliente cl){
         /*
         CRIA UM RELATÓRIO A RESPEITO DO CONSUMO DO CLIENTE
 
-        parâmetros do 'cl': preço, data_hora, id do serviço/produto, nome do cliente, forma de pagamento
+        - parâmetros do 'cl': preço, data_hora, id do serviço/produto, nome do cliente, forma de pagamento
+
          */
 
-        return true;
+        boolean cons=false;
+
+        return cons;
     }
 }
