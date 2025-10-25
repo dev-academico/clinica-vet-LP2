@@ -4,7 +4,6 @@ import exception.AnimalInexistenteException;
 import exception.DadosObrigatoriosException;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Cliente extends Pessoa {
     private ArrayList<Animal> listaDeAnimais;
@@ -21,11 +20,10 @@ public class Cliente extends Pessoa {
         // Implementar
     }
 
-    public void atualizarDados(String nome, String endereco, String telefone, ArrayList<Animal> listaDeAnimais) {
+    public void atualizarDados(String nome, String endereco, String telefone) {
         if (listaDeAnimais == null) {
             throw new DadosObrigatoriosException("Um cliente deverá ter pelo menos um animal");
         } 
-        this.listaDeAnimais = listaDeAnimais;
         super.atualizarDados(nome, endereco, telefone); //sobrecarga do pai
     }
 
@@ -33,13 +31,10 @@ public class Cliente extends Pessoa {
     public void exibirDados() {
         // Dados do cliente
         super.exibirDados();
+    }
 
-        // Dados dos animais
-        System.out.println();
-        System.out.println("Lista de Animais do Cliente:");
-        for (Animal animal : listaDeAnimais) {
-            this.mostrarAnimal(animal.getId());
-        }
+    public ArrayList<Animal> getAnimais() {
+        return this.listaDeAnimais;
     }
 
     // CRUD de animais do cliente
@@ -51,23 +46,23 @@ public class Cliente extends Pessoa {
         this.listaDeAnimais.removeIf(animal -> animal.getId() == id);
     }
 
-    public void atualizarAnimal(int id, String nome, Especie especie, String raca, Date dataNascimento) {
-        Animal animalParaAtualizar = this.listaDeAnimais.stream().filter(animal -> animal.getId() == id).findFirst().orElse(null);
+    public void atualizarAnimal(Animal animal) {
+        Animal animalParaAtualizar = this.listaDeAnimais.stream().filter(animalAntigo -> animalAntigo.getId() == animal.getId()).findFirst().orElse(null);
 
         if (animalParaAtualizar != null) {
-            animalParaAtualizar.atualizarDados(nome, especie, raca, dataNascimento);
+            animalParaAtualizar.atualizarDados(animal.getNome(), animal.getEspecie(), animal.getRaca(), animal.getDataNascimento());
         } else {
-            throw new AnimalInexistenteException("Animal de ID: " + id + " , não foi encontrado");
+            throw new AnimalInexistenteException("Animal de ID: " + animal.getId() + " , não foi encontrado");
         }
     }
 
-    public void mostrarAnimal(int id) {
-        Animal animalParaMostrar = this.listaDeAnimais.stream().filter(animal -> animal.getId() == id).findFirst().orElse(null);
-
-        if (animalParaMostrar != null) {
-            animalParaMostrar.exibirAnimal();
+    public void mostrarListaDeAnimais() {
+        if (this.listaDeAnimais.isEmpty()) {
+            System.out.println("Nenhum animal cadastrado.");
         } else {
-            throw new AnimalInexistenteException("Animal de ID: " + id + " , não foi encontrado");
+            for (Animal animal : this.listaDeAnimais) {
+                System.out.println("[ ID: " + animal.getId() + " | Nome: " + animal.getNome() + " | Espécie: " + animal.getEspecie() + " | Raça: " + animal.getRaca() + " ]");
+            }
         }
     }
 
@@ -90,8 +85,5 @@ public class Cliente extends Pessoa {
             throw new AnimalInexistenteException("Animal de ID: " + id + " , não foi encontrado"); 
         }
     }
-
-    public ArrayList<Animal> getAnimais() {
-        return this.listaDeAnimais;
-    }
+    
 }
