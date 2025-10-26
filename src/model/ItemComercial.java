@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,7 +21,7 @@ abstract class ItemComercial {
     }
 
     //ovr
-    public abstract boolean aplicarDesconto(Double v) throws DescontoInvalidoE;
+    public abstract boolean aplicarDesconto(Double v);
 
     //Identifica um serviço e um responsável
 

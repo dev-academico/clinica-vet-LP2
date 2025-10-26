@@ -1,3 +1,6 @@
+package model;
+import exception.DescontoInvalidoException;
+
 public class Produto extends ItemComercial{
 
     private String desc;
@@ -12,19 +15,19 @@ public class Produto extends ItemComercial{
     }
 
     @Override
-    public boolean aplicarDesconto(Double v) throws DescontoInvalidoE{
+    public boolean aplicarDesconto(Double v) {
         boolean apply=false;
 
              try{
-                DescontoInvalidoE.validaPercentual(v);
+                DescontoInvalidoException.validaPercentual(v);
                 float v_f=v.floatValue(); //conversão
-                Float preco_novo=v_f*preco;
+                float preco_novo=v_f*preco;
 
                 System.out.print("Desconto aplicado: "+v_f*100+"% |\nPreço a pagar (não inclui taxas): "+preco_novo);
                 System.out.println("\n");
                 apply=true;
                 return apply;
-            }catch(DescontoInvalidoE e){
+            }catch(DescontoInvalidoException e){
                 System.out.println(e.getMessage());
                 return apply;
             }
