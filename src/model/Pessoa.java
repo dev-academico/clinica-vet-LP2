@@ -42,10 +42,7 @@ public class Pessoa {
     }
 
     public void exibirDados() {
-        System.out.println("Nome: " + this.nome);
-        System.out.println("CPF: " + this.cpf);
-        System.out.println("Endereco: " + this.endereco);
-        System.out.println("Telefone: " + this.telefone);
+        System.out.println("[ Nome: " + nome + " | CPF: " + cpf + " | Endereço: " + endereco + " | Telefone: " + telefone + " ]");
     }
 
     public String getNome() {
