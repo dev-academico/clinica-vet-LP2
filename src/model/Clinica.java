@@ -120,6 +120,26 @@ public class Clinica {
         }
     }
 
+    // remove cliente
+    public void removerCliente(String cpf) {
+        Cliente clienteClinica = clientesDaClinica.stream()
+                .filter(clienteAntigo -> clienteAntigo.getCpf().equals(cpf)).findFirst().orElse(null);
+
+        if (clienteClinica != null) {
+            clientesDaClinica.remove(clienteClinica);
+            System.out.println("Cliente removido com sucesso!");
+
+        } else {
+            throw new ClienteInexistenteException("Cliente não encontrado");
+
+        }
+    }
+
+    // get lista de clientes
+    public ArrayList<Cliente> getClientesDaClinica() {
+        return this.clientesDaClinica;
+    }   
+
     // update animal do cliente
     public void atualizarAnimal(Animal animal, String nome, Especie especie, String raca, java.util.Date dataNascimento) {
         if (animal != null) {
