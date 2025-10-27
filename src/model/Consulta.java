@@ -1,7 +1,9 @@
 package model;
 
+import exception.DataInvalidaException;
 import exception.EstadoInvalidoException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 public class Consulta extends Servico {
     
@@ -19,6 +21,13 @@ public class Consulta extends Servico {
                     Veterinario veterinario, Cliente cliente, Animal animal) {
         
         super(id, nome, funcionario, descricao, preco);
+
+        LocalDateTime dataHoraConsulta = LocalDateTime.of(data, hora);
+        LocalDateTime agora = LocalDateTime.now();
+
+        if (dataHoraConsulta.isBefore(agora)) {
+            throw new DataInvalidaException("Data e hora da consulta não podem ser no passado.");
+        }
         
         this.id = id;
         this.data = data;
