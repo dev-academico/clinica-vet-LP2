@@ -21,7 +21,7 @@ public class Animal {
     private ArrayList<Servico> listaDeServicos = new ArrayList<Servico>();
     private ArrayList<Consulta> listaDeConsultas = new ArrayList<Consulta>();
 
-    public Animal(String nome, Especie especie, String raca, Date dataNascimento, Float peso, String observacao, String cpfCliente) {
+    public Animal(String nome, Especie especie, String raca, Date dataNascimento, String cpfCliente) {
         this.nome = nome;
         this.especie = especie;
         this.raca = raca;

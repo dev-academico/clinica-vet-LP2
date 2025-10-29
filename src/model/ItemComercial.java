@@ -3,7 +3,6 @@ package model;
 import java.util.Map;
 import java.util.Scanner;
 
-
 //adicionando modificações
 abstract class ItemComercial {
     static private int contItem=0;
