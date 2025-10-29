@@ -5,22 +5,22 @@ import exception.EstadoInvalidoException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+
 public class Consulta extends Servico {
     
-    private Integer id;
+    private int id;
     private LocalDate data;
     private LocalTime hora;
     private String motivo;
     private String status;
-    private Veterinario veterinario;
-    private Cliente cliente;
-    private Animal animal;
+    private ArrayList<Veterinario> listaDeVeterinarios;
 
-    public Consulta(Integer id, String nome, Funcionario funcionario, String descricao, Float preco,
+    public Consulta(int id, String nome, String descricao, float preco,
                     LocalDate data, LocalTime hora, String motivo,
-                    Veterinario veterinario, Cliente cliente, Animal animal) {
-        
-        super(id, nome, funcionario, descricao, preco);
+                    ArrayList<Veterinario> listaDeVeterinarios, int idAnimal, String cpfPessoa) {
+
+        super(id, nome, descricao, preco, idAnimal, cpfPessoa,null);
 
         LocalDateTime dataHoraConsulta = LocalDateTime.of(data, hora);
         LocalDateTime agora = LocalDateTime.now();
@@ -34,12 +34,10 @@ public class Consulta extends Servico {
         this.hora = hora;
         this.motivo = motivo;
         this.status = "AGENDADA";
-        this.veterinario = veterinario;
-        this.cliente = cliente;
-        this.animal = animal;
+        this.listaDeVeterinarios = listaDeVeterinarios;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -59,16 +57,8 @@ public class Consulta extends Servico {
         return status;
     }
 
-    public Veterinario getVeterinario() {
-        return veterinario;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public Animal getAnimal() {
-        return animal;
+    public ArrayList<Veterinario> getVeterinarios() {
+        return listaDeVeterinarios;
     }
 
     public void iniciarConsulta() {

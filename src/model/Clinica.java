@@ -138,7 +138,21 @@ public class Clinica {
     // get lista de clientes
     public ArrayList<Cliente> getClientesDaClinica() {
         return this.clientesDaClinica;
-    }   
+    }
+
+    // get animal
+    public Animal getAnimal(String cpfPessoa, int idAnimal) throws AnimalInexistenteException {
+        for (Cliente cliente : clientesDaClinica) {
+            if (cliente.getCpf().equals(cpfPessoa)) {
+                for ( Animal animal : cliente.getAnimais()) {
+                    if(animal.getId() == idAnimal) {
+                        return animal;
+                    }
+                }
+            }
+        }
+        throw new AnimalInexistenteException("Animal não encontrado");
+    }
 
     // update animal do cliente
     public void atualizarAnimal(Animal animal, String nome, Especie especie, String raca, java.util.Date dataNascimento) {

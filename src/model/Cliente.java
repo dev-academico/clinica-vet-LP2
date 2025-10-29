@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Cliente extends Pessoa {
     private ArrayList<Animal> listaDeAnimais;
+    private ArrayList<Produto> listaDeProdutos;
 
     public Cliente(String nome, String cpf, String endereco, String telefone, ArrayList<Animal> listaDeAnimais) throws DadosObrigatoriosException {
         super(nome, cpf, endereco, telefone);
@@ -84,6 +85,10 @@ public class Cliente extends Pessoa {
         } else {
             throw new AnimalInexistenteException("Animal de ID: " + id + " , não foi encontrado"); 
         }
+    }
+
+    public void adicionarProduto(Produto produto) {
+        listaDeProdutos.add(produto);
     }
     
 }

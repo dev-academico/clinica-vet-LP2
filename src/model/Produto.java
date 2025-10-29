@@ -1,60 +1,54 @@
 package model;
 import exception.DescontoInvalidoException;
+import exception.ProdutoNaoEncontradoException;
 
 public class Produto extends ItemComercial{
 
-    private String desc;
-    private Float preco;
-    private Integer estoque;
+    private int estoque;
 
-    Produto(Integer id, String nome, Funcionario fnr, String desc, Float p, Integer etq){
-        super(id, nome, desc, fnr);
-        //this.desc=desc;
-        this.preco=p;
-        this.estoque=etq;
+    Produto(int id, String nome, String desc, float preco, int estoque){
+        super(id, nome, desc, preco);
+        this.estoque=estoque;
     }
 
     @Override
     public boolean aplicarDesconto(Double v) {
-        boolean apply=false;
+        try {
+            DescontoInvalidoException.validaPercentual(v);
+            float v_f=v.floatValue();
+            float preco_novo=v_f*this.getPreco();
 
-             try{
-                DescontoInvalidoException.validaPercentual(v);
-                float v_f=v.floatValue(); //conversão
-                float preco_novo=v_f*preco;
+            System.out.print("Desconto aplicado: "+v_f*100+"% |\nPreço a pagar (não inclui taxas): "+preco_novo);
+            System.out.println("\n");
 
-                System.out.print("Desconto aplicado: "+v_f*100+"% |\nPreço a pagar (não inclui taxas): "+preco_novo);
-                System.out.println("\n");
-                apply=true;
-                return apply;
-            }catch(DescontoInvalidoException e){
-                System.out.println(e.getMessage());
-                return apply;
-            }
+            return true;
+        } catch(DescontoInvalidoException e){
+            System.out.println(e.getMessage());
+
+            return false;
         }
+    }
+
+    @Override
+    public void imprimirDados(){
+        System.out.println("[ Nome: " + this.getNome() + " | " + this.getPreco() + " ]");
+    }
+
+    public boolean vender(Produto produto, Cliente cliente){
+        if(estoque > 0 ) {
+            produto.estoque--;
+            cliente.adicionarProduto(produto);
+            return true;
+        }
+        return false;
+    }
 
     public Integer getEstoque(){
         return this.estoque;
     }
 
-    public void setEstoque(Integer val){
-        this.estoque=val;
+    public void setEstoque(int estoque){
+        this.estoque = estoque;
     }
 
-    /*
-    public void vender(){
-        if(estoque<0 ){
-            //impl.
-        }
-    }
-
-    ###########
-
-
-
-    a impl
-    + vender()
-    + atualizarEstoque()
-
-     */
 }

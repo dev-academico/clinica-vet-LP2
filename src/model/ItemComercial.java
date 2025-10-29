@@ -1,39 +1,32 @@
 package model;
 
-import java.util.Map;
-import java.util.Scanner;
-
-//adicionando modificações
 abstract class ItemComercial {
     static private int contItem=0;
 
-    private Integer id;
-    private String nome;//talvez seja melhor final
-    private String desc;
+    private int id;
+    private String nome;
+    private String descricao;
+    private float preco;
 
-    ItemComercial(Integer id, String nome, String desc, Funcionario fnr){
+    ItemComercial(int id, String nome, String desc, float preco){
         this.id=id;
         this.nome=nome;
-        this.desc=desc;
+        this.descricao=desc;
+        this.preco=preco;
         contItem++;
-        //this.responsaveisServ.put(this.id, fnr); //movido para serviço
     }
 
-    //ovr
+    public String getNome(){
+        return this.nome;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+
+    public float getPreco(){return this.preco;}
+
     public abstract boolean aplicarDesconto(Double v);
 
-    //Identifica um serviço e um responsável
-
-    public boolean consumoItem(Cliente cl){
-        /*
-        CRIA UM RELATÓRIO A RESPEITO DO CONSUMO DO CLIENTE
-
-        - parâmetros do 'cl': preço, data_hora, id do serviço/produto, nome do cliente, forma de pagamento
-
-         */
-
-        boolean cons=false;
-
-        return cons;
-    }
+    public abstract void imprimirDados();
 }
