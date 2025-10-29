@@ -1,21 +1,18 @@
 package model;
 
-import java.util.Map;
-import java.util.Scanner;
-//import java.util.ArrayList;
-
-//adicionando modificações
 abstract class ItemComercial {
     static private int contItem=0;
 
-    private Integer id;
-    private String nome;//talvez seja melhor final
-    private String desc;
+    private int id;
+    private String nome;
+    private String descricao;
+    private float preco;
 
-    ItemComercial(Integer id, String nome, String desc){
+    ItemComercial(int id, String nome, String desc, float preco){
         this.id=id;
         this.nome=nome;
-        this.desc=desc;
+        this.descricao=desc;
+        this.preco=preco;
         contItem++;
     }
 
@@ -23,10 +20,13 @@ abstract class ItemComercial {
         return this.nome;
     }
 
-    public Integer getCod(){
+    public int getId(){
         return this.id;
     }
-    //ovr
+
+    public float getPreco(){return this.preco;}
+
     public abstract boolean aplicarDesconto(Double v);
 
+    public abstract void imprimirDados();
 }

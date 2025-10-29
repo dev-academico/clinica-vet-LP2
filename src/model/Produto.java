@@ -2,67 +2,53 @@ package model;
 import exception.DescontoInvalidoException;
 import exception.ProdutoNaoEncontradoException;
 
-import java.util.ArrayList;
-
 public class Produto extends ItemComercial{
 
-    private Float preco;
-    private Integer estoque;
-    //private ArrayList<Cliente> consumo_Pdt;
-    private ArrayList<Produto> lista_prodDisponivel;
+    private int estoque;
 
-    Produto(Integer id, String nome, Funcionario fnr, String desc, Float p, Integer etq){
-        super(id, nome, desc, fnr);
-        this.preco=p;
-        this.estoque=etq;
-    }
-
-    public void produtosEmLista(Produto p){
-        this.lista_prodDisponivel.add(p);
+    Produto(int id, String nome, String desc, float preco, int estoque){
+        super(id, nome, desc, preco);
+        this.estoque=estoque;
     }
 
     @Override
     public boolean aplicarDesconto(Double v) {
-        boolean apply=false;
+        try {
+            DescontoInvalidoException.validaPercentual(v);
+            float v_f=v.floatValue();
+            float preco_novo=v_f*this.getPreco();
 
-             try{
-                DescontoInvalidoException.validaPercentual(v);
-                float v_f=v.floatValue(); //conversão
-                float preco_novo=v_f*preco;
+            System.out.print("Desconto aplicado: "+v_f*100+"% |\nPreço a pagar (não inclui taxas): "+preco_novo);
+            System.out.println("\n");
 
-                System.out.print("Desconto aplicado: "+v_f*100+"% |\nPreço a pagar (não inclui taxas): "+preco_novo);
-                System.out.println("\n");
-                apply=true;
-                return apply;
-            }catch(DescontoInvalidoException e){
-                System.out.println(e.getMessage());
-                return apply;
-            }
+            return true;
+        } catch(DescontoInvalidoException e){
+            System.out.println(e.getMessage());
+
+            return false;
         }
+    }
+
+    @Override
+    public void imprimirDados(){
+        System.out.println("[ Nome: " + this.getNome() + " | " + this.getPreco() + " ]");
+    }
+
+    public boolean vender(Produto produto, Cliente cliente){
+        if(estoque > 0 ) {
+            produto.estoque--;
+            cliente.adicionarProduto(produto);
+            return true;
+        }
+        return false;
+    }
 
     public Integer getEstoque(){
         return this.estoque;
     }
 
-    public void setEstoque(Integer val){
-        this.estoque=val;
+    public void setEstoque(int estoque){
+        this.estoque = estoque;
     }
 
-  
-    public boolean vender(Produto p){
-      try{
-        ProdutoNaoEncontradoException.validaProdLista(p);
-
-        //a impl.
-
-        if(estoque<0 ){
-            p.estoque--;
-            return true;
-        }
-        }catch(ProdutoNaoEncontradoException e){
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-   
 }

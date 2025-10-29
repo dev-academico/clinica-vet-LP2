@@ -3,69 +3,54 @@ package model;
 import exception.DescontoInvalidoException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Servico extends ItemComercial{
 
-    private Float preco;
-    private Map<Integer, Funcionario> responsaveisServ;
-    //private ArrayList<Cliente> consumo_Srv; //clientes que consumiram serviço
+    private ArrayList<Funcionario> listaDeFuncionarios;
+    private int idAnimal;
+    private String cpfPessoa;
 
-    Servico(Integer id, String nome, Funcionario fnr, String desc, Float p){
-        super(id, nome, desc, fnr);
-        this.preco=p;
+    Servico(int id, String nome, String desc, float preco, int idAnimal,String cpfPessoa, ArrayList<Funcionario> listaDeFuncionarios) {
+        super(id, nome, desc, preco);
+
+        this.idAnimal = idAnimal;
+        this.cpfPessoa = cpfPessoa;
+
+        if(listaDeFuncionarios != null){
+            this.listaDeFuncionarios = listaDeFuncionarios;
+        }
+
     }
 
     @Override
-    public boolean aplicarDesconto(Double v){
-        boolean apply=false;
+    public boolean aplicarDesconto(Double valorDesconto){
+         try {
+             DescontoInvalidoException.validaPercentual(valorDesconto);
+            float valorDescontoFloat= valorDesconto.floatValue();
+            float preco_novo = valorDescontoFloat * this.getPreco();
 
-         try{
-             DescontoInvalidoException.validaPercentual(v);
-            float v_f=v.floatValue(); //conversão
-            float preco_novo=v_f*preco;
-
-            System.out.print("Desconto aplicado: "+v_f*100+"% |\nPreço a pagar (não inclui taxas): "+preco_novo);
+            System.out.print("Desconto aplicado: "+ valorDescontoFloat * 100 +"% |\nPreço a pagar (não inclui taxas): " + preco_novo);
             System.out.println("\n");
-            apply=true;
-            return apply;
-        }catch(DescontoInvalidoException e){
+            return true;
+         } catch(DescontoInvalidoException e){
             System.out.println(e.getMessage());
-            return apply;
+            return false;
+         }
+    }
+
+    @Override
+    public void imprimirDados(){
+        System.out.print("[ Nome: " + this.getNome() + " | " + this.getPreco() + " ] - Funcionarios: ");
+        for (Funcionario f : listaDeFuncionarios){
+            System.out.print(f.getNome() + "; ");
         }
+        System.out.println("\n");
     }
 
-    public void incluiFuncionario(Funcionario F){
-        Scanner s=new Scanner(System.in);
-        System.out.println("Informe o código do serviço");
-        int id=s.nextInt();
-
-        this.responsaveisServ.put(id, F);
-
-        //controle para detectar se o id foi válido
-
-        System.out.println("Funcionário do responsável pelo serviço: "+id+" é" +
-                F.getNome());
+    public Animal getAnimal(Clinica clinica){
+        return clinica.getAnimal(this.cpfPessoa, this.idAnimal);
     }
-
-    //ovr
-    public boolean agendar(Cliente cl, LocalDateTime data, itemComercial item){}
-
-    public void realizarServico(Servico svc, Cliente cl, LocalDateTime data, itemComercial item){
-        if(!svc.agendar(cl, data, item) || svc==null){
-            System.err.println("Serviço indisponível.\n");
-            return;
-        }
-
-        System.out.println("\n\nServiço a ser realizado: "+svc.getNome());
-        System.out.println("\n\nProfissional: "+responsaveisServ.get(Funcionario));
-        System.out.println("\n\nCliente em atendimento: "+cl.getNome());
-    }
-
-    /*
-    public void registroConsumo(Cliente cl, LocalDateTime data, String pagForma){
-        String nome=cl.getNome();
-    }
-     */
 }
