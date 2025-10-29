@@ -5,12 +5,15 @@ import exception.ClienteInexistenteException;
 import java.util.ArrayList;
 
 public class Clinica {
+
     private ArrayList<Veterinario> veterinariosDaClinica = new ArrayList<>();
     private ArrayList<Funcionario> funcionariosDaClinica = new ArrayList<>();
     private ArrayList<Cliente> clientesDaClinica = new ArrayList<>();
 
     public Clinica() {
-    };
+    }
+
+    ;
 
     // create Veterinário
     public void adicionarVeterinário(Veterinario veterinario) {
@@ -68,11 +71,9 @@ public class Clinica {
     }
 
     // read funcionario
-    public void lerFuncionario(String identificadorCarteiraDeTrabalho) {
-        for (Funcionario funcionarioIndividual : funcionariosDaClinica) {
-            if (funcionarioIndividual.getIdentificadorCarteiraTrabalho().equals(identificadorCarteiraDeTrabalho)) {
-                funcionarioIndividual.exibirDados();
-            }
+    public void listarFuncionarios() {
+        for (Funcionario funcionario : funcionariosDaClinica) {
+            funcionario.exibirDados();
         }
     }
 
@@ -86,9 +87,7 @@ public class Clinica {
     public void listarClientes() {
         System.out.println("Lista de Clientes da Clínica:");
         for (Cliente cliente : clientesDaClinica) {
-            System.out.println("-----");
             cliente.exibirDados();
-            System.out.println("-----");
         }
     }
 
@@ -140,20 +139,6 @@ public class Clinica {
         return this.clientesDaClinica;
     }
 
-    // get animal
-    public Animal getAnimal(String cpfPessoa, int idAnimal) throws AnimalInexistenteException {
-        for (Cliente cliente : clientesDaClinica) {
-            if (cliente.getCpf().equals(cpfPessoa)) {
-                for ( Animal animal : cliente.getAnimais()) {
-                    if(animal.getId() == idAnimal) {
-                        return animal;
-                    }
-                }
-            }
-        }
-        throw new AnimalInexistenteException("Animal não encontrado");
-    }
-
     // update animal do cliente
     public void atualizarAnimal(Animal animal, String nome, Especie especie, String raca, java.util.Date dataNascimento) {
         if (animal != null) {
@@ -165,7 +150,7 @@ public class Clinica {
 
         }
     }
-    
+
     // remover animal do cliente
     public void removerAnimal(Animal animal) {
         if (animal != null) {

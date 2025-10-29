@@ -3,9 +3,8 @@ package model;
 import exception.DadosObrigatoriosException;
 import exception.SalarioInvalidoException;
 
-import java.util.ArrayList;
-
 public class Veterinario extends Pessoa {
+
     private float salario;
     private String CRMV;
 
@@ -20,6 +19,7 @@ public class Veterinario extends Pessoa {
         this.salario = salario;
         this.CRMV = CRMV;
     }
+
     public void registrarAtendimento() {
         //Implementar
     }
@@ -33,7 +33,7 @@ public class Veterinario extends Pessoa {
             throw new SalarioInvalidoException("Um veterinário deverá ter um salário positivo e pelo menos maior que zero.");
         }
         this.salario = salario;
-        if(CRMV == null) {
+        if (CRMV == null) {
             throw new DadosObrigatoriosException("Um veterinário deve ter um CRMV obrigatoriamente.");
         }
         this.salario = salario;
@@ -48,6 +48,11 @@ public class Veterinario extends Pessoa {
         System.out.println("CRM: " + this.CRMV);
     }
 
-    public String getCRMV(){  return CRMV; }
-    public float getSalario(){  return salario; }
+    public String getCRMV() {
+        return CRMV;
+    }
+
+    public float getSalario() {
+        return salario;
+    }
 }
