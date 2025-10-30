@@ -13,8 +13,6 @@ public class Clinica {
     public Clinica() {
     }
 
-    ;
-
     // create Veterinário
     public void adicionarVeterinário(Veterinario veterinario) {
         veterinariosDaClinica.add(veterinario);
@@ -120,18 +118,8 @@ public class Clinica {
     }
 
     // remove cliente
-    public void removerCliente(String cpf) {
-        Cliente clienteClinica = clientesDaClinica.stream()
-                .filter(clienteAntigo -> clienteAntigo.getCpf().equals(cpf)).findFirst().orElse(null);
-
-        if (clienteClinica != null) {
-            clientesDaClinica.remove(clienteClinica);
-            System.out.println("Cliente removido com sucesso!");
-
-        } else {
-            throw new ClienteInexistenteException("Cliente não encontrado");
-
-        }
+    public void removerCliente(Cliente cliente) {
+        clientesDaClinica.remove(cliente);
     }
 
     // get lista de clientes
@@ -141,61 +129,42 @@ public class Clinica {
 
     // update animal do cliente
     public void atualizarAnimal(Animal animal, String nome, Especie especie, String raca, java.util.Date dataNascimento) {
-        if (animal != null) {
-            animal.atualizarDados(nome, especie, raca, dataNascimento);
-            System.out.println("Animal atualizado com sucesso!");
-
-        } else {
+        if( animal == null ) {
             throw new AnimalInexistenteException("Animal não encontrado");
-
         }
+
+        animal.atualizarDados(nome, especie, raca, dataNascimento);
     }
 
     // remover animal do cliente
-    public void removerAnimal(Animal animal) {
-        if (animal != null) {
-            Cliente cliente = this.clientesDaClinica.stream()
-                    .filter(cliente1 -> cliente1.getCpf().equals(animal.getCpfCliente()))
-                    .findFirst()
-                    .orElse(null);
-            if (cliente != null) {
-                cliente.removerAnimal(animal.getId());
-                System.out.println("Animal removido com sucesso!");
-            } else {
-                throw new ClienteInexistenteException("Cliente não encontrado");
-            }
-
-        } else if (animal == null) {
+    public void removerAnimal(Animal animal, Cliente cliente) {
+        if( animal == null) {
             throw new AnimalInexistenteException("Animal não encontrado");
-
         }
+        if (cliente == null ) {
+            throw new ClienteInexistenteException("Cliente não encontrado");
+        }
+        cliente.removerAnimal(animal.getId());
     }
 
     // adicionar animal ao cliente
-    public void adicionarAnimal(Animal animal) {
-        if (animal != null) {
-            Cliente cliente = this.clientesDaClinica.stream()
-                    .filter(cliente1 -> cliente1.getCpf().equals(animal.getCpfCliente()))
-                    .findFirst()
-                    .orElse(null);
-            if (cliente != null) {
-                cliente.adicionarAnimal(animal);
-                System.out.println("Animal adicionado com sucesso!");
-            } else {
-                throw new ClienteInexistenteException("Cliente não encontrado");
-            }
-
-        } else if (animal == null) {
+    public void adicionarAnimal(Animal animal, Cliente cliente) {
+        if (animal == null) {
             throw new AnimalInexistenteException("Animal não encontrado");
-
         }
+        if  (cliente == null) {
+            throw new ClienteInexistenteException("Cliente não encontrado");
+        }
+
+        cliente.adicionarAnimal(animal);
     }
 
     public void listarAnimaisDoCliente(Cliente cliente) {
-        if (cliente != null) {
-            cliente.mostrarListaDeAnimais();
-        } else {
+        if (cliente == null) {
             throw new ClienteInexistenteException("Cliente não encontrado");
         }
+
+        cliente.mostrarListaDeAnimais();
+
     }
 }

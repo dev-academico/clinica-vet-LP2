@@ -124,10 +124,9 @@ public class Menu {
                     System.out.println("Atualizando cliente...");
                     while (true) {
                         try {
-                            ArrayList<Cliente> clientes = clinica.getClientesDaClinica();
-                            for (int i = 0; i < clientes.size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clientes.get(i).getNome() + "]");
-                                clientes.get(i).exibirDados();
+                            for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                                System.out.println("[" + (i + 1) + "] [" + clinica.getClientesDaClinica().get(i).getNome() + "]");
+                                clinica.getClientesDaClinica().get(i).exibirDados();
                             }
                             System.out.println("Escolha o cliente ou digite '0' para cancelar:");
                             int indice = Integer.parseInt(scanner.nextLine());
@@ -137,7 +136,7 @@ public class Menu {
                                 break;
                             }
 
-                            Cliente cliente = clientes.get(indice - 1);
+                            Cliente cliente = clinica.getClientesDaClinica().get(indice - 1);
 
                             System.out.println("Atualizando cliente...");
                             System.out.print("Nome do cliente: ");
@@ -162,10 +161,9 @@ public class Menu {
                     System.out.println("Deletando cliente...");
                     while (true) {
                         try {
-                            ArrayList<Cliente> clientes = clinica.getClientesDaClinica();
-                            for (int i = 0; i < clientes.size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clientes.get(i).getNome() + "]");
-                                clientes.get(i).exibirDados();
+                            for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                                System.out.println("[" + (i + 1) + "] [" + clinica.getClientesDaClinica().get(i).getNome() + "]");
+                                clinica.getClientesDaClinica().get(i).exibirDados();
                             }
                             System.out.println("Escolha o cliente ou digite '0' para cancelar:");
                             int indice = Integer.parseInt(scanner.nextLine());
@@ -175,8 +173,8 @@ public class Menu {
                                 break;
                             }
 
-                            Cliente cliente = clientes.get(indice - 1);
-                            clinica.removerCliente(cliente.getCpf());
+                            Cliente cliente = clinica.getClientesDaClinica().get(indice - 1);
+                            clinica.removerCliente(cliente);
                             System.out.println("Cliente deletado com sucesso.");
                             break;
 
