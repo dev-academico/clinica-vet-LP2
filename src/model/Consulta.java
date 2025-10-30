@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Consulta extends Servico {
-    
+
     private int id;
     private LocalDate data;
     private LocalTime hora;
@@ -17,10 +17,10 @@ public class Consulta extends Servico {
     private ArrayList<Veterinario> listaDeVeterinarios;
 
     public Consulta(int id, String nome, String descricao, float preco,
-                    LocalDate data, LocalTime hora, String motivo,
-                    ArrayList<Veterinario> listaDeVeterinarios, int idAnimal, String cpfPessoa) {
+            LocalDate data, LocalTime hora, String motivo,
+            ArrayList<Veterinario> listaDeVeterinarios, Animal animal) throws DataInvalidaException {
 
-        super(id, nome, descricao, preco, idAnimal, cpfPessoa,null);
+        super(id, nome, descricao, preco, animal, null);
 
         LocalDateTime dataHoraConsulta = LocalDateTime.of(data, hora);
         LocalDateTime agora = LocalDateTime.now();
@@ -28,7 +28,7 @@ public class Consulta extends Servico {
         if (dataHoraConsulta.isBefore(agora)) {
             throw new DataInvalidaException("Data e hora da consulta não podem ser no passado.");
         }
-        
+
         this.id = id;
         this.data = data;
         this.hora = hora;
@@ -37,6 +37,7 @@ public class Consulta extends Servico {
         this.listaDeVeterinarios = listaDeVeterinarios;
     }
 
+    @Override
     public int getId() {
         return id;
     }
@@ -63,7 +64,7 @@ public class Consulta extends Servico {
 
     public void iniciarConsulta() {
         if (!this.status.equals("AGENDADA")) {
-            throw new EstadoInvalidoException("Não é possível iniciar consulta com status: " + this.status); 
+            throw new EstadoInvalidoException("Não é possível iniciar consulta com status: " + this.status);
         }
 
         this.status = "EM ANDAMENTO";
@@ -72,7 +73,7 @@ public class Consulta extends Servico {
 
     public void finalizarConsulta() {
         if (!this.status.equals("EM ANDAMENTO")) {
-            throw new EstadoInvalidoException("Não é possível finalizar consulta com status: " + this.status); 
+            throw new EstadoInvalidoException("Não é possível finalizar consulta com status: " + this.status);
         }
 
         this.status = "FINALIZADA";
@@ -81,7 +82,7 @@ public class Consulta extends Servico {
 
     public void cancelarConsulta() {
         if (!this.status.equals("AGENDADA")) {
-            throw new EstadoInvalidoException("Não é possível cancelar consulta com status: " + this.status); 
+            throw new EstadoInvalidoException("Não é possível cancelar consulta com status: " + this.status);
         }
         this.status = "CANCELADA";
         System.out.println("Consulta cancelada");

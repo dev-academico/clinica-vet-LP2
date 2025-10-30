@@ -10,11 +10,12 @@ public class Menu {
         while (true) {
             System.out.println("[Menu Principal]");
             System.out.println("[1] Gerenciar clientes");
-            System.out.println("[2] Gerenciar animais do cliente");
+            System.out.println("[2] Gerenciar funcionarios");
             System.out.println("[3] Gerenciar veterinarios");
             System.out.println("[4] Gerenciar consultas");
             System.out.println("[5] Gerenciar produtos");
-            System.out.println("[6] Sair");
+            System.out.println("[6] Gerenciar animais de um cliente");
+            System.out.println("[7] Sair");
 
             Scanner scanner = new Scanner(System.in);
             int escolha = scanner.nextInt();
@@ -24,6 +25,7 @@ public class Menu {
                     MenuClientes(clinica);
                 }
                 case 2 -> {
+                    MenuFuncionarios(clinica);
                 }
                 case 3 -> {
                 }
@@ -32,6 +34,8 @@ public class Menu {
                 case 5 -> {
                 }
                 case 6 -> {
+                }
+                case 7 -> {
                     System.out.println("Saindo do sistema...");
                     return;
                 }
@@ -101,9 +105,11 @@ public class Menu {
 
                             ArrayList<Animal> animais = new ArrayList<>();
 
-                            animais.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cpf));
+                            Cliente cliente = new Cliente(nome, cpf, endereco, telefone, animais);
 
-                            clinica.adicionarCliente(new Cliente(nome, cpf, endereco, telefone, animais));
+                            animais.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
+
+                            clinica.adicionarCliente(cliente);
                             break; // Sai do loop se a adição for bem-sucedida
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
@@ -120,10 +126,9 @@ public class Menu {
                     System.out.println("Atualizando cliente...");
                     while (true) {
                         try {
-                            ArrayList<Cliente> clientes = clinica.getClientesDaClinica();
-                            for (int i = 0; i < clientes.size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clientes.get(i).getNome() + "]");
-                                clientes.get(i).exibirDados();
+                            for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                                System.out.println("[" + (i + 1) + "] [" + clinica.getClientesDaClinica().get(i).getNome() + "]");
+                                clinica.getClientesDaClinica().get(i).exibirDados();
                             }
                             System.out.println("Escolha o cliente ou digite '0' para cancelar:");
                             int indice = Integer.parseInt(scanner.nextLine());
@@ -133,7 +138,7 @@ public class Menu {
                                 break;
                             }
 
-                            Cliente cliente = clientes.get(indice - 1);
+                            Cliente cliente = clinica.getClientesDaClinica().get(indice - 1);
 
                             System.out.println("Atualizando cliente...");
                             System.out.print("Nome do cliente: ");
@@ -158,11 +163,10 @@ public class Menu {
                     System.out.println("Deletando cliente...");
                     while (true) {
                         try {
-                            ArrayList<Cliente> clientes = clinica.getClientesDaClinica();
-                            for (int i = 0; i < clientes.size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clientes.get(i).getNome() + "]");
-                                clientes.get(i).exibirDados();
+                            for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                                System.out.println("[" + (i + 1) + "] [" + clinica.getClientesDaClinica().get(i).getNome() + "]");
                             }
+
                             System.out.println("Escolha o cliente ou digite '0' para cancelar:");
                             int indice = Integer.parseInt(scanner.nextLine());
 
@@ -171,8 +175,8 @@ public class Menu {
                                 break;
                             }
 
-                            Cliente cliente = clientes.get(indice - 1);
-                            clinica.removerCliente(cliente.getCpf());
+                            Cliente cliente = clinica.getClientesDaClinica().get(indice - 1);
+                            clinica.removerCliente(cliente);
                             System.out.println("Cliente deletado com sucesso.");
                             break;
 
@@ -189,6 +193,109 @@ public class Menu {
                 }
                 default ->
                     System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
+    public static void MenuFuncionarios(Clinica clinica) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.println("[Menu Funcionarios]");
+                System.out.println("[1 - C] Adicionar funcionario");
+                System.out.println("[2 - R] Listar funcionarios");
+                System.out.println("[3 - U] Atualizar funcionarios");
+                System.out.println("[4 - D] Deletar funcionarios");
+                System.out.println("[5] Voltar para o menu principal");
+
+                int escolha = Integer.parseInt(scanner.nextLine());
+
+                switch (escolha) {
+                    case 1 -> {
+                        System.out.println("Adicionando funcionario...");
+                        System.out.print("Nome do funcionario: ");
+                        String nome = scanner.nextLine();
+
+                        System.out.print("CPF do funcionario: ");
+                        String cpf = scanner.nextLine();
+
+                        System.out.print("Endereço do funcionario: ");
+                        String endereco = scanner.nextLine();
+
+                        System.out.print("Telefone do funcionario: ");
+                        String telefone = scanner.nextLine();
+
+                        System.out.print("Salario do funcionario: ");
+                        float salario = Float.parseFloat(scanner.nextLine());
+
+                        System.out.print("Identificador da carteira de trabalho do funcionario: ");
+                        String identificadorCarteiraTrabalho = scanner.nextLine();
+
+                        System.out.println("Escolha um cargo:");
+                        System.out.println("[1] Auxiliar Tosador");
+                        System.out.println("[2] Auxiliar Veterinario");
+                        System.out.println("[3] Biomedico");
+                        System.out.println("[4] Motorista Animal");
+                        System.out.println("[5] Tosador");
+
+                        int cargoEscolhido = Integer.parseInt(scanner.nextLine());
+                        Cargo cargo = switch (cargoEscolhido) {
+                            case 1 ->
+                                Cargo.AUXILIAR_TOSADOR;
+                            case 2 ->
+                                Cargo.AUXILIAR_VETERINARIO;
+                            case 3 ->
+                                Cargo.BIOMEDICO;
+                            case 4 ->
+                                Cargo.MOTORISTA_ANIMAL;
+                            case 5 ->
+                                Cargo.TOSADOR;
+                            default ->
+                                throw new IllegalArgumentException("Cargo inválido");
+                        };
+
+                        Funcionario funcionario = new Funcionario(nome, cpf, endereco, telefone, salario, identificadorCarteiraTrabalho, cargo);
+                        clinica.adicionarFuncionario(funcionario);
+                    }
+                    case 2 -> {
+                        System.out.println("Listando funcionarios...");
+                        clinica.listarFuncionarios();
+                    }
+                    case 3 -> {
+                        System.out.println("Atualizando funcionario...");
+                    }
+                    case 4 -> {
+                        System.out.println("Deletando funcionario...");
+                        try {
+                            for ( int i = 0; i < clinica.getFuncionariosDaClinica().size(); i++ ) {
+                                System.out.println("[" + (i + 1) + "] [" + clinica.getFuncionariosDaClinica().get(i).getNome() + "]");
+                            }
+
+                            System.out.println("Escolha o cliente ou digite '0' para cancelar:");
+                            int indice = Integer.parseInt(scanner.nextLine());
+
+                            if (indice == 0) {
+                                System.out.println("Operação cancelada. Voltando ao menu de clientes...");
+                                break;
+                            }
+
+                            Funcionario funcionario = clinica.getFuncionariosDaClinica().get(indice - 1);
+                            clinica.removerFuncionario(funcionario);
+                            System.out.println("Funcionario deletado com sucesso.");
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    }
+                    case 5 -> {
+                        System.out.println("Voltando para o menu principal...");
+                        return;
+                    }
+                    default ->
+                        System.out.println("Opção inválida. Tente novamente.");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Por favor, tente novamente.");
             }
         }
     }
