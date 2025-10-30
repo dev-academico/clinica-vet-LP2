@@ -105,9 +105,11 @@ public class Menu {
 
                             ArrayList<Animal> animais = new ArrayList<>();
 
-                            animais.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cpf));
+                            Cliente cliente = new Cliente(nome, cpf, endereco, telefone, animais);
 
-                            clinica.adicionarCliente(new Cliente(nome, cpf, endereco, telefone, animais));
+                            animais.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
+
+                            clinica.adicionarCliente(cliente);
                             break; // Sai do loop se a adição for bem-sucedida
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
@@ -163,8 +165,8 @@ public class Menu {
                         try {
                             for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
                                 System.out.println("[" + (i + 1) + "] [" + clinica.getClientesDaClinica().get(i).getNome() + "]");
-                                clinica.getClientesDaClinica().get(i).exibirDados();
                             }
+
                             System.out.println("Escolha o cliente ou digite '0' para cancelar:");
                             int indice = Integer.parseInt(scanner.nextLine());
 
@@ -264,6 +266,25 @@ public class Menu {
                     }
                     case 4 -> {
                         System.out.println("Deletando funcionario...");
+                        try {
+                            for ( int i = 0; i < clinica.getFuncionariosDaClinica().size(); i++ ) {
+                                System.out.println("[" + (i + 1) + "] [" + clinica.getFuncionariosDaClinica().get(i).getNome() + "]");
+                            }
+
+                            System.out.println("Escolha o cliente ou digite '0' para cancelar:");
+                            int indice = Integer.parseInt(scanner.nextLine());
+
+                            if (indice == 0) {
+                                System.out.println("Operação cancelada. Voltando ao menu de clientes...");
+                                break;
+                            }
+
+                            Funcionario funcionario = clinica.getFuncionariosDaClinica().get(indice - 1);
+                            clinica.removerFuncionario(funcionario);
+                            System.out.println("Funcionario deletado com sucesso.");
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                        }
                     }
                     case 5 -> {
                         System.out.println("Voltando para o menu principal...");

@@ -68,11 +68,16 @@ public class Clinica {
         System.out.println("Funcionário atualizado com sucesso!");
     }
 
-    // read funcionario
+    // listar funcionario
     public void listarFuncionarios() {
         for (Funcionario funcionario : funcionariosDaClinica) {
             funcionario.exibirDados();
         }
+    }
+
+    // get lista funcionarios
+    public ArrayList<Funcionario> getFuncionariosDaClinica() {
+        return funcionariosDaClinica;
     }
 
     // create cliente
