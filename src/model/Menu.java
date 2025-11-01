@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -21,26 +23,21 @@ public class Menu {
             int escolha = scanner.nextInt();
 
             switch (escolha) {
-                case 1 -> {
-                    MenuClientes(clinica);
-                }
-                case 2 -> {
-                    MenuFuncionarios(clinica);
-                }
+                case 1 -> MenuClientes(clinica);
+                case 2 -> MenuFuncionarios(clinica);
                 case 3 -> {
                 }
-                case 4 -> {
-                }
+                case 4 -> MenuConsultas(clinica);
                 case 5 -> {
                 }
                 case 6 -> {
+                    MenuAnimais(clinica);
                 }
                 case 7 -> {
                     System.out.println("Saindo do sistema...");
                     return;
                 }
-                default ->
-                    System.out.println("Opção inválida. Tente novamente.");
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
         }
     }
@@ -86,37 +83,28 @@ public class Menu {
                             System.out.println("[5] Tatu");
                             int especieEscolhida = Integer.parseInt(scanner.nextLine());
                             Especie especieAnimal = switch (especieEscolhida) {
-                                case 1 ->
-                                    Especie.CACHORRO;
-                                case 2 ->
-                                    Especie.GATO;
-                                case 3 ->
-                                    Especie.COBRA;
-                                case 4 ->
-                                    Especie.PAPAGAIO;
-                                case 5 ->
-                                    Especie.TATU;
-                                default ->
-                                    throw new IllegalArgumentException("Espécie inválida");
+                                case 1 -> Especie.CACHORRO;
+                                case 2 -> Especie.GATO;
+                                case 3 -> Especie.COBRA;
+                                case 4 -> Especie.PAPAGAIO;
+                                case 5 -> Especie.TATU;
+                                default -> throw new IllegalArgumentException("Espécie inválida");
                             };
 
                             System.out.println("Raça do animal:");
                             String racaAnimal = scanner.nextLine();
 
                             ArrayList<Animal> animais = new ArrayList<>();
-
                             Cliente cliente = new Cliente(nome, cpf, endereco, telefone, animais);
-
                             animais.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
 
                             clinica.adicionarCliente(cliente);
-                            break; // Sai do loop se a adição for bem-sucedida
+                            break;
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             System.out.println("Por favor, tente novamente.");
                         }
                     }
-
                 }
                 case 2 -> {
                     System.out.println("Listando clientes...");
@@ -185,14 +173,12 @@ public class Menu {
                             System.out.println("Por favor, tente novamente.");
                         }
                     }
-
                 }
                 case 5 -> {
                     System.out.println("Voltando para o menu principal...");
                     return;
                 }
-                default ->
-                    System.out.println("Opção inválida. Tente novamente.");
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
         }
     }
@@ -240,18 +226,12 @@ public class Menu {
 
                         int cargoEscolhido = Integer.parseInt(scanner.nextLine());
                         Cargo cargo = switch (cargoEscolhido) {
-                            case 1 ->
-                                Cargo.AUXILIAR_TOSADOR;
-                            case 2 ->
-                                Cargo.AUXILIAR_VETERINARIO;
-                            case 3 ->
-                                Cargo.BIOMEDICO;
-                            case 4 ->
-                                Cargo.MOTORISTA_ANIMAL;
-                            case 5 ->
-                                Cargo.TOSADOR;
-                            default ->
-                                throw new IllegalArgumentException("Cargo inválido");
+                            case 1 -> Cargo.AUXILIAR_TOSADOR;
+                            case 2 -> Cargo.AUXILIAR_VETERINARIO;
+                            case 3 -> Cargo.BIOMEDICO;
+                            case 4 -> Cargo.MOTORISTA_ANIMAL;
+                            case 5 -> Cargo.TOSADOR;
+                            default -> throw new IllegalArgumentException("Cargo inválido");
                         };
 
                         Funcionario funcionario = new Funcionario(nome, cpf, endereco, telefone, salario, identificadorCarteiraTrabalho, cargo);
@@ -263,24 +243,25 @@ public class Menu {
                     }
                     case 3 -> {
                         System.out.println("Atualizando funcionario...");
+
                     }
                     case 4 -> {
                         System.out.println("Deletando funcionario...");
                         try {
-                            for ( int i = 0; i < clinica.getFuncionariosDaClinica().size(); i++ ) {
+                            for (int i = 0; i < clinica.getFuncionariosDaClinica().size(); i++) {
                                 System.out.println("[" + (i + 1) + "] [" + clinica.getFuncionariosDaClinica().get(i).getNome() + "]");
                             }
 
-                            System.out.println("Escolha o cliente ou digite '0' para cancelar:");
+                            System.out.println("Escolha o funcionario ou digite '0' para cancelar:");
                             int indice = Integer.parseInt(scanner.nextLine());
 
                             if (indice == 0) {
-                                System.out.println("Operação cancelada. Voltando ao menu de clientes...");
+                                System.out.println("Operação cancelada. Voltando ao menu de funcionarios...");
                                 break;
                             }
 
-                            Funcionario funcionario = clinica.getFuncionariosDaClinica().get(indice - 1);
-                            clinica.removerFuncionario(funcionario);
+                            Funcionario func = clinica.getFuncionariosDaClinica().get(indice - 1);
+                            clinica.removerFuncionario(func);
                             System.out.println("Funcionario deletado com sucesso.");
                         } catch (Exception ex) {
                             System.out.println(ex.getMessage());
@@ -290,12 +271,485 @@ public class Menu {
                         System.out.println("Voltando para o menu principal...");
                         return;
                     }
-                    default ->
-                        System.out.println("Opção inválida. Tente novamente.");
+                    default -> System.out.println("Opção inválida. Tente novamente.");
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println("Por favor, tente novamente.");
+            }
+        }
+    }
+
+    public static void MenuConsultas(Clinica clinica) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("[Menu Consultas]");
+            System.out.println("[1 - C] Agendar consulta");
+            System.out.println("[2 - R] Listar consultas");
+            System.out.println("[3 - U] Atualizar status da consulta");
+            System.out.println("[4 - D] Cancelar consulta");
+            System.out.println("[5] Voltar para o menu principal");
+
+            int escolha = Integer.parseInt(scanner.nextLine());
+
+            switch (escolha) {
+                case 1 -> {
+                    System.out.println("Agendando consulta...");
+                    try {
+
+                        if (clinica.getClientesDaClinica().isEmpty()) {
+                            System.out.println("Não há clientes cadastrados! Cadastre um cliente primeiro.");
+                            break;
+                        }
+
+                        System.out.println("=== CLIENTES E SEUS ANIMAIS ===");
+                        for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                            Cliente cliente = clinica.getClientesDaClinica().get(i);
+                            System.out.println("\n[" + (i + 1) + "] Cliente: " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                            
+                            ArrayList<Animal> animais = cliente.getAnimais();
+                            if (animais.isEmpty()) {
+                                System.out.println("    Nenhum animal cadastrado para este cliente.");
+                            } else {
+                                for (int j = 0; j < animais.size(); j++) {
+                                    Animal animal = animais.get(j);
+                                    System.out.println("    [" + (j + 1) + "] " + animal.getNome() + 
+                                                    " (" + animal.getEspecie() + " - " + animal.getRaca() + ")");
+                                }
+                            }
+                        }
+
+                        System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                        int indiceCliente = Integer.parseInt(scanner.nextLine()) - 1;
+                        
+                        if (indiceCliente == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+                        
+                        Cliente clienteSelecionado = clinica.getClientesDaClinica().get(indiceCliente);
+                        
+
+                        if (clienteSelecionado.getAnimais().isEmpty()) {
+                            System.out.println("Este cliente não possui animais cadastrados!");
+                            break;
+                        }
+                        
+
+                        System.out.println("\nEscolha o número do animal:");
+                        int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
+                        Animal animalSelecionado = clienteSelecionado.getAnimais().get(indiceAnimal);
+                        
+
+                        System.out.println("\nData da consulta (formato: dd/MM/yyyy):");
+                        String dataStr = scanner.nextLine();
+                        String[] partesData = dataStr.split("/");
+                        LocalDate data = LocalDate.of(
+                            Integer.parseInt(partesData[2]),
+                            Integer.parseInt(partesData[1]),
+                            Integer.parseInt(partesData[0]) 
+                        );
+                        
+
+                        System.out.println("Hora da consulta (formato: HH:mm):");
+                        String horaStr = scanner.nextLine();
+                        String[] partesHora = horaStr.split(":");
+                        LocalTime hora = LocalTime.of(
+                            Integer.parseInt(partesHora[0]),
+                            Integer.parseInt(partesHora[1]) 
+                        );
+                        
+
+                        System.out.println("Motivo da consulta:");
+                        String motivo = scanner.nextLine();
+                        
+
+                        System.out.println("Nome da consulta (ex: Consulta de Rotina):");
+                        String nome = scanner.nextLine();
+                        
+
+                        System.out.println("Descrição:");
+                        String descricao = scanner.nextLine();
+                        
+
+                        System.out.println("Preço da consulta:");
+                        float preco = Float.parseFloat(scanner.nextLine());
+                        
+
+                        ArrayList<Veterinario> listaVeterinarios = new ArrayList<>();
+                        
+
+                        int id = clinica.getConsultasDaClinica().size() + 1;
+                        
+
+                        Consulta novaConsulta = new Consulta(id, nome, descricao, preco, 
+                                                            data, hora, motivo, 
+                                                            listaVeterinarios, animalSelecionado);
+                        
+
+                        clinica.adicionarConsulta(novaConsulta);
+                        
+                        System.out.println("\n✓ Consulta agendada com sucesso!");
+                        System.out.println("ID: " + id);
+                        System.out.println("Cliente: " + clienteSelecionado.getNome());
+                        System.out.println("Animal: " + animalSelecionado.getNome());
+                        System.out.println("Data: " + data + " às " + hora);
+                        System.out.println("Status: AGENDADA");
+                        
+                    } catch (Exception e) {
+                        System.out.println("Erro ao agendar consulta: " + e.getMessage());
+                        System.out.println("Por favor, tente novamente.");
+                    }
+                }
+                case 2 -> {
+                    System.out.println("Listando consultas...");
+                    clinica.listarConsultas();
+                }
+                case 3 -> {
+                    System.out.println("Atualizando status da consulta...");
+                    try {
+
+                        for (int i = 0; i < clinica.getConsultasDaClinica().size(); i++) {
+                            Consulta c = clinica.getConsultasDaClinica().get(i);
+                            System.out.println("[" + (i + 1) + "] ID: " + c.getId() + 
+                                            " | Status: " + c.getStatus());
+                        }
+                        
+                        System.out.println("Escolha a consulta ou digite '0' para cancelar:");
+                        int indice = Integer.parseInt(scanner.nextLine());
+                        
+                        if (indice == 0) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+                        
+                        Consulta consulta = clinica.getConsultasDaClinica().get(indice - 1);
+                        
+                        System.out.println("Escolha a ação:");
+                        System.out.println("[1] Iniciar consulta");
+                        System.out.println("[2] Finalizar consulta");
+                        int acao = Integer.parseInt(scanner.nextLine());
+                        
+                        if (acao == 1) {
+                            consulta.iniciarConsulta();
+                        } else if (acao == 2) {
+                            consulta.finalizarConsulta();
+                        }
+                        
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case 4 -> {
+                    System.out.println("Cancelando consulta...");
+                    try {
+
+                        for (int i = 0; i < clinica.getConsultasDaClinica().size(); i++) {
+                            Consulta c = clinica.getConsultasDaClinica().get(i);
+                            System.out.println("[" + (i + 1) + "] ID: " + c.getId() + 
+                                            " | Status: " + c.getStatus() +
+                                            " | Data: " + c.getData());
+                        }
+                        
+                        System.out.println("Escolha a consulta ou digite '0' para cancelar:");
+                        int indice = Integer.parseInt(scanner.nextLine());
+                        
+                        if (indice == 0) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+                        
+                        Consulta consulta = clinica.getConsultasDaClinica().get(indice - 1);
+                        consulta.cancelarConsulta();
+                        
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case 5 -> {
+                    System.out.println("Voltando para o menu principal...");
+                    return;
+                }
+                default -> System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
+        public static void MenuAnimais(Clinica clinica) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("[Menu Animais de Cliente]");
+            System.out.println("[1 - C] Adicionar animal a um cliente");
+            System.out.println("[2 - R] Listar animais de um cliente");
+            System.out.println("[3 - U] Atualizar animal");
+            System.out.println("[4 - D] Remover animal");
+            System.out.println("[5] Voltar para o menu principal");
+
+            int escolha = Integer.parseInt(scanner.nextLine());
+
+            switch (escolha) {
+            case 1 -> {
+                System.out.println("Adicionando animal a um cliente...");
+                try {
+                    
+                    if (clinica.getClientesDaClinica().isEmpty()) {
+                        System.out.println("Não há clientes cadastrados! Cadastre um cliente primeiro.");
+                        break;
+                    }
+                    
+                    
+                    System.out.println("=== CLIENTES ===");
+                    for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                        Cliente cliente = clinica.getClientesDaClinica().get(i);
+                        System.out.println("[" + (i + 1) + "] " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                    }
+                    
+                    
+                    System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                    int indiceCliente = Integer.parseInt(scanner.nextLine()) - 1;
+                    
+                    if (indiceCliente == -1) {
+                        System.out.println("Operação cancelada.");
+                        break;
+                    }
+                    
+                    Cliente clienteSelecionado = clinica.getClientesDaClinica().get(indiceCliente);
+                    
+                    
+                    System.out.println("\n=== DADOS DO ANIMAL ===");
+                    System.out.print("Nome do animal: ");
+                    String nomeAnimal = scanner.nextLine();
+                    
+                    System.out.println("\nEscolha a espécie:");
+                    System.out.println("[1] Cachorro");
+                    System.out.println("[2] Gato");
+                    System.out.println("[3] Cobra");
+                    System.out.println("[4] Papagaio");
+                    System.out.println("[5] Tatu");
+                    int especieEscolhida = Integer.parseInt(scanner.nextLine());
+                    
+                    Especie especieAnimal = switch (especieEscolhida) {
+                        case 1 -> Especie.CACHORRO;
+                        case 2 -> Especie.GATO;
+                        case 3 -> Especie.COBRA;
+                        case 4 -> Especie.PAPAGAIO;
+                        case 5 -> Especie.TATU;
+                        default -> throw new IllegalArgumentException("Espécie inválida");
+                    };
+                    
+                    System.out.print("Raça do animal: ");
+                    String racaAnimal = scanner.nextLine();
+                    
+                    
+                    Animal novoAnimal = new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), clienteSelecionado);
+                    
+                    
+                    clinica.adicionarAnimal(novoAnimal, clienteSelecionado);
+                    
+                    System.out.println("\n✓ Animal adicionado com sucesso!");
+                    System.out.println("ID: " + novoAnimal.getId());
+                    System.out.println("Nome: " + novoAnimal.getNome());
+                    System.out.println("Cliente: " + clienteSelecionado.getNome());
+                    
+                } catch (Exception e) {
+                    System.out.println("Erro: " + e.getMessage());
+                    System.out.println("Por favor, tente novamente.");
+                }
+            }
+                case 2 -> {
+                System.out.println("Listando animais de um cliente...");
+                try {
+                    
+                    if (clinica.getClientesDaClinica().isEmpty()) {
+                        System.out.println("Não há clientes cadastrados!");
+                        break;
+                    }
+                    
+                    
+                    System.out.println("=== CLIENTES ===");
+                    for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                        Cliente cliente = clinica.getClientesDaClinica().get(i);
+                        System.out.println("[" + (i + 1) + "] " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                    }
+                    
+                    
+                    System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                    int indice = Integer.parseInt(scanner.nextLine()) - 1;
+                    
+                    if (indice == -1) {
+                        System.out.println("Operação cancelada.");
+                        break;
+                    }
+                    
+                    Cliente clienteSelecionado = clinica.getClientesDaClinica().get(indice);
+                    
+                    
+                    System.out.println("\n=== ANIMAIS DE " + clienteSelecionado.getNome().toUpperCase() + " ===");
+                    clinica.listarAnimaisDoCliente(clienteSelecionado);
+                    
+                } catch (Exception e) {
+                    System.out.println("Erro: " + e.getMessage());
+                }
+            }
+            case 3 -> {
+                System.out.println("Atualizando animal...");
+                try {
+                    
+                    if (clinica.getClientesDaClinica().isEmpty()) {
+                        System.out.println("Não há clientes cadastrados!");
+                        break;
+                    }
+                    
+                    
+                    System.out.println("=== CLIENTES ===");
+                    for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                        Cliente cliente = clinica.getClientesDaClinica().get(i);
+                        System.out.println("[" + (i + 1) + "] " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                    }
+                    
+                    
+                    System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                    int indiceCliente = Integer.parseInt(scanner.nextLine()) - 1;
+                    
+                    if (indiceCliente == -1) {
+                        System.out.println("Operação cancelada.");
+                        break;
+                    }
+                    
+                    Cliente clienteSelecionado = clinica.getClientesDaClinica().get(indiceCliente);
+                    
+                    
+                    if (clienteSelecionado.getAnimais().isEmpty()) {
+                        System.out.println("Este cliente não possui animais cadastrados!");
+                        break;
+                    }
+                    
+                    
+                    System.out.println("\n=== ANIMAIS DE " + clienteSelecionado.getNome().toUpperCase() + " ===");
+                    ArrayList<Animal> animais = clienteSelecionado.getAnimais();
+                    for (int i = 0; i < animais.size(); i++) {
+                        Animal animal = animais.get(i);
+                        System.out.println("[" + (i + 1) + "] ID: " + animal.getId() + 
+                                        " | " + animal.getNome() + 
+                                        " (" + animal.getEspecie() + " - " + animal.getRaca() + ")");
+                    }
+                    
+                    
+                    System.out.println("\nEscolha o número do animal (ou 0 para cancelar):");
+                    int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
+                    
+                    if (indiceAnimal == -1) {
+                        System.out.println("Operação cancelada.");
+                        break;
+                    }
+                    
+                    Animal animalSelecionado = animais.get(indiceAnimal);
+                    
+                    
+                    System.out.println("\n=== NOVOS DADOS DO ANIMAL ===");
+                    System.out.print("Novo nome (atual: " + animalSelecionado.getNome() + "): ");
+                    String novoNome = scanner.nextLine();
+                    
+                    System.out.println("\nNova espécie (atual: " + animalSelecionado.getEspecie() + "):");
+                    System.out.println("[1] Cachorro");
+                    System.out.println("[2] Gato");
+                    System.out.println("[3] Cobra");
+                    System.out.println("[4] Papagaio");
+                    System.out.println("[5] Tatu");
+                    int especieEscolhida = Integer.parseInt(scanner.nextLine());
+                    
+                    Especie novaEspecie = switch (especieEscolhida) {
+                        case 1 -> Especie.CACHORRO;
+                        case 2 -> Especie.GATO;
+                        case 3 -> Especie.COBRA;
+                        case 4 -> Especie.PAPAGAIO;
+                        case 5 -> Especie.TATU;
+                        default -> throw new IllegalArgumentException("Espécie inválida");
+                    };
+                    
+                    System.out.print("Nova raça (atual: " + animalSelecionado.getRaca() + "): ");
+                    String novaRaca = scanner.nextLine();
+                    
+                    
+                    Date dataNascimento = animalSelecionado.getDataNascimento();
+                    
+                    
+                    clinica.atualizarAnimal(animalSelecionado, novoNome, novaEspecie, novaRaca, dataNascimento);
+                    
+                    System.out.println("\n✓ Animal atualizado com sucesso!");
+                    
+                } catch (Exception e) {
+                    System.out.println("Erro: " + e.getMessage());
+                    System.out.println("Por favor, tente novamente.");
+                }
+            }
+                case 4 -> {
+                    System.out.println("Removendo animal...");
+                    try {
+                        
+                        if (clinica.getClientesDaClinica().isEmpty()) {
+                            System.out.println("Não há clientes cadastrados!");
+                            break;
+                        }
+                        
+                        
+                        System.out.println("=== CLIENTES ===");
+                        for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                            Cliente cliente = clinica.getClientesDaClinica().get(i);
+                            System.out.println("[" + (i + 1) + "] " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                        }
+                        
+                        
+                        System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                        int indiceCliente = Integer.parseInt(scanner.nextLine()) - 1;
+                        
+                        if (indiceCliente == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+                        
+                        Cliente clienteSelecionado = clinica.getClientesDaClinica().get(indiceCliente);
+                        
+                        
+                        if (clienteSelecionado.getAnimais().isEmpty()) {
+                            System.out.println("Este cliente não possui animais cadastrados!");
+                            break;
+                        }
+                        
+                        
+                        System.out.println("\n=== ANIMAIS DE " + clienteSelecionado.getNome().toUpperCase() + " ===");
+                        ArrayList<Animal> animais = clienteSelecionado.getAnimais();
+                        for (int i = 0; i < animais.size(); i++) {
+                            Animal animal = animais.get(i);
+                            System.out.println("[" + (i + 1) + "] ID: " + animal.getId() + 
+                                            " | " + animal.getNome() + 
+                                            " (" + animal.getEspecie() + " - " + animal.getRaca() + ")");
+                        }
+                        
+                        
+                        System.out.println("\nEscolha o número do animal (ou 0 para cancelar):");
+                        int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
+                        
+                        if (indiceAnimal == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+                        
+                        Animal animalSelecionado = animais.get(indiceAnimal);
+                        
+                        
+                        clinica.removerAnimal(animalSelecionado, clienteSelecionado);
+                        System.out.println("✓ Animal removido com sucesso!");
+                        
+                    } catch (Exception e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                }
+                case 5 -> {
+                    System.out.println("Voltando para o menu principal...");
+                    return;
+                }
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
         }
     }

@@ -9,6 +9,7 @@ public class Clinica {
     private ArrayList<Veterinario> veterinariosDaClinica = new ArrayList<>();
     private ArrayList<Funcionario> funcionariosDaClinica = new ArrayList<>();
     private ArrayList<Cliente> clientesDaClinica = new ArrayList<>();
+    private ArrayList<Consulta> consultasDaClinica = new ArrayList<>();
 
     public Clinica() {
     }
@@ -171,5 +172,33 @@ public class Clinica {
 
         cliente.mostrarListaDeAnimais();
 
+    }
+
+
+    public void adicionarConsulta(Consulta consulta) {
+    consultasDaClinica.add(consulta);
+    System.out.println("Consulta agendada com sucesso!");
+}
+
+// READ - Listar consultas
+    public void listarConsultas() {
+        System.out.println("Lista de Consultas:");
+        for (Consulta consulta : consultasDaClinica) {
+            System.out.println("ID: " + consulta.getId() + 
+                            " | Data: " + consulta.getData() +
+                            " | Hora: " + consulta.getHora() +
+                            " | Status: " + consulta.getStatus());
+        }
+    }
+
+    // DELETE - Remover consulta
+    public void removerConsulta(Consulta consulta) {
+        consultasDaClinica.remove(consulta);
+        System.out.println("Consulta removida com sucesso!");
+    }
+
+    // GET - Obter lista de consultas
+    public ArrayList<Consulta> getConsultasDaClinica() {
+        return consultasDaClinica;
     }
 }
