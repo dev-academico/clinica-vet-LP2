@@ -55,6 +55,11 @@ abstract class ItemComercial {
         this.desc=desc;
     }
 
+    public void setID(int id){
+        if(id<=0) System.err.println("Informe um número válido de identificador.");
+        this.id=id;
+    }
+
     public abstract boolean aplicarDesconto(Double v);
 
     public abstract void imprimirDados();

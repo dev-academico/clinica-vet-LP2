@@ -47,7 +47,7 @@ public class Servico extends ItemComercial {
 
         this.animal=animal;
         this.listaDeFuncionarios=listaDeFuncionarios;
-        System.out.println("Serviço: "+nome+" | Dados atualizados com sucesso!");
+        System.out.println("\nServiço: "+nome+" | Dados atualizados com sucesso!");
         
     }
 

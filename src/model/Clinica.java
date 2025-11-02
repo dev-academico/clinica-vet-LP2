@@ -238,6 +238,34 @@ public class Clinica {
 
     }
 
+    //CREATE - produto
+    public void AddProd(Produto pdt){
+        produtosDoCliente_Cons.add(pdt);
+        System.out.println("Produto adicionado: "+pdt.getNome());
+    }
 
+    //REMOVE - produto
+    public void RemvProd(Produto pdt){
+        produtosDoCliente_Cons.remove(pdt);
+        System.out.println("Produto removido: "+pdt.getNome());
+    }
+
+    //READ - leitura do nome do produto para verificar no container
+    public void LerProd(String prod){
+        for(Produto p: produtosDoCliente_cons){
+            if(prod.getNome().equals(p)){
+                p.imprimirDados();
+            }
+        }
+    }
+
+    //UPGRADE - atualizar dados 
+    public void atualizaServ(int id, String nome, String desc, float preco, int etq){
+          for(Produto p: produtosDoCliente_cons){
+            if(p.getID()==id){
+            p.atualizarDados(id, nome, desc, preco, etq); 
+            }
+          }
+    }
 
 }
