@@ -260,7 +260,7 @@ public class Clinica {
     }
 
     //UPGRADE - atualizar dados 
-    public void atualizaServ(int id, String nome, String desc, float preco, int etq){
+    public void atualizaProd(int id, String nome, String desc, float preco, int etq){
           for(Produto p: produtosDoCliente_cons){
             if(p.getID()==id){
             p.atualizarDados(id, nome, desc, preco, etq); 
