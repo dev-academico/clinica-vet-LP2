@@ -35,6 +35,24 @@ public class Servico extends ItemComercial {
         }
     }
 
+    public void atualizarDados(int id, String nome, String desc, float preco, Animal animal, ArrayList<Funcionario> listaDeFuncionarios){
+        if(preco<=0) System.err.println("Preço deve ser maior que zero\n.");
+
+        setPreco(preco);
+        if(nome==null || desc==null || animal==null || listaDeFuncionarios==null){
+            throw new DadosObrigatoriosException("Informe todos os dados necessários");
+        }
+        this.setNome=nome;
+        this.setDesc=desc;
+
+        this.animal=animal;
+        this.listaDeFuncionarios=listaDeFuncionarios;
+        System.out.println("Serviço: "+nome+" | Dados atualizados com sucesso!");
+        
+    }
+
+
+
     @Override
     public void imprimirDados() {
         System.out.print("[ Nome: " + this.getNome() + " | " + this.getPreco() + " ] - Funcionarios: ");

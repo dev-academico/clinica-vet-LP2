@@ -37,6 +37,24 @@ abstract class ItemComercial {
         return this.preco;
     }
 
+    public void setPreco(float p){
+        if(p>0) this.preco=p;
+    }
+
+    public int getID(){
+        return id;
+    }
+
+    public void setNome(String nome){
+        if(nome.length()<=1) System.err.println("Nome inválido\n");
+        this.nome=nome;
+    } 
+
+    public void setDesc(String desc){
+        if(desc.length()<=10) System.err.println("Desc. inválida. Insira mais informações\n");
+        this.desc=desc;
+    }
+
     public abstract boolean aplicarDesconto(Double v);
 
     public abstract void imprimirDados();
