@@ -29,6 +29,18 @@ public class Produto extends ItemComercial {
         }
     }
 
+    public void atualizarDados(int id, String nome, String desc, float preco, int etq){
+        if(id<=0 || preco<=0 || etq<=0) System.err.println("Informe preço, estoque e identificador válidos\n.");
+        setPreco(preco);
+
+        if(nome==null || desc==null) throw new DadosObrigatoriosException("Informe todos os dados necessários\n");
+        this.setNome(nome);
+        this.setDesc(desc);
+        this.setEstoque(etq);
+        this.setID(id);
+        System.out.println("\nProduto: "+nome+" | Dados atualizados com sucesso!");
+    }
+
     @Override
     public void imprimirDados() {
         System.out.println("[ Nome: " + this.getNome() + " | Preço: " + this.getPreco() + " | Estoque: " + this.getEstoque() + " |  Descrição: " + this.getDescricao() + " ]");
@@ -51,4 +63,6 @@ public class Produto extends ItemComercial {
         this.estoque = estoque;
     }
 
+
+ 
 }

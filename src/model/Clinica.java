@@ -11,6 +11,10 @@ public class Clinica {
     private ArrayList<Cliente> clientesDaClinica = new ArrayList<>();
     private ArrayList<Consulta> consultasDaClinica = new ArrayList<>();
 
+    // talvez aqui fosse melhor um map para mostrar cada cliente associado a um produto/serviço
+    private ArrayList<Produto> produtosDoCliente_Cons= new ArrayList<>();
+    private ArrayList<Servico> servicosDoCliente_Cons= new ArrayList<>();
+
     public Clinica() {
     }
 
@@ -201,4 +205,67 @@ public class Clinica {
     public ArrayList<Consulta> getConsultasDaClinica() {
         return consultasDaClinica;
     }
+
+        // CREATE - Cria o serviço e adciona no Array
+    public void AddServico(Servico serv){
+        servicosDoCliente_Cons.add(serv);
+        System.out.println("Serviço adicionado: "+serv.getNome());
+    }
+
+    // REMOVE - Remove o serviço 
+    public void RemvServico(Servico serv){
+        servicosDoCliente_Cons.remove(serv);
+        System.out.println("Serviço removido: "+serv.getNome());
+    }
+
+    // READ - leitura do nome do serviço
+    public void lerServico(String sv){
+        for(Servico s: servicosDoCliente_Cons){
+            if(s.getNome().equals(sv)){
+                s.imprimirDados();
+            }
+        }
+    }
+
+    // UPDATE - atualiza o serviço
+    public void atualizaServ(int id,String nome, String desc, float preco, Animal animal, 
+    ArrayList<Funcionario> listaDeFuncionarios){
+        for(Servico s: servicosDoCliente_Cons){
+            if(s.getID()==id){
+                s.atualizarDados(id, nome, desc, preco, animal, listaDeFuncionarios);
+            }
+        }
+
+    }
+
+    //CREATE - produto
+    public void AddProd(Produto pdt){
+        produtosDoCliente_Cons.add(pdt);
+        System.out.println("Produto adicionado: "+pdt.getNome());
+    }
+
+    //REMOVE - produto
+    public void RemvProd(Produto pdt){
+        produtosDoCliente_Cons.remove(pdt);
+        System.out.println("Produto removido: "+pdt.getNome());
+    }
+
+    //READ - leitura do nome do produto para verificar no container
+    public void LerProd(String prod){
+        for(Produto p: produtosDoCliente_cons){
+            if(prod.getNome().equals(p)){
+                p.imprimirDados();
+            }
+        }
+    }
+
+    //UPGRADE - atualizar dados 
+    public void atualizaProd(int id, String nome, String desc, float preco, int etq){
+          for(Produto p: produtosDoCliente_cons){
+            if(p.getID()==id){
+            p.atualizarDados(id, nome, desc, preco, etq); 
+            }
+          }
+    }
+
 }
