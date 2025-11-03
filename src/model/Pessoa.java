@@ -29,13 +29,13 @@ public class Pessoa {
 
     //se for null, continua o mesmo, não precisa lançar exceção
     public void atualizarDados(String nome, String endereco, String telefone) {
-        if(nome!=null){
+        if(nome!=null || !nome.trim().isEmpty()){
             this.nome = nome;
         }
-        if(endereco!=null){
+        if(endereco!=null ||  !endereco.trim().isEmpty()){
             this.endereco = endereco;
         }
-        if(telefone!=null){
+        if(telefone!=null || !telefone.trim().isEmpty()){
             this.telefone = telefone;
         }
         

@@ -1,5 +1,6 @@
 package model;
 
+import exception.DadosObrigatoriosException;
 import exception.DescontoInvalidoException;
 
 public class Produto extends ItemComercial {

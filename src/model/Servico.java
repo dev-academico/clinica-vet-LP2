@@ -1,5 +1,6 @@
 package model;
 
+import exception.DadosObrigatoriosException;
 import exception.DescontoInvalidoException;
 import java.util.ArrayList;
 
@@ -42,8 +43,8 @@ public class Servico extends ItemComercial {
         if(nome==null || desc==null || animal==null || listaDeFuncionarios==null){
             throw new DadosObrigatoriosException("Informe todos os dados necessários");
         }
-        this.setNome=nome;
-        this.setDesc=desc;
+        this.setNome(nome);
+        this.setDesc(desc);
 
         this.animal=animal;
         this.listaDeFuncionarios=listaDeFuncionarios;
@@ -62,7 +63,7 @@ public class Servico extends ItemComercial {
         System.out.println("\n");
     }
 
-    public Animal getAnimal(Clinica clinica) {
+    public Animal getAnimal() {
         return this.animal;
     }
 }

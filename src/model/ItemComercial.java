@@ -2,8 +2,6 @@ package model;
 
 abstract class ItemComercial {
 
-    static private int contItem = 0;
-
     private int id;
     private String nome;
     private String descricao;
@@ -14,7 +12,6 @@ abstract class ItemComercial {
         this.nome = nome;
         this.descricao = desc;
         this.preco = preco;
-        contItem++;
     }
 
     public String getNome() {
@@ -52,7 +49,7 @@ abstract class ItemComercial {
 
     public void setDesc(String desc){
         if(desc.length()<=10) System.err.println("Desc. inválida. Insira mais informações\n");
-        this.desc=desc;
+        this.descricao=desc;
     }
 
     public void setID(int id){
