@@ -258,7 +258,7 @@ public class Clinica {
     //CREATE - produto
     public void AddProd(Produto pdt){
         produtosDoCliente_Cons.add(pdt);
-        System.out.println("Produto adicionado: "+pdt.getNome());
+        System.out.println("Produto adicionado: " +pdt.getNome());
     }
 
     //REMOVE - produto
@@ -267,25 +267,35 @@ public class Clinica {
         System.out.println("Produto removido: "+pdt.getNome());
     }
 
-    /*
+    //return list
+    public ArrayList<Produto> getProdutosDoCliente_Cons() {
+        return this.produtosDoCliente_Cons;
+    }
+
+
     //READ - leitura do nome do produto para verificar no container
-    public void LerProd(String prod){
-        for(Produto p: produtosDoCliente_cons){
-            if(prod.getNome().equals(p)){
-                p.imprimirDados();
+    public void LerProds(int limite){
+        if(limite>0){
+            System.out.println("Lista de produtos limitada em " + limite);
+            for(int i = 0; i < limite; i++){
+                produtosDoCliente_Cons.get(i).imprimirDados();
+            }
+        }
+        else{
+            for(Produto produto : produtosDoCliente_Cons){
+                produto.imprimirDados();
             }
         }
     }
 
     //UPGRADE - atualizar dados 
     public void atualizaProd(int id, String nome, String desc, float preco, int etq){
-          for(Produto p: produtosDoCliente_cons){
+          for(Produto p: produtosDoCliente_Cons){
             if(p.getID()==id){
             p.atualizarDados(id, nome, desc, preco, etq); 
             }
           }
     }
 
-     */
 
 }

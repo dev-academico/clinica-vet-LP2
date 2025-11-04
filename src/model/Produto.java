@@ -3,8 +3,11 @@ package model;
 import exception.DadosObrigatoriosException;
 import exception.DescontoInvalidoException;
 
+import java.util.ArrayList;
+
 public class Produto extends ItemComercial {
 
+    private ArrayList<Cliente> listaDeClientes;
     private int estoque;
 
     Produto(int id, String nome, String desc, float preco, int estoque) {

@@ -27,8 +27,7 @@ public class Menu {
                 case 2 -> MenuFuncionarios(clinica);
                 case 3 -> MenuVeterinarios(clinica);
                 case 4 -> MenuConsultas(clinica);
-                case 5 -> {
-                }
+                case 5 -> MenuProdutos(clinica);
                 case 6 -> MenuAnimais(clinica);
                 case 7 -> {
                     System.out.println("Saindo do sistema...");
@@ -932,6 +931,126 @@ public class Menu {
                     return;
                 }
                 default -> System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
+    public static void MenuProdutos(Clinica clinica) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.println("[Menu Produtos]");
+                System.out.println("[1 - C] Adicionar produto");
+                System.out.println("[2 - R] Listar produtos");
+                System.out.println("[3 - U] Atualizar produtos");
+                System.out.println("[4 - D] Deletar produtos");
+                System.out.println("[5 - V] Vender produtos");
+                System.out.println("[6] Voltar para o menu principal");
+
+                int escolha = Integer.parseInt(scanner.nextLine());
+
+                switch (escolha) {
+                    case 1 -> {
+                        System.out.println("Adicionando produto...");
+
+                        System.out.print("Nome do produto: ");
+                        String nome = scanner.nextLine();
+
+                        System.out.print("Descrição do produto: ");
+                        String desc = scanner.nextLine();
+
+                        System.out.print("Preço do produto: ");
+                        float preco = Float.parseFloat(scanner.nextLine());
+
+                        System.out.print("Estoque do produto: ");
+                        int estoque = Integer.parseInt(scanner.nextLine());
+
+                        int id = 1;
+
+                        if(clinica.getProdutosDoCliente_Cons().size()>0){
+                            id = clinica.getProdutosDoCliente_Cons().size()+1;
+                        }
+                        Produto produto = new Produto(id, nome, desc, preco, estoque);
+                        clinica.AddProd(produto);
+                    }
+                    case 2 -> {
+                        System.out.println("Listando produtos...");
+                        System.out.print("Digite o limite de produtos que deseja ver: ");
+                        int limite = Integer.parseInt(scanner.nextLine());
+                        clinica.LerProds(limite);
+                    }
+                    case 3 -> {
+                        System.out.println("Atualizando veterinario...");
+                        while (true) {
+                            try {
+                                for (int i = 0; i < clinica.getTotalVeterinariosDaClinica().size(); i++) {
+                                    System.out.println("[" + (i + 1) + "] [" + clinica.getTotalVeterinariosDaClinica().get(i).getNome() + "]");
+                                    clinica.getTotalVeterinariosDaClinica().get(i).exibirDados();
+                                }
+                                System.out.println("Escolha o veterinario ou digite '0' para cancelar:");
+                                int indice = Integer.parseInt(scanner.nextLine());
+
+                                if (indice == 0) {
+                                    System.out.println("Operação cancelada. Voltando ao menu de veterinarios...");
+                                    break;
+                                }
+
+                                Veterinario veterinario = clinica.getTotalVeterinariosDaClinica().get(indice - 1);
+
+                                System.out.println("Atualizando veterinario...");
+                                System.out.print("Nome do veterinario: ");
+                                String nome = scanner.nextLine();
+
+                                System.out.print("Endereço do veterinario: ");
+                                String endereco = scanner.nextLine();
+
+                                System.out.print("Telefone do veterinario: ");
+                                String telefone = scanner.nextLine();
+
+                                System.out.print("Salario do veterinario: ");
+                                String salarioEntrada = scanner.nextLine();
+                                int salario = Integer.parseInt(salarioEntrada);
+
+                                clinica.atualizarVeterinário(veterinario, nome, endereco, telefone, salario);
+                                break;
+
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                System.out.println("Por favor, tente novamente.");
+                            }
+                        }
+                    }
+                    case 4 -> {
+                        System.out.println("Deletando veterinario...");
+                        try {
+                            for (int i = 0; i < clinica.getTotalVeterinariosDaClinica().size(); i++) {
+                                System.out.println("[" + (i + 1) + "] [" + clinica.getTotalVeterinariosDaClinica().get(i).getNome() + "]");
+                            }
+
+                            System.out.println("Escolha o veterinario (ou digite '0' para cancelar):");
+                            int indice = Integer.parseInt(scanner.nextLine());
+
+                            if (indice == 0) {
+                                System.out.println("Operação cancelada. Voltando ao menu de funcionarios...");
+                                break;
+                            }
+
+                            Veterinario vet = clinica.getTotalVeterinariosDaClinica().get(indice - 1);
+                            clinica.removerVeterinário(vet);
+                            System.out.println("Veterinario deletado com sucesso.");
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    }
+                    case 6 -> {
+                        System.out.println("Voltando para o menu principal...");
+                        return;
+                    }
+                    default -> System.out.println("Opção inválida. Tente novamente.");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Por favor, tente novamente.");
             }
         }
     }
