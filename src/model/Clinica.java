@@ -31,22 +31,35 @@ public class Clinica {
     }
 
     // update Veterinário
-    public void atualizarVeterinário(String nome, String endereco, String telefone, float salario, String CRMV) {
-        for (Veterinario veterinarioIndividual : veterinariosDaClinica) {
-            if (veterinarioIndividual.getCRMV().equals(CRMV)) {
-                veterinarioIndividual.atualizarDados(nome, endereco, telefone, salario, CRMV);
-            }
+    public void atualizarVeterinário(Veterinario veterinario, String nome, String endereco, String telefone, float salario) {
+        Veterinario veterinario1 = veterinariosDaClinica.stream()
+                .filter(veterinarioAntigo -> veterinarioAntigo.getCRMV().equals(veterinario.getCRMV())).findFirst().orElse(null);
+
+        if (veterinario1 != null) {
+            veterinario1.atualizarDados(nome, endereco, telefone, salario);
+
         }
-        System.out.println("Veterinário atualizado com sucesso!");
     }
 
     // read Veterinario
-    public void lerVeterinário(String CRMV) {
-        for (Veterinario veterinario : veterinariosDaClinica) {
-            if (veterinario.getCRMV().equals(CRMV)) {
-                veterinario.exibirDados();
-            }
+    public void listarVeterinarios() {
+        for (Veterinario vet : veterinariosDaClinica) {
+            vet.exibirDados();
         }
+    }
+
+    // get list de veterinarios
+    public ArrayList<Veterinario> getTotalVeterinariosDaClinica() {
+        return this.veterinariosDaClinica;
+    }
+
+    // get lista particionada de veterinarios
+    public ArrayList<Veterinario> getParteVeterinariosDaClinica(int[] numeros){
+        ArrayList<Veterinario> veterinarios = new ArrayList<>();
+        for(int i = 0; i < numeros.length; i++){
+            veterinarios.add(veterinariosDaClinica.get(numeros[i]-1));
+        }
+        return veterinarios;
     }
 
     // create funcionário
@@ -62,16 +75,15 @@ public class Clinica {
     }
 
     // update funcionario
-    public void atualizarFuncionario(String nome, String endereco, String telefone, float salario,
-            String identificadorCarteiraTrabalho, Cargo cargo) {
-        for (Funcionario funcionarioIndividual : funcionariosDaClinica) {
-            if (funcionarioIndividual.getIdentificadorCarteiraTrabalho().equals(identificadorCarteiraTrabalho)) {
-                funcionarioIndividual.atualizarDados(nome, endereco, telefone, salario, identificadorCarteiraTrabalho,
-                        cargo);
-            }
+    public void atualizarFuncionario(Funcionario funcionario, String nome, String endereco, String telefone, float salario, Cargo cargo) {
+        Funcionario funcionarioClinica = funcionariosDaClinica.stream()
+                .filter(funcionarioAntigo -> funcionarioAntigo.getIdentificadorCarteiraTrabalho().equals(funcionario.getIdentificadorCarteiraTrabalho())).findFirst().orElse(null);
+
+        if (funcionarioClinica != null) {
+            funcionarioClinica.atualizarDados(nome, endereco, telefone, salario, cargo);
         }
-        System.out.println("Funcionário atualizado com sucesso!");
     }
+
 
     // listar funcionario
     public void listarFuncionarios() {
@@ -188,10 +200,15 @@ public class Clinica {
     public void listarConsultas() {
         System.out.println("Lista de Consultas:");
         for (Consulta consulta : consultasDaClinica) {
-            System.out.println("ID: " + consulta.getId() + 
+            System.out.println("ID: " + consulta.getId() +
                             " | Data: " + consulta.getData() +
                             " | Hora: " + consulta.getHora() +
-                            " | Status: " + consulta.getStatus());
+                            " | Status: " + consulta.getStatus() +
+                            " | Animal: " + consulta.getAnimal().getNome()
+            );
+            for(Veterinario vet : consulta.getVeterinarios()) {
+                System.out.println("| Veterinario: " + vet.getNome());
+            }
         }
     }
 
@@ -250,6 +267,7 @@ public class Clinica {
         System.out.println("Produto removido: "+pdt.getNome());
     }
 
+    /*
     //READ - leitura do nome do produto para verificar no container
     public void LerProd(String prod){
         for(Produto p: produtosDoCliente_cons){
@@ -267,5 +285,7 @@ public class Clinica {
             }
           }
     }
+
+     */
 
 }
