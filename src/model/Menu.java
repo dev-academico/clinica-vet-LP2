@@ -240,7 +240,58 @@ public class Menu {
                     }
                     case 3 -> {
                         System.out.println("Atualizando funcionario...");
+                            try {
+                                for (int i = 0; i < clinica.getFuncionariosDaClinica().size(); i++) {
+                                    System.out.println("[" + (i + 1) + "] [" + clinica.getFuncionariosDaClinica().get(i).getNome() + "]");
+                                    clinica.getFuncionariosDaClinica().get(i).exibirDados();
+                                }
+                                System.out.println("Escolha o funcionario ou digite '0' para cancelar:");
+                                int indice = Integer.parseInt(scanner.nextLine());
 
+                                if (indice == 0) {
+                                    System.out.println("Operação cancelada. Voltando ao menu de clientes...");
+                                    break;
+                                }
+
+                                Funcionario funcionario = clinica.getFuncionariosDaClinica().get(indice - 1);
+
+                                System.out.println("Atualizando cliente...");
+                                System.out.print("Nome do cliente: ");
+                                String nome = scanner.nextLine();
+
+                                System.out.print("Endereço do cliente: ");
+                                String endereco = scanner.nextLine();
+
+                                System.out.print("Telefone do cliente: ");
+                                String telefone = scanner.nextLine();
+
+                                System.out.print("Salario do funcionario: ");
+                                float salario = Float.parseFloat(scanner.nextLine());
+
+                                System.out.println("Escolha um cargo:");
+                                System.out.println("[1] Auxiliar Tosador");
+                                System.out.println("[2] Auxiliar Veterinario");
+                                System.out.println("[3] Biomedico");
+                                System.out.println("[4] Motorista Animal");
+                                System.out.println("[5] Tosador");
+
+                                int cargoEscolhido = Integer.parseInt(scanner.nextLine());
+                                Cargo cargo = switch (cargoEscolhido) {
+                                    case 1 -> Cargo.AUXILIAR_TOSADOR;
+                                    case 2 -> Cargo.AUXILIAR_VETERINARIO;
+                                    case 3 -> Cargo.BIOMEDICO;
+                                    case 4 -> Cargo.MOTORISTA_ANIMAL;
+                                    case 5 -> Cargo.TOSADOR;
+                                    default -> throw new IllegalArgumentException("Cargo inválido");
+                                };
+
+                                clinica.atualizarFuncionario(funcionario, nome, endereco, telefone, salario, cargo);
+                                break;
+
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                System.out.println("Por favor, tente novamente.");
+                            }
                     }
                     case 4 -> {
                         System.out.println("Deletando funcionario...");

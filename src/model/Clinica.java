@@ -75,17 +75,15 @@ public class Clinica {
     }
 
     // update funcionario
-    /*
-    public void atualizarFuncionario(String nome, String endereco, String telefone, float salario, Cargo cargo) {
-        for (Funcionario funcionarioIndividual : funcionariosDaClinica) {
-            if (funcionarioIndividual.getIdentificadorCarteiraTrabalho().equals(identificadorCarteiraTrabalho)) {
-                funcionarioIndividual.atualizarDados(nome, endereco, telefone, salario, identificadorCarteiraTrabalho,
-                        cargo);
-            }
+    public void atualizarFuncionario(Funcionario funcionario, String nome, String endereco, String telefone, float salario, Cargo cargo) {
+        Funcionario funcionarioClinica = funcionariosDaClinica.stream()
+                .filter(funcionarioAntigo -> funcionarioAntigo.getIdentificadorCarteiraTrabalho().equals(funcionario.getIdentificadorCarteiraTrabalho())).findFirst().orElse(null);
+
+        if (funcionarioClinica != null) {
+            funcionarioClinica.atualizarDados(nome, endereco, telefone, salario, cargo);
         }
-        System.out.println("Funcionário atualizado com sucesso!");
     }
-     */
+
 
     // listar funcionario
     public void listarFuncionarios() {
