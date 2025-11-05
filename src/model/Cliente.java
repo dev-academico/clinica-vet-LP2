@@ -6,6 +6,7 @@ import exception.DadosObrigatoriosException;
 import java.util.ArrayList;
 
 public class Cliente extends Pessoa {
+
     private ArrayList<Animal> listaDeAnimais;
     private ArrayList<Produto> listaDeProdutos;
 
@@ -25,7 +26,7 @@ public class Cliente extends Pessoa {
     public void atualizarDados(String nome, String endereco, String telefone) {
         if (listaDeAnimais == null) {
             throw new DadosObrigatoriosException("Um cliente deverá ter pelo menos um animal");
-        } 
+        }
         super.atualizarDados(nome, endereco, telefone); //sobrecarga do pai
     }
 
@@ -33,10 +34,10 @@ public class Cliente extends Pessoa {
     public void exibirDados() {
         // Dados do cliente
         super.exibirDados();
-        for(Animal animal : listaDeAnimais){
+        for (Animal animal : listaDeAnimais) {
             animal.exibirAnimal();
         };
-        for(Produto produto : listaDeProdutos){
+        for (Produto produto : listaDeProdutos) {
             produto.imprimirDados();
         };
     }
@@ -44,28 +45,22 @@ public class Cliente extends Pessoa {
     public ArrayList<Animal> getAnimais() {
         return this.listaDeAnimais;
     }
+
     public ArrayList<Produto> getProdutos() {
         return this.listaDeProdutos;
     }
-    public void removerProduto(Produto produto) {
-        //acha de listaDeProdutos
-        Produto produtoParaRemover = this.listaDeProdutos.stream().filter(produtoAntigo -> produtoAntigo.getId() == produto.getId()).findFirst().orElse(null);
 
-        if (produtoParaRemover != null) {
-            for(Produto p : this.listaDeProdutos){
-                if(p.getId() == produtoParaRemover.getId()){
-                    listaDeProdutos.remove(p);
-                }
-            }
-        }
+    public void removerProduto(Produto produto) {
+        listaDeProdutos.remove(produto);
     }
+
     public void atualizarProduto(Produto produto) {
         //acha de listaDeProdutos
         Produto produtoParaAtualizar = this.listaDeProdutos.stream().filter(produtoAntigo -> produtoAntigo.getId() == produto.getId()).findFirst().orElse(null);
 
         if (produtoParaAtualizar != null) {
-            for(Produto p : this.listaDeProdutos){
-                if(p.getId() == produtoParaAtualizar.getId()){
+            for (Produto p : this.listaDeProdutos) {
+                if (p.getId() == produtoParaAtualizar.getId()) {
                     p.atualizarDados(produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getEstoque());
                 }
             }
@@ -80,7 +75,6 @@ public class Cliente extends Pessoa {
     public void removerAnimal(int id) {
         this.listaDeAnimais.removeIf(animal -> animal.getId() == id);
     }
-
 
     public void atualizarAnimal(Animal animal) {
         Animal animalParaAtualizar = this.listaDeAnimais.stream().filter(animalAntigo -> animalAntigo.getId() == animal.getId()).findFirst().orElse(null);
@@ -115,15 +109,15 @@ public class Cliente extends Pessoa {
     public void registrarObservacaoAnimal(int id, String observacao) {
         Animal animalParaAtualizar = this.listaDeAnimais.stream().filter(animal -> animal.getId() == id).findFirst().orElse(null);
 
-        if(animalParaAtualizar != null) {
+        if (animalParaAtualizar != null) {
             animalParaAtualizar.registrarObservacao(observacao);
         } else {
-            throw new AnimalInexistenteException("Animal de ID: " + id + " , não foi encontrado"); 
+            throw new AnimalInexistenteException("Animal de ID: " + id + " , não foi encontrado");
         }
     }
 
     public void adicionarProduto(Produto produto) {
         listaDeProdutos.add(produto);
     }
-    
+
 }
