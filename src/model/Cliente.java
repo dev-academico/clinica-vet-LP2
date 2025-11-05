@@ -15,6 +15,7 @@ public class Cliente extends Pessoa {
             throw new DadosObrigatoriosException("Um cliente deverá ter pelo menos um animal");
         }
         this.listaDeAnimais = listaDeAnimais;
+        this.listaDeProdutos = new ArrayList<>();
     }
 
     public void agendarConsulta() {
@@ -32,10 +33,43 @@ public class Cliente extends Pessoa {
     public void exibirDados() {
         // Dados do cliente
         super.exibirDados();
+        for(Animal animal : listaDeAnimais){
+            animal.exibirAnimal();
+        };
+        for(Produto produto : listaDeProdutos){
+            produto.imprimirDados();
+        };
     }
 
     public ArrayList<Animal> getAnimais() {
         return this.listaDeAnimais;
+    }
+    public ArrayList<Produto> getProdutos() {
+        return this.listaDeProdutos;
+    }
+    public void removerProduto(Produto produto) {
+        //acha de listaDeProdutos
+        Produto produtoParaRemover = this.listaDeProdutos.stream().filter(produtoAntigo -> produtoAntigo.getId() == produto.getId()).findFirst().orElse(null);
+
+        if (produtoParaRemover != null) {
+            for(Produto p : this.listaDeProdutos){
+                if(p.getId() == produtoParaRemover.getId()){
+                    listaDeProdutos.remove(p);
+                }
+            }
+        }
+    }
+    public void atualizarProduto(Produto produto) {
+        //acha de listaDeProdutos
+        Produto produtoParaAtualizar = this.listaDeProdutos.stream().filter(produtoAntigo -> produtoAntigo.getId() == produto.getId()).findFirst().orElse(null);
+
+        if (produtoParaAtualizar != null) {
+            for(Produto p : this.listaDeProdutos){
+                if(p.getId() == produtoParaAtualizar.getId()){
+                    p.atualizarDados(produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getEstoque());
+                }
+            }
+        }
     }
 
     // CRUD de animais do cliente
@@ -46,6 +80,7 @@ public class Cliente extends Pessoa {
     public void removerAnimal(int id) {
         this.listaDeAnimais.removeIf(animal -> animal.getId() == id);
     }
+
 
     public void atualizarAnimal(Animal animal) {
         Animal animalParaAtualizar = this.listaDeAnimais.stream().filter(animalAntigo -> animalAntigo.getId() == animal.getId()).findFirst().orElse(null);

@@ -13,6 +13,7 @@ public class Produto extends ItemComercial {
     Produto(int id, String nome, String desc, float preco, int estoque) {
         super(id, nome, desc, preco);
         this.estoque = estoque;
+        this.listaDeClientes = new ArrayList<>();
     }
 
     @Override
@@ -33,16 +34,15 @@ public class Produto extends ItemComercial {
         }
     }
 
-    public void atualizarDados(int id, String nome, String desc, float preco, int etq){
-        if(id<=0 || preco<=0 || etq<=0) System.err.println("Informe preço, estoque e identificador válidos\n.");
+    public void atualizarDados(String nome, String desc, float preco, int etq){
+        if(preco<=0 || etq<=0) System.err.println("Informe preço, estoque e identificador válidos\n.");
         setPreco(preco);
 
-        if(nome==null || desc==null) throw new DadosObrigatoriosException("Informe todos os dados necessários\n");
+        if(nome==null || nome.trim().isEmpty() || desc.trim().isEmpty() || desc == null) throw new DadosObrigatoriosException("Informe todos os dados necessários\n");
         this.setNome(nome);
         this.setDesc(desc);
         this.setEstoque(etq);
-        this.setID(id);
-        System.out.println("\nProduto: "+nome+" | Dados atualizados com sucesso!");
+        //System.out.println("\nProduto: "+nome+" | Dados atualizados com sucesso!");
     }
 
     @Override
@@ -50,6 +50,7 @@ public class Produto extends ItemComercial {
         System.out.println("[ Nome: " + this.getNome() + " | Preço: " + this.getPreco() + " | Estoque: " + this.getEstoque() + " |  Descrição: " + this.getDescricao() + " ]");
     }
 
+    public ArrayList<Cliente> getListaDeClientes() {return this.listaDeClientes;}
     public boolean vender(Produto produto, Cliente cliente) {
         if (estoque > 0) {
             produto.estoque--;

@@ -613,8 +613,10 @@ public class Menu {
                         
                         if (acao == 1) {
                             consulta.iniciarConsulta();
+                            System.out.println("Atualizando consulta no veterinario...");
                         } else if (acao == 2) {
                             consulta.finalizarConsulta();
+                            System.out.println("Atualizando consulta no veterinario...");
                         }
                         
                     } catch (Exception e) {
@@ -639,7 +641,7 @@ public class Menu {
                             System.out.println("Operação cancelada.");
                             break;
                         }
-                        
+
                         Consulta consulta = clinica.getConsultasDaClinica().get(indice - 1);
                         consulta.cancelarConsulta();
                         
@@ -980,38 +982,40 @@ public class Menu {
                         clinica.LerProds(limite);
                     }
                     case 3 -> {
-                        System.out.println("Atualizando veterinario...");
-                        while (true) {
+                        System.out.println("Atualizando produto...");
                             try {
-                                for (int i = 0; i < clinica.getTotalVeterinariosDaClinica().size(); i++) {
-                                    System.out.println("[" + (i + 1) + "] [" + clinica.getTotalVeterinariosDaClinica().get(i).getNome() + "]");
-                                    clinica.getTotalVeterinariosDaClinica().get(i).exibirDados();
+                                for (int i = 0; i < clinica.getProdutosDoCliente_Cons().size(); i++) {
+                                    System.out.println("[" + (i + 1) + "] [" + clinica.getProdutosDoCliente_Cons().get(i).getNome() + "]");
+                                    clinica.getProdutosDoCliente_Cons().get(i).imprimirDados();
                                 }
-                                System.out.println("Escolha o veterinario ou digite '0' para cancelar:");
+                                System.out.println("Escolha o produto ou digite '0' para cancelar:");
                                 int indice = Integer.parseInt(scanner.nextLine());
 
                                 if (indice == 0) {
-                                    System.out.println("Operação cancelada. Voltando ao menu de veterinarios...");
+                                    System.out.println("Operação cancelada. Voltando ao menu de produtos...");
                                     break;
                                 }
 
-                                Veterinario veterinario = clinica.getTotalVeterinariosDaClinica().get(indice - 1);
+                                Produto produto = clinica.getProdutosDoCliente_Cons().get(indice - 1);
 
-                                System.out.println("Atualizando veterinario...");
-                                System.out.print("Nome do veterinario: ");
+                                System.out.print("Nome do produto: ");
                                 String nome = scanner.nextLine();
 
-                                System.out.print("Endereço do veterinario: ");
-                                String endereco = scanner.nextLine();
+                                System.out.print("Descrição do produto: ");
+                                String desc = scanner.nextLine();
 
-                                System.out.print("Telefone do veterinario: ");
-                                String telefone = scanner.nextLine();
+                                System.out.print("Preço do produto: ");
+                                float preco = Float.parseFloat(scanner.nextLine());
 
-                                System.out.print("Salario do veterinario: ");
-                                String salarioEntrada = scanner.nextLine();
-                                int salario = Integer.parseInt(salarioEntrada);
+                                System.out.print("Estoque do produto: ");
+                                int estoque = Integer.parseInt(scanner.nextLine());
 
-                                clinica.atualizarVeterinário(veterinario, nome, endereco, telefone, salario);
+                                System.out.println("Atualizando produto no cliente...");
+                                clinica.atualizaProd(produto, nome, desc, preco, estoque);
+                                produto.atualizarDados(nome, desc, preco, estoque);
+                                for(Cliente cliente : produto.getListaDeClientes()){
+                                    cliente.atualizarProduto(produto);
+                                }
                                 break;
 
                             } catch (Exception e) {
@@ -1019,15 +1023,14 @@ public class Menu {
                                 System.out.println("Por favor, tente novamente.");
                             }
                         }
-                    }
                     case 4 -> {
-                        System.out.println("Deletando veterinario...");
+                        System.out.println("Deletando produto...");
                         try {
-                            for (int i = 0; i < clinica.getTotalVeterinariosDaClinica().size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clinica.getTotalVeterinariosDaClinica().get(i).getNome() + "]");
+                            for (int i = 0; i < clinica.getProdutosDoCliente_Cons().size(); i++) {
+                                System.out.println("[" + (i + 1) + "] [" + clinica.getProdutosDoCliente_Cons().get(i).getNome() + "]");
                             }
 
-                            System.out.println("Escolha o veterinario (ou digite '0' para cancelar):");
+                            System.out.println("Escolha o produto (ou digite '0' para cancelar):");
                             int indice = Integer.parseInt(scanner.nextLine());
 
                             if (indice == 0) {
@@ -1035,11 +1038,59 @@ public class Menu {
                                 break;
                             }
 
-                            Veterinario vet = clinica.getTotalVeterinariosDaClinica().get(indice - 1);
-                            clinica.removerVeterinário(vet);
-                            System.out.println("Veterinario deletado com sucesso.");
+                            System.out.println("Removendo produto no cliente...");
+                            Produto produto = clinica.getProdutosDoCliente_Cons().get(indice - 1);
+                            clinica.RemvProd(produto);
+                            for(Cliente cliente : produto.getListaDeClientes()){
+                                cliente.removerProduto(produto);
+                            }
+                            System.out.println("Produto deletado com sucesso.");
                         } catch (Exception ex) {
                             System.out.println(ex.getMessage());
+                        }
+                    }
+                    case 5 ->{
+                        System.out.println("Vendendo um produto para clientes");
+
+                        System.out.println("=== PRODUTOS ===");
+                        for (int i = 0; i < clinica.getProdutosDoCliente_Cons().size(); i++) {
+                            System.out.println("[" + (i + 1) + "] [" + clinica.getProdutosDoCliente_Cons().get(i).getNome() + "]");
+                            clinica.getProdutosDoCliente_Cons().get(i).imprimirDados();
+                        }
+                        System.out.println("Escolha o produto ou digite '0' para cancelar:");
+                        int indice = Integer.parseInt(scanner.nextLine());
+
+                        if (indice == 0) {
+                            System.out.println("Operação cancelada. Voltando ao menu de produtos...");
+                            break;
+                        }
+
+                        Produto produto = clinica.getProdutosDoCliente_Cons().get(indice - 1);
+
+                        System.out.println("=== CLIENTES ===");
+                        for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                            Cliente cliente = clinica.getClientesDaClinica().get(i);
+                            System.out.println("[" + (i + 1) + "] " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                        }
+
+                        System.out.println("\nEscolha o(s) número(s) dos clientes (ex: 1,2,3,4) ou 0 para cancelar:");
+                        String entrada = scanner.nextLine();
+                        String[] partes = entrada.split(",");
+
+                        if (partes[0].equals("0")) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+                        int[] numeros = new int[partes.length];
+                        for (int i = 0; i < partes.length; i++) {
+                            numeros[i] = Integer.parseInt(partes[i].trim());
+                        }
+
+                        System.out.print("Vendendo o produto para os clientes...");
+                        ArrayList<Cliente> listaClientes = clinica.getParteClientesDaClinica(numeros);
+                        for(Cliente cliente : listaClientes){
+                            System.out.println("Cliente | " + cliente.getNome() + " | CPF | " + cliente.getCpf() + " | Produto | " + produto.getNome());
+                            produto.vender(produto, cliente);
                         }
                     }
                     case 6 -> {

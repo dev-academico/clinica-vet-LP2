@@ -34,7 +34,6 @@ public class Main {
 //        Cliente cliente_B = new Cliente("Ana Silva", "987.654.321-00", "Rua B, 456", "84 98888-8888", animaisInicias_B);
 //
 //        clinica.adicionarCliente(cliente_A);
-//        clinica.adicionarCliente(cliente_B);
-
+//        clinica.adicionarCliente(cliente_}
     }
 }

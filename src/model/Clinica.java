@@ -139,6 +139,15 @@ public class Clinica {
         }
     }
 
+    // get lista particionada de veterinarios
+    public ArrayList<Cliente> getParteClientesDaClinica(int[] numeros){
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        for(int i = 0; i < numeros.length; i++){
+            clientes.add(clientesDaClinica.get(numeros[i]-1));
+        }
+        return clientes;
+    }
+
     // remove cliente
     public void removerCliente(Cliente cliente) {
         clientesDaClinica.remove(cliente);
@@ -263,8 +272,13 @@ public class Clinica {
 
     //REMOVE - produto
     public void RemvProd(Produto pdt){
+        for(Cliente cliente : clientesDaClinica){
+            for(Produto produtos : cliente.getProdutos() ){
+                cliente.removerProduto(produtos);
+            }
+        }
         produtosDoCliente_Cons.remove(pdt);
-        System.out.println("Produto removido: "+pdt.getNome());
+        //System.out.println("Produto removido: "+pdt.getNome());
     }
 
     //return list
@@ -289,12 +303,17 @@ public class Clinica {
     }
 
     //UPGRADE - atualizar dados 
-    public void atualizaProd(int id, String nome, String desc, float preco, int etq){
-          for(Produto p: produtosDoCliente_Cons){
-            if(p.getID()==id){
-            p.atualizarDados(id, nome, desc, preco, etq); 
-            }
-          }
+    public void atualizaProd(Produto produto, String nome, String desc, float preco, int etq){
+       Produto produtoClinica = produtosDoCliente_Cons.stream()
+               .filter(produtoAntigo -> produtoAntigo.getId() == produto.getId())
+               .findFirst()
+               .orElse(null);
+
+
+        if (produtoClinica != null) {
+            produtoClinica.atualizarDados(nome, desc, preco, etq);
+
+        }
     }
 
 
