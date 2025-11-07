@@ -30,16 +30,18 @@ public class Cliente extends Pessoa {
         super.atualizarDados(nome, endereco, telefone); //sobrecarga do pai
     }
 
-    @Override
-    public void exibirDados() {
-        // Dados do cliente
-        super.exibirDados();
-        for (Animal animal : listaDeAnimais) {
-            animal.exibirAnimal();
-        };
-        for (Produto produto : listaDeProdutos) {
-            produto.imprimirDados();
-        };
+    public void exibirDados(Boolean mostrarDetalhes) {
+        if (!mostrarDetalhes) {
+            super.exibirDados();
+        } else if (mostrarDetalhes) {
+            // Dados do cliente
+            super.exibirDados();
+            // Dados dos animais
+            mostrarListaDeAnimais();
+            // Dados dos produtos
+            mostrarProdutos();
+        }
+
     }
 
     public ArrayList<Animal> getAnimais() {
@@ -87,12 +89,20 @@ public class Cliente extends Pessoa {
     }
 
     public void mostrarListaDeAnimais() {
+        final String RED = "\u001B[31m";
+        final String RESET = "\u001B[0m";
+
         if (this.listaDeAnimais.isEmpty()) {
-            System.out.println("Nenhum animal cadastrado.");
-        } else {
-            for (Animal animal : this.listaDeAnimais) {
-                System.out.println("[ ID: " + animal.getId() + " | Nome: " + animal.getNome() + " | Espécie: " + animal.getEspecie() + " | Raça: " + animal.getRaca() + " ]");
-            }
+            System.out.println(RED + "-- Nenhum animal cadastrado. " + RESET);
+            return;
+        }
+
+        System.out.println("-- Lista de Animais:");
+        for (Animal animal : this.listaDeAnimais) {
+            System.out.println(RED + "-- [ ID: " + animal.getId()
+                    + " | Nome: " + animal.getNome()
+                    + " | Espécie: " + animal.getEspecie()
+                    + " | Raça: " + animal.getRaca() + " ]" + RESET);
         }
     }
 
@@ -118,6 +128,22 @@ public class Cliente extends Pessoa {
 
     public void adicionarProduto(Produto produto) {
         listaDeProdutos.add(produto);
+    }
+
+    public void mostrarProdutos() {
+        final String PURPLE = "\u001B[35m";
+        final String RESET = "\u001B[0m";
+        if (this.listaDeProdutos.isEmpty()) {
+            System.out.println(PURPLE + "-- Nenhum produto comprado. " + RESET);
+        } else {
+            System.out.println("-- Lista de Produtos Comprados:");
+            for (Produto produto : this.listaDeProdutos) {
+                System.out.println(PURPLE + "-- [ ID: " + produto.getId()
+                        + " | Nome: " + produto.getNome()
+                        + " | Preço: " + produto.getPreco()
+                        + " | Descrição: " + produto.getDescricao() + " ]" + RESET);
+            }
+        }
     }
 
 }

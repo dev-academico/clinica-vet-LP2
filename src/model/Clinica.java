@@ -43,8 +43,8 @@ public class Clinica {
 
     // read Veterinario
     public void listarVeterinarios() {
-        for (Veterinario vet : veterinariosDaClinica) {
-            vet.exibirDados();
+        for (Veterinario veterinario : veterinariosDaClinica) {
+            veterinario.exibirDados(true);
         }
     }
 
@@ -87,7 +87,7 @@ public class Clinica {
     // listar funcionario
     public void listarFuncionarios() {
         for (Funcionario funcionario : funcionariosDaClinica) {
-            funcionario.exibirDados();
+            funcionario.exibirDados(true);
         }
     }
 
@@ -106,7 +106,7 @@ public class Clinica {
     public void listarClientes() {
         System.out.println("Lista de Clientes da Clínica:");
         for (Cliente cliente : clientesDaClinica) {
-            cliente.exibirDados();
+            cliente.exibirDados(true);
         }
     }
 
@@ -205,17 +205,8 @@ public class Clinica {
 
 // READ - Listar consultas
     public void listarConsultas() {
-        System.out.println("Lista de Consultas:");
         for (Consulta consulta : consultasDaClinica) {
-            System.out.println("ID: " + consulta.getId()
-                    + " | Data: " + consulta.getData()
-                    + " | Hora: " + consulta.getHora()
-                    + " | Status: " + consulta.getStatus()
-                    + " | Animal: " + consulta.getAnimal().getNome()
-            );
-            for (Veterinario vet : consulta.getVeterinarios()) {
-                System.out.println("| Veterinario: " + vet.getNome());
-            }
+            consulta.exibirDados(true);
         }
     }
 
@@ -270,12 +261,6 @@ public class Clinica {
 
     //REMOVE - produto
     public void removerProduto(Produto produto) {
-        for (Cliente cliente : clientesDaClinica) {
-            if (cliente.getProdutos().contains(produto)) {
-                cliente.removerProduto(produto);
-            }
-        }
-
         produtosDaClinica.remove(produto);
     }
 

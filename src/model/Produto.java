@@ -10,7 +10,7 @@ public class Produto extends ItemComercial {
     private ArrayList<Cliente> listaDeClientes;
     private int estoque;
 
-    Produto(int id, String nome, String desc, float preco, int estoque) {
+    public Produto(int id, String nome, String desc, float preco, int estoque) {
         super(id, nome, desc, preco);
         this.estoque = estoque;
         this.listaDeClientes = new ArrayList<>();
@@ -51,7 +51,9 @@ public class Produto extends ItemComercial {
 
     @Override
     public void imprimirDados() {
-        System.out.println("[ Nome: " + this.getNome() + " | Preço: " + this.getPreco() + " | Estoque: " + this.getEstoque() + " |  Descrição: " + this.getDescricao() + " ]");
+        final String BLUE = "\u001B[34m";
+        final String RESET = "\u001B[0m";
+        System.out.println(BLUE + "[ Nome: " + this.getNome() + " | Preço: " + this.getPreco() + " | Estoque: " + this.getEstoque() + " |  Descrição: " + this.getDescricao() + " ]" + RESET);
     }
 
     public ArrayList<Cliente> getListaDeClientes() {
@@ -61,6 +63,7 @@ public class Produto extends ItemComercial {
     public boolean vender(Produto produto, Cliente cliente) {
         if (estoque > 0) {
             produto.estoque--;
+            this.listaDeClientes.add(cliente);
             cliente.adicionarProduto(produto);
             return true;
         }

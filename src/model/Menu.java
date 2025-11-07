@@ -124,10 +124,11 @@ public class Menu {
                     System.out.println("Atualizando cliente...");
                     while (true) {
                         try {
-                            for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clinica.getClientesDaClinica().get(i).getNome() + "]");
-                                clinica.getClientesDaClinica().get(i).exibirDados();
+                            for (Cliente cliente : clinica.getClientesDaClinica()) {
+                                System.out.print("[" + (clinica.getClientesDaClinica().indexOf(cliente) + 1) + "]");
+                                cliente.exibirDados(false);
                             }
+
                             System.out.println("Escolha o cliente ou digite '0' para cancelar:");
                             int indice = Integer.parseInt(scanner.nextLine());
 
@@ -161,8 +162,9 @@ public class Menu {
                     System.out.println("Deletando cliente...");
                     while (true) {
                         try {
-                            for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clinica.getClientesDaClinica().get(i).getNome() + "]");
+                            for (Cliente cliente : clinica.getClientesDaClinica()) {
+                                System.out.print("[" + (clinica.getClientesDaClinica().indexOf(cliente) + 1) + "]");
+                                cliente.exibirDados(false);
                             }
 
                             System.out.println("Escolha o cliente ou digite '0' para cancelar:");
@@ -261,10 +263,11 @@ public class Menu {
                     case 3 -> {
                         System.out.println("Atualizando funcionario...");
                         try {
-                            for (int i = 0; i < clinica.getFuncionariosDaClinica().size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clinica.getFuncionariosDaClinica().get(i).getNome() + "]");
-                                clinica.getFuncionariosDaClinica().get(i).exibirDados();
+                            for (Funcionario funcionario : clinica.getFuncionariosDaClinica()) {
+                                System.out.print("[" + (clinica.getFuncionariosDaClinica().indexOf(funcionario) + 1) + "]");
+                                funcionario.exibirDados();
                             }
+
                             System.out.println("Escolha o funcionario ou digite '0' para cancelar:");
                             int indice = Integer.parseInt(scanner.nextLine());
 
@@ -322,8 +325,9 @@ public class Menu {
                     case 4 -> {
                         System.out.println("Deletando funcionario...");
                         try {
-                            for (int i = 0; i < clinica.getFuncionariosDaClinica().size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clinica.getFuncionariosDaClinica().get(i).getNome() + "]");
+                            for (Funcionario funcionario : clinica.getFuncionariosDaClinica()) {
+                                System.out.print("[" + (clinica.getFuncionariosDaClinica().indexOf(funcionario) + 1) + "]");
+                                funcionario.exibirDados();
                             }
 
                             System.out.println("Escolha o funcionario ou digite '0' para cancelar:");
@@ -400,10 +404,11 @@ public class Menu {
                         System.out.println("Atualizando veterinario...");
                         while (true) {
                             try {
-                                for (int i = 0; i < clinica.getTotalVeterinariosDaClinica().size(); i++) {
-                                    System.out.println("[" + (i + 1) + "] [" + clinica.getTotalVeterinariosDaClinica().get(i).getNome() + "]");
-                                    clinica.getTotalVeterinariosDaClinica().get(i).exibirDados();
+                                for (Veterinario veterinario : clinica.getTotalVeterinariosDaClinica()) {
+                                    System.out.print("[" + (clinica.getTotalVeterinariosDaClinica().indexOf(veterinario) + 1) + "] ");
+                                    veterinario.exibirDados();
                                 }
+
                                 System.out.println("Escolha o veterinario ou digite '0' para cancelar:");
                                 int indice = Integer.parseInt(scanner.nextLine());
 
@@ -440,8 +445,9 @@ public class Menu {
                     case 4 -> {
                         System.out.println("Deletando veterinario...");
                         try {
-                            for (int i = 0; i < clinica.getTotalVeterinariosDaClinica().size(); i++) {
-                                System.out.println("[" + (i + 1) + "] [" + clinica.getTotalVeterinariosDaClinica().get(i).getNome() + "]");
+                            for (Veterinario veterinario : clinica.getTotalVeterinariosDaClinica()) {
+                                System.out.print("[" + (clinica.getTotalVeterinariosDaClinica().indexOf(veterinario) + 1) + "]");
+                                veterinario.exibirDados();
                             }
 
                             System.out.println("Escolha o veterinario (ou digite '0' para cancelar):");
@@ -453,8 +459,10 @@ public class Menu {
                             }
 
                             Veterinario vet = clinica.getTotalVeterinariosDaClinica().get(indice - 1);
+
                             clinica.removerVeterinário(vet);
                             System.out.println("Veterinario deletado com sucesso.");
+
                         } catch (Exception ex) {
                             System.out.println(ex.getMessage());
                         }
@@ -495,20 +503,16 @@ public class Menu {
                             break;
                         }
 
-                        System.out.println("=== CLIENTES E SEUS ANIMAIS ===");
-                        for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
-                            Cliente cliente = clinica.getClientesDaClinica().get(i);
-                            System.out.println("\n[" + (i + 1) + "] Cliente: " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                        System.out.println("Lista de clientes e seus animais:");
+                        for (Cliente cliente : clinica.getClientesDaClinica()) {
 
-                            ArrayList<Animal> animais = cliente.getAnimais();
-                            if (animais.isEmpty()) {
-                                System.out.println("    Nenhum animal cadastrado para este cliente.");
-                            } else {
-                                for (int j = 0; j < animais.size(); j++) {
-                                    Animal animal = animais.get(j);
-                                    System.out.println("    [" + (j + 1) + "] " + animal.getNome()
-                                            + " (" + animal.getEspecie() + " - " + animal.getRaca() + ")");
-                                }
+                            System.out.println("[" + (clinica.getClientesDaClinica().indexOf(cliente) + 1) + "]");
+                            cliente.exibirDados();
+
+                            for (Animal animal : cliente.getAnimais()) {
+                                String RED = "\u001B[31m";
+                                String RESET = "\u001B[0m";
+                                System.out.println(RED + "-- [" + (cliente.getAnimais().indexOf(animal) + 1) + "] " + animal.getNome() + " (" + animal.getEspecie() + " - " + animal.getRaca() + ")" + RESET);
                             }
                         }
 
@@ -531,12 +535,14 @@ public class Menu {
                         int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
                         Animal animalSelecionado = clienteSelecionado.getAnimais().get(indiceAnimal);
 
-                        System.out.println("=== VETERINÁRIOS DISPONÍVEIS PARA A CONSULTA ===");
-                        for (int i = 0; i < clinica.getTotalVeterinariosDaClinica().size(); i++) {
-                            Veterinario veterinario = clinica.getTotalVeterinariosDaClinica().get(i);
-                            System.out.println("\n[" + (i + 1) + "] Cliente: " + veterinario.getNome() + " (CRMV: " + veterinario.getCRMV() + ")");
+                        System.out.println("Veterinários disponíveis:");
+
+                        for (Veterinario veterinario : clinica.getTotalVeterinariosDaClinica()) {
+                            System.out.println("[" + (clinica.getTotalVeterinariosDaClinica().indexOf(veterinario) + 1) + "]");
+                            veterinario.exibirDados();
                         }
-                        System.out.println("\nEscolha o(s) número(s) dos veterinarios (ex: 1,2,3,4) ou 0 para cancelar:");
+
+                        System.out.println("\nEscolha o(s) número(s) dos veterinários (ex: 1,2,3,4) ou 0 para cancelar:");
                         String entrada = scanner.nextLine();
                         String[] partes = entrada.split(",");
 
@@ -589,14 +595,8 @@ public class Menu {
                         clinica.adicionarConsulta(novaConsulta);
 
                         System.out.println("\n✓ Consulta agendada com sucesso!");
-                        System.out.println("ID: " + id);
-                        System.out.println("Cliente: " + clienteSelecionado.getNome());
-                        System.out.println("Animal: " + animalSelecionado.getNome());
-                        for (Veterinario vet : listaVeterinarios) {
-                            System.out.println("Veterinario: " + vet.getNome());
-                        }
-                        System.out.println("Data: " + data + " às " + hora);
-                        System.out.println("Status: AGENDADA");
+
+                        novaConsulta.exibirDados(true);
 
                     } catch (Exception e) {
                         System.out.println("Erro ao agendar consulta: " + e.getMessage());
@@ -611,10 +611,9 @@ public class Menu {
                     System.out.println("Atualizando status da consulta...");
                     try {
 
-                        for (int i = 0; i < clinica.getConsultasDaClinica().size(); i++) {
-                            Consulta c = clinica.getConsultasDaClinica().get(i);
-                            System.out.println("[" + (i + 1) + "] ID: " + c.getId()
-                                    + " | Status: " + c.getStatus());
+                        for (Consulta consulta : clinica.getConsultasDaClinica()) {
+                            System.out.print("[" + (clinica.getConsultasDaClinica().indexOf(consulta) + 1) + "]");
+                            consulta.exibirDados(false);
                         }
 
                         System.out.println("Escolha a consulta ou digite '0' para cancelar:");
@@ -648,11 +647,9 @@ public class Menu {
                     System.out.println("Cancelando consulta...");
                     try {
 
-                        for (int i = 0; i < clinica.getConsultasDaClinica().size(); i++) {
-                            Consulta c = clinica.getConsultasDaClinica().get(i);
-                            System.out.println("[" + (i + 1) + "] ID: " + c.getId()
-                                    + " | Status: " + c.getStatus()
-                                    + " | Data: " + c.getData());
+                        for (Consulta consulta : clinica.getConsultasDaClinica()) {
+                            System.out.print("[" + (clinica.getConsultasDaClinica().indexOf(consulta) + 1) + "]");
+                            consulta.exibirDados(false);
                         }
 
                         System.out.println("Escolha a consulta ou digite '0' para cancelar:");
