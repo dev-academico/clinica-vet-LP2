@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Animal {
+
     static public int animalCount = 0;
 
     private final int id;
@@ -69,13 +70,10 @@ public class Animal {
     }
 
     void exibirAnimal() {
-        System.out.println("ID: " + this.id);
-        System.out.println("Nome: " + nome);
-        System.out.println("Especie: " + especie);
-        System.out.println("Raca: " + raca);
-        System.out.println("Data de nascimento: " + dataNascimento);
-        System.out.println("Peso: " + peso);
-        System.out.println("Observacao: " + observacao);
+
+        final String BLUE = "\u001B[34m";
+        final String RESET = "\u001B[0m";
+        System.out.println(BLUE + "[ Id: " + this.getId() + " | Nome: " + nome + " | Especie: " + especie + " | Raça: " + raca + " | Data de Nascimento: " + dataNascimento + " | Peso: " + peso + " | Observação: " + observacao + " ]" + RESET);
     }
 
     // Servico methods

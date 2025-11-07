@@ -21,10 +21,27 @@ public class Veterinario extends Pessoa {
         }
         this.salario = salario;
         this.CRMV = CRMV;
+        this.listaDeConsultas = new ArrayList<>();
     }
 
     public void registrarConsulta(Consulta consulta) {
         this.listaDeConsultas.add(consulta);
+    }
+
+    public void mostrarConsultas() {
+        String RED = "\u001B[31m";
+        String RESET = "\u001B[0m";
+
+        System.out.println("-- Consultas");
+
+        if (this.listaDeConsultas.isEmpty()) {
+            System.out.println(RED + "-- Nenhuma consulta registrada. " + RESET);
+            return;
+        }
+
+        for (Consulta consulta : this.listaDeConsultas) {
+            System.out.println(RED + "[Consulta ID: " + consulta.getId() + ", Descrição: " + consulta.getDescricao() + ", Data: " + consulta.getData() + ", Animal: " + consulta.getAnimal().getNome() + "| Status: " + consulta.getStatus() + "]" + RESET);
+        }
     }
 
     public void atualizarDados(String nome, String endereco, String telefone, float salario) {
@@ -35,11 +52,16 @@ public class Veterinario extends Pessoa {
         super.atualizarDados(nome, endereco, telefone); //sobrecarga do pai
     }
 
-    @Override
-    public void exibirDados() {
-        super.exibirDados();
-        System.out.println("Salario: " + this.salario);
-        System.out.println("CRM: " + this.CRMV);
+    public void exibirDados(Boolean mostrarDetalhes) {
+        String BLUE = "\u001B[34m";
+        String RESET = "\u001B[0m";
+        if (!mostrarDetalhes) {
+            System.out.println(BLUE + "[" + this.getNome() + "|" + this.getCRMV() + "]" + RESET);
+            return;
+        }
+
+        System.out.println(BLUE + "[" + this.getNome() + "|" + this.getCRMV() + "|" + this.getCpf() + "|" + this.getEndereco() + "|" + this.getTelefone() + "]" + RESET);
+        mostrarConsultas();
     }
 
     public String getCRMV() {

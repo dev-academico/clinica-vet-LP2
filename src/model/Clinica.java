@@ -12,8 +12,8 @@ public class Clinica {
     private ArrayList<Consulta> consultasDaClinica = new ArrayList<>();
 
     // talvez aqui fosse melhor um map para mostrar cada cliente associado a um produto/serviço
-    private ArrayList<Produto> produtosDoCliente_Cons= new ArrayList<>();
-    private ArrayList<Servico> servicosDoCliente_Cons= new ArrayList<>();
+    private ArrayList<Produto> produtosDaClinica = new ArrayList<>();
+    private ArrayList<Servico> servicosDoCliente_Cons = new ArrayList<>();
 
     public Clinica() {
     }
@@ -43,8 +43,8 @@ public class Clinica {
 
     // read Veterinario
     public void listarVeterinarios() {
-        for (Veterinario vet : veterinariosDaClinica) {
-            vet.exibirDados();
+        for (Veterinario veterinario : veterinariosDaClinica) {
+            veterinario.exibirDados(true);
         }
     }
 
@@ -54,10 +54,10 @@ public class Clinica {
     }
 
     // get lista particionada de veterinarios
-    public ArrayList<Veterinario> getParteVeterinariosDaClinica(int[] numeros){
+    public ArrayList<Veterinario> getParteVeterinariosDaClinica(int[] numeros) {
         ArrayList<Veterinario> veterinarios = new ArrayList<>();
-        for(int i = 0; i < numeros.length; i++){
-            veterinarios.add(veterinariosDaClinica.get(numeros[i]-1));
+        for (int i = 0; i < numeros.length; i++) {
+            veterinarios.add(veterinariosDaClinica.get(numeros[i] - 1));
         }
         return veterinarios;
     }
@@ -84,11 +84,10 @@ public class Clinica {
         }
     }
 
-
     // listar funcionario
     public void listarFuncionarios() {
         for (Funcionario funcionario : funcionariosDaClinica) {
-            funcionario.exibirDados();
+            funcionario.exibirDados(true);
         }
     }
 
@@ -107,7 +106,7 @@ public class Clinica {
     public void listarClientes() {
         System.out.println("Lista de Clientes da Clínica:");
         for (Cliente cliente : clientesDaClinica) {
-            cliente.exibirDados();
+            cliente.exibirDados(true);
         }
     }
 
@@ -139,6 +138,15 @@ public class Clinica {
         }
     }
 
+    // get lista particionada de veterinarios
+    public ArrayList<Cliente> getParteClientesDaClinica(int[] numeros) {
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        for (int i = 0; i < numeros.length; i++) {
+            clientes.add(clientesDaClinica.get(numeros[i] - 1));
+        }
+        return clientes;
+    }
+
     // remove cliente
     public void removerCliente(Cliente cliente) {
         clientesDaClinica.remove(cliente);
@@ -151,7 +159,7 @@ public class Clinica {
 
     // update animal do cliente
     public void atualizarAnimal(Animal animal, String nome, Especie especie, String raca, java.util.Date dataNascimento) {
-        if( animal == null ) {
+        if (animal == null) {
             throw new AnimalInexistenteException("Animal não encontrado");
         }
 
@@ -160,10 +168,10 @@ public class Clinica {
 
     // remover animal do cliente
     public void removerAnimal(Animal animal, Cliente cliente) {
-        if( animal == null) {
+        if (animal == null) {
             throw new AnimalInexistenteException("Animal não encontrado");
         }
-        if (cliente == null ) {
+        if (cliente == null) {
             throw new ClienteInexistenteException("Cliente não encontrado");
         }
         cliente.removerAnimal(animal.getId());
@@ -174,7 +182,7 @@ public class Clinica {
         if (animal == null) {
             throw new AnimalInexistenteException("Animal não encontrado");
         }
-        if  (cliente == null) {
+        if (cliente == null) {
             throw new ClienteInexistenteException("Cliente não encontrado");
         }
 
@@ -190,25 +198,15 @@ public class Clinica {
 
     }
 
-
     public void adicionarConsulta(Consulta consulta) {
-    consultasDaClinica.add(consulta);
-    System.out.println("Consulta agendada com sucesso!");
-}
+        consultasDaClinica.add(consulta);
+        System.out.println("Consulta agendada com sucesso!");
+    }
 
 // READ - Listar consultas
     public void listarConsultas() {
-        System.out.println("Lista de Consultas:");
         for (Consulta consulta : consultasDaClinica) {
-            System.out.println("ID: " + consulta.getId() +
-                            " | Data: " + consulta.getData() +
-                            " | Hora: " + consulta.getHora() +
-                            " | Status: " + consulta.getStatus() +
-                            " | Animal: " + consulta.getAnimal().getNome()
-            );
-            for(Veterinario vet : consulta.getVeterinarios()) {
-                System.out.println("| Veterinario: " + vet.getNome());
-            }
+            consulta.exibirDados(true);
         }
     }
 
@@ -223,32 +221,32 @@ public class Clinica {
         return consultasDaClinica;
     }
 
-        // CREATE - Cria o serviço e adciona no Array
-    public void AddServico(Servico serv){
+    // CREATE - Cria o serviço e adciona no Array
+    public void AddServico(Servico serv) {
         servicosDoCliente_Cons.add(serv);
-        System.out.println("Serviço adicionado: "+serv.getNome());
+        System.out.println("Serviço adicionado: " + serv.getNome());
     }
 
     // REMOVE - Remove o serviço 
-    public void RemvServico(Servico serv){
+    public void RemvServico(Servico serv) {
         servicosDoCliente_Cons.remove(serv);
-        System.out.println("Serviço removido: "+serv.getNome());
+        System.out.println("Serviço removido: " + serv.getNome());
     }
 
     // READ - leitura do nome do serviço
-    public void lerServico(String sv){
-        for(Servico s: servicosDoCliente_Cons){
-            if(s.getNome().equals(sv)){
+    public void lerServico(String sv) {
+        for (Servico s : servicosDoCliente_Cons) {
+            if (s.getNome().equals(sv)) {
                 s.imprimirDados();
             }
         }
     }
 
     // UPDATE - atualiza o serviço
-    public void atualizaServ(int id,String nome, String desc, float preco, Animal animal, 
-    ArrayList<Funcionario> listaDeFuncionarios){
-        for(Servico s: servicosDoCliente_Cons){
-            if(s.getID()==id){
+    public void atualizaServ(int id, String nome, String desc, float preco, Animal animal,
+            ArrayList<Funcionario> listaDeFuncionarios) {
+        for (Servico s : servicosDoCliente_Cons) {
+            if (s.getID() == id) {
                 s.atualizarDados(id, nome, desc, preco, animal, listaDeFuncionarios);
             }
         }
@@ -256,36 +254,46 @@ public class Clinica {
     }
 
     //CREATE - produto
-    public void AddProd(Produto pdt){
-        produtosDoCliente_Cons.add(pdt);
-        System.out.println("Produto adicionado: "+pdt.getNome());
+    public void adicionarProduto(Produto produto) {
+        produtosDaClinica.add(produto);
+        System.out.println("Produto adicionado: " + produto.getNome());
     }
 
     //REMOVE - produto
-    public void RemvProd(Produto pdt){
-        produtosDoCliente_Cons.remove(pdt);
-        System.out.println("Produto removido: "+pdt.getNome());
+    public void removerProduto(Produto produto) {
+        produtosDaClinica.remove(produto);
     }
 
-    /*
+    //return list
+    public ArrayList<Produto> getProdutosDaClinica() {
+        return this.produtosDaClinica;
+    }
+
     //READ - leitura do nome do produto para verificar no container
-    public void LerProd(String prod){
-        for(Produto p: produtosDoCliente_cons){
-            if(prod.getNome().equals(p)){
-                p.imprimirDados();
+    public void LerProds(int limite) {
+        if (limite > 0) {
+            System.out.println("Lista de produtos limitada em " + limite);
+            for (int i = 0; i < limite; i++) {
+                produtosDaClinica.get(i).imprimirDados();
+            }
+        } else {
+            for (Produto produto : produtosDaClinica) {
+                produto.imprimirDados();
             }
         }
     }
 
     //UPGRADE - atualizar dados 
-    public void atualizaProd(int id, String nome, String desc, float preco, int etq){
-          for(Produto p: produtosDoCliente_cons){
-            if(p.getID()==id){
-            p.atualizarDados(id, nome, desc, preco, etq); 
-            }
-          }
-    }
+    public void atualizaProd(Produto produto, String nome, String desc, float preco, int etq) {
+        Produto produtoClinica = produtosDaClinica.stream()
+                .filter(produtoAntigo -> produtoAntigo.getId() == produto.getId())
+                .findFirst()
+                .orElse(null);
 
-     */
+        if (produtoClinica != null) {
+            produtoClinica.atualizarDados(nome, desc, preco, etq);
+
+        }
+    }
 
 }

@@ -11,10 +11,10 @@ public class Pessoa {
 
     public Pessoa(String nome, String cpf, String endereco, String telefone) throws DadosObrigatoriosException {
         //validação
-        if (nome == null || nome.trim().isEmpty() ||
-                cpf == null || cpf.trim().isEmpty() ||
-                endereco == null || endereco.trim().isEmpty() ||
-                telefone == null || telefone.trim().isEmpty()) {
+        if (nome == null || nome.trim().isEmpty()
+                || cpf == null || cpf.trim().isEmpty()
+                || endereco == null || endereco.trim().isEmpty()
+                || telefone == null || telefone.trim().isEmpty()) {
 
             //lança a exceção se algum dado obrigatório estiver faltando
             throw new DadosObrigatoriosException("Todos os campos (nome, cpf, endereco, telefone) são obrigatórios.");
@@ -29,27 +29,37 @@ public class Pessoa {
 
     //se for null, continua o mesmo, não precisa lançar exceção
     public void atualizarDados(String nome, String endereco, String telefone) {
-        if(nome!=null || !nome.trim().isEmpty()){
+        if (nome != null || !nome.trim().isEmpty()) {
             this.nome = nome;
         }
-        if(endereco!=null ||  !endereco.trim().isEmpty()){
+        if (endereco != null || !endereco.trim().isEmpty()) {
             this.endereco = endereco;
         }
-        if(telefone!=null || !telefone.trim().isEmpty()){
+        if (telefone != null || !telefone.trim().isEmpty()) {
             this.telefone = telefone;
         }
-        
+
     }
 
     public void exibirDados() {
-        System.out.println("[ Nome: " + nome + " | CPF: " + cpf + " | Endereço: " + endereco + " | Telefone: " + telefone + " ]");
+        final String BLUE = "\u001B[34m";
+        final String RESET = "\u001B[0m";
+        System.out.println(BLUE + "[ Nome: " + nome + " | CPF: " + cpf + " | Endereço: " + endereco + " | Telefone: " + telefone + " ]" + RESET);
     }
 
     public String getNome() {
         return nome;
     }
 
-    public String getCpf() { return cpf; }
-    public String getTelefone() { return telefone; }
-    public String getEndereco() { return endereco; }
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
 }
