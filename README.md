@@ -18,8 +18,7 @@ Você precisará ter instalado na sua máquina:
 Abra o seu terminal ou prompt de comando e execute o seguinte:
 
 ```bash
-git clone [https://github.com/dev-academico/clinica-vet-LP2.git](https://github.com/dev-academico/clinica-vet-LP2.git)
-```bash
+git clone [https://github.com/dev-academico/clinica-vet-LP2.git](https://github.com/dev-academico/clinica-vet-LP2.git)"
 
 ** #### 2. Importar o Projeto **
 
@@ -32,6 +31,7 @@ git clone [https://github.com/dev-academico/clinica-vet-LP2.git](https://github.
 1.  Navegue até o diretório `src` dentro da estrutura do projeto na sua IDE.
 2.  Localize a **classe principal** (a classe que contém o método `public static void main(String[] args)`).
 3.  **Clique com o botão direito** na classe principal e selecione a opção **Executar** (*Run*). O console da aplicação deverá ser iniciado.
+
 
 
 
