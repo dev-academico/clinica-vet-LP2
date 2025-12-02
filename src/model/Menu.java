@@ -1,5 +1,6 @@
 package model;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -11,6 +12,22 @@ public class Menu {
 
     public static void iniciarMenu(Clinica clinica) {
         while (true) {
+            String line = "Nome: | Tema: \n";
+            String lineTemp;
+
+            String fileName= "infoUsuario.txt";
+            File file = new File(fileName);
+            if(file.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                    while ((lineTemp = reader.readLine()) != null) {
+                        System.out.println(lineTemp);
+                        line = lineTemp;
+                    }
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Por favor, tente novamente.");
+                }
+            }
             System.out.println("[Menu Principal]");
             System.out.println("[1] Gerenciar clientes");
             System.out.println("[2] Gerenciar funcionarios");
@@ -18,25 +35,28 @@ public class Menu {
             System.out.println("[4] Gerenciar consultas");
             System.out.println("[5] Gerenciar produtos");
             System.out.println("[6] Gerenciar animais de um cliente");
-            System.out.println("[7] Sair");
+            System.out.println("[7] Gerenciar preferencias do usuário");
+            System.out.println("[8] Sair");
 
             Scanner scanner = new Scanner(System.in);
             int escolha = scanner.nextInt();
 
             switch (escolha) {
                 case 1 ->
-                    MenuClientes(clinica);
+                    MenuClientes(clinica, line);
                 case 2 ->
-                    MenuFuncionarios(clinica);
+                    MenuFuncionarios(clinica, line);
                 case 3 ->
-                    MenuVeterinarios(clinica);
+                    MenuVeterinarios(clinica, line);
                 case 4 ->
-                    MenuConsultas(clinica);
+                    MenuConsultas(clinica, line);
                 case 5 ->
-                    MenuProdutos(clinica);
+                    MenuProdutos(clinica, line);
                 case 6 ->
-                    MenuAnimais(clinica);
-                case 7 -> {
+                    MenuAnimais(clinica, line);
+                case 7 ->
+                        MenuArquivo();
+                case 8 -> {
                     System.out.println("Saindo do sistema...");
                     return;
                 }
@@ -45,9 +65,32 @@ public class Menu {
             }
         }
     }
+    public static void MenuArquivo(){
+        try (FileWriter fileWriter = new FileWriter("infoUsuario.txt");) {
+            Scanner scanner = new Scanner(System.in);
 
-    public static void MenuClientes(Clinica clinica) {
+            System.out.print("Qual é o seu nome? ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Qual tema voce prefere para o terminal? ");
+            String tema = scanner.nextLine();
+
+            if(tema.toUpperCase().equals("ESCURO")){
+                tema = "Escuro";
+            }
+            if(tema.toUpperCase().equals("CLARO")){
+                tema = "Claro";
+            }
+
+            fileWriter.write("Nome: " + nome + " | Tema: " + tema + "\n");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Por favor, tente novamente.");
+        }
+    }
+    public static void MenuClientes(Clinica clinica, String name){
         while (true) {
+            System.out.println(name);
             System.out.println("[Menu Cliente]");
             System.out.println("[1 - C] Adicionar cliente");
             System.out.println("[2 - R] Listar clientes");
@@ -196,10 +239,11 @@ public class Menu {
         }
     }
 
-    public static void MenuFuncionarios(Clinica clinica) {
+    public static void MenuFuncionarios(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
+                System.out.println(name);
                 System.out.println("[Menu Funcionarios]");
                 System.out.println("[1 - C] Adicionar funcionario");
                 System.out.println("[2 - R] Listar funcionarios");
@@ -359,10 +403,11 @@ public class Menu {
         }
     }
 
-    public static void MenuVeterinarios(Clinica clinica) {
+    public static void MenuVeterinarios(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
+                System.out.println(name);
                 System.out.println("[Menu Veterinarios]");
                 System.out.println("[1 - C] Adicionar veterinarios");
                 System.out.println("[2 - R] Listar veterinarios");
@@ -481,9 +526,10 @@ public class Menu {
         }
     }
 
-    public static void MenuConsultas(Clinica clinica) {
+    public static void MenuConsultas(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println(name);
             System.out.println("[Menu Consultas]");
             System.out.println("[1 - C] Agendar consulta");
             System.out.println("[2 - R] Listar consultas");
@@ -677,9 +723,10 @@ public class Menu {
         }
     }
 
-    public static void MenuAnimais(Clinica clinica) {
+    public static void MenuAnimais(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println(name);
             System.out.println("[Menu Animais de Cliente]");
             System.out.println("[1 - C] Adicionar animal a um cliente");
             System.out.println("[2 - R] Listar animais de um cliente");
@@ -947,10 +994,11 @@ public class Menu {
         }
     }
 
-    public static void MenuProdutos(Clinica clinica) {
+    public static void MenuProdutos(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
+                System.out.println(name);
                 System.out.println("[Menu Produtos]");
                 System.out.println("[1 - C] Adicionar produto");
                 System.out.println("[2 - R] Listar produtos");
