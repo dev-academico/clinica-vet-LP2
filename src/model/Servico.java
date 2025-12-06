@@ -36,7 +36,7 @@ public class Servico extends ItemComercial {
         }
     }
 
-    public void atualizarDados(int id, String nome, String desc, float preco, Animal animal, ArrayList<Funcionario> listaDeFuncionarios){
+    public void atualizarDados(String nome, String desc, float preco, Animal animal, ArrayList<Funcionario> listaDeFuncionarios){
         if(preco<=0) System.err.println("Preço deve ser maior que zero\n.");
 
         setPreco(preco);
@@ -60,8 +60,10 @@ public class Servico extends ItemComercial {
         for (Funcionario f : listaDeFuncionarios) {
             System.out.print(f.getNome() + "; ");
         }
-        System.out.println("\n");
+        System.out.println();
     }
+
+
 
     public Animal getAnimal() {
         return this.animal;
