@@ -10,6 +10,8 @@ public class Clinica {
     private ArrayList<Funcionario> funcionariosDaClinica = new ArrayList<>();
     private ArrayList<Cliente> clientesDaClinica = new ArrayList<>();
     private ArrayList<Consulta> consultasDaClinica = new ArrayList<>();
+    private ArrayList<Servico>  servicosDaClinica = new ArrayList<>();
+    private ArrayList<PlanoPet> planosDaClinica  = new ArrayList<>();
 
     // talvez aqui fosse melhor um map para mostrar cada cliente associado a um produto/serviço
     private ArrayList<Produto> produtosDaClinica = new ArrayList<>();
@@ -247,10 +249,9 @@ public class Clinica {
             ArrayList<Funcionario> listaDeFuncionarios) {
         for (Servico s : servicosDoCliente_Cons) {
             if (s.getID() == id) {
-                s.atualizarDados(id, nome, desc, preco, animal, listaDeFuncionarios);
+                s.atualizarDados(nome, desc, preco, animal, listaDeFuncionarios);
             }
         }
-
     }
 
     //CREATE - produto
@@ -294,6 +295,42 @@ public class Clinica {
             produtoClinica.atualizarDados(nome, desc, preco, etq);
 
         }
+    }
+
+    public void adicionarServico(Servico servico) {
+        servicosDaClinica.add(servico);
+    }
+
+    public void listarServicos() {
+        for (Servico servico : servicosDaClinica) {
+            servico.imprimirDados();
+        }
+    }
+
+    public ArrayList<Servico> getServicosDaClinica() {
+        return servicosDaClinica;
+    }
+
+    public void removerServico(Servico servico) {
+        servicosDaClinica.remove(servico);
+    }
+
+    public void adicionarPlano(PlanoPet planoPet) {
+        planosDaClinica.add(planoPet);
+    }
+
+    public void listarPlanos() {
+        for (PlanoPet planoPet : planosDaClinica) {
+            planoPet.imprimirDados();
+        }
+    }
+
+    public ArrayList<PlanoPet> getPlanosDaClinica() {
+        return planosDaClinica;
+    }
+
+    public void removerPlanoPet(PlanoPet planoPet) {
+        servicosDaClinica.remove(planoPet);
     }
 
 }
