@@ -1,11 +1,39 @@
 package model;
 
+import Interfaces.INotificavel;
+import Interfaces.IValidavel;
 import exception.DadosObrigatoriosException;
 import exception.SalarioInvalidoException;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public class Veterinario extends Pessoa {
+public class Veterinario extends Pessoa implements INotificavel, IValidavel {
+
+    @Override
+    public boolean validarCreate() {
+
+        if(getNome() == null || getNome().trim().isEmpty()) {
+            return false;
+        }
+        if(getCpf() == null || getCpf().trim().isEmpty()) {
+            return false;
+        }
+        if(getEndereco() == null || getEndereco().trim().isEmpty()) {
+            return false;
+        }
+        if(getTelefone() == null || getTelefone().trim().isEmpty()) {
+            return false;
+        }
+        if(salario <= 0) {
+            return false;
+        }
+        if(CRMV == null || CRMV.trim().isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
 
     private float salario;
     private final String CRMV;
@@ -22,6 +50,10 @@ public class Veterinario extends Pessoa {
         this.salario = salario;
         this.CRMV = CRMV;
         this.listaDeConsultas = new ArrayList<>();
+
+        if(!validarCreate()) {
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, cpf, endereco, telefone, sálario e CRMV) são obrigatórios");
+        }
     }
 
     public void registrarConsulta(Consulta consulta) {
@@ -70,5 +102,11 @@ public class Veterinario extends Pessoa {
 
     public float getSalario() {
         return salario;
+    }
+
+    @Override
+    public void enviarNotificacao(String mensagem) {
+        System.out.print("Mensagem: " + mensagem + " ");
+        this.exibirDados();
     }
 }

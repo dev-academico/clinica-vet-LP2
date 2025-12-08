@@ -1,11 +1,32 @@
 package model;
 
+import Interfaces.IValidavel;
 import exception.DadosObrigatoriosException;
 import exception.DescontoInvalidoException;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public class Produto extends ItemComercial {
+public class Produto extends ItemComercial implements IValidavel {
+
+    @Override
+    public boolean validarCreate() {
+
+        if(getNome() == null || getNome().trim().isEmpty()) {
+            return false;
+        }
+        if(getDescricao() == null || getDescricao().trim().isEmpty()) {
+            return false;
+        }
+        if(getPreco() <= 0) {
+            return false;
+        }
+        if(estoque < 0) {
+            return false;
+        }
+
+        return true;
+    }
 
     private ArrayList<Cliente> listaDeClientes;
     private int estoque;
@@ -14,6 +35,10 @@ public class Produto extends ItemComercial {
         super(id, nome, desc, preco);
         this.estoque = estoque;
         this.listaDeClientes = new ArrayList<>();
+
+        if(!validarCreate()) {
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, descrição, preço, e estoque) são obrigatórios");
+        }
     }
 
     @Override

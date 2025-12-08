@@ -1,21 +1,40 @@
 package model;
 
+import Interfaces.IValidavel;
 import exception.DadosObrigatoriosException;
 import exception.DescontoInvalidoException;
+
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public class Servico extends ItemComercial {
+public class Servico extends ItemComercial implements IValidavel {
+
+    @Override
+    public boolean validarCreate() {
+
+        if (getNome().trim().isEmpty()) {
+            return false;
+        }
+        if (getDescricao().trim().isEmpty()) {
+            return false;
+        }
+        if (getAnimal() == null) {
+            return false;
+        }
+
+        return true;
+    }
 
     private ArrayList<Funcionario> listaDeFuncionarios;
     private Animal animal;
 
     Servico(int id, String nome, String desc, float preco, Animal animal, ArrayList<Funcionario> listaDeFuncionarios) {
         super(id, nome, desc, preco);
-
         this.animal = animal;
+        this.listaDeFuncionarios = listaDeFuncionarios;
 
-        if (listaDeFuncionarios != null) {
-            this.listaDeFuncionarios = listaDeFuncionarios;
+        if(!this.validarCreate()){
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, descrição, animal e lista de funcionários) são obrigatórios");
         }
 
     }

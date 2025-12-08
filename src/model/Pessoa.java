@@ -10,17 +10,6 @@ public abstract class Pessoa {
     private String telefone;
 
     public Pessoa(String nome, String cpf, String endereco, String telefone) throws DadosObrigatoriosException {
-
-        if (nome == null || nome.trim().isEmpty()
-                || cpf == null || cpf.trim().isEmpty()
-                || endereco == null || endereco.trim().isEmpty()
-                || telefone == null || telefone.trim().isEmpty()) {
-
-    
-            throw new DadosObrigatoriosException("Todos os campos (nome, cpf, endereco, telefone) são obrigatórios.");
-        }
-
-
         this.nome = nome;
         this.cpf = cpf;
         this.endereco = endereco;

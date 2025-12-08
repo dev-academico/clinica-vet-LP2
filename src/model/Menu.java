@@ -54,12 +54,12 @@ public class Menu {
                 case 5 ->
                     MenuProdutos(clinica, line);
                 case 6 ->
-                    MenuAnimais(clinica);
+                    MenuAnimais(clinica, line);
                 case 7 -> {
-                    MenuServico(clinica);
+                    MenuServico(clinica, line);
                 }
                 case 8 -> {
-                    MenuPlanoPet(clinica);
+                    MenuPlanoPet(clinica, line);
                 }
                 case 9 -> {
                     System.out.println("Saindo do sistema...");
@@ -71,7 +71,7 @@ public class Menu {
         }
     }
 
-    public static void MenuClientes(Clinica clinica) {
+    public static void MenuClientes(Clinica clinica, String name) {
         while (true) {
             System.out.println(name);
             System.out.println("[Menu Cliente]");
@@ -106,11 +106,13 @@ public class Menu {
                             String nomeAnimal = scanner.nextLine();
 
                             System.out.println("Escolha uma especie:");
+
                             System.out.println("[1] Cachorro");
                             System.out.println("[2] Gato");
                             System.out.println("[3] Cobra");
                             System.out.println("[4] Papagaio");
                             System.out.println("[5] Tatu");
+
                             int especieEscolhida = Integer.parseInt(scanner.nextLine());
                             Especie especieAnimal = switch (especieEscolhida) {
                                 case 1 ->
@@ -130,9 +132,9 @@ public class Menu {
                             System.out.println("Raça do animal:");
                             String racaAnimal = scanner.nextLine();
 
-                            ArrayList<Animal> animais = new ArrayList<>();
-                            Cliente cliente = new Cliente(nome, cpf, endereco, telefone, animais);
-                            animais.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
+                            ArrayList<Animal> animals = new ArrayList<>();
+                            Cliente cliente = new Cliente(nome, cpf, endereco, telefone, animals);
+                            animals.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
 
                             clinica.adicionarCliente(cliente);
                             break;
@@ -367,7 +369,6 @@ public class Menu {
 
                             Funcionario func = clinica.getFuncionariosDaClinica().get(indice - 1);
                             clinica.removerFuncionario(func);
-                            System.out.println("Funcionario deletado com sucesso.");
                         } catch (Exception ex) {
                             System.out.println(ex.getMessage());
                         }
@@ -489,8 +490,6 @@ public class Menu {
                             Veterinario vet = clinica.getTotalVeterinariosDaClinica().get(indice - 1);
 
                             clinica.removerVeterinário(vet);
-                            System.out.println("Veterinario deletado com sucesso.");
-
                         } catch (Exception ex) {
                             System.out.println(ex.getMessage());
                         }
@@ -1153,11 +1152,12 @@ public class Menu {
         }
     }
 
-    public static void MenuServico(Clinica clinica) {
+    public static void MenuServico(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             try {
+                System.out.println(name);
                 System.out.println("[Menu Serviço]");
                 System.out.println("[1 - C] Adicionar serviço");
                 System.out.println("[2 - R] Listar serviços");
@@ -1414,12 +1414,12 @@ public class Menu {
         }
     }
 
-    public static void MenuPlanoPet(Clinica clinica) {
+    public static void MenuPlanoPet(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             try {
-
+                System.out.println(name);
                 System.out.println("[Menu Plano Pet]");
                 System.out.println("[1 - C] Adicionar plano");
                 System.out.println("[2 - R] Listar planos");

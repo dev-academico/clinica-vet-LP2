@@ -1,13 +1,48 @@
 package model;
 
+import Interfaces.IValidavel;
+import exception.DadosObrigatoriosException;
 import exception.DataInvalidaException;
 import exception.EstadoInvalidoException;
+
+import java.security.InvalidParameterException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Consulta extends Servico {
+
+    public boolean validarCreateConsulta() {
+
+        if(getNome().trim().isEmpty()) {
+            return false;
+        }
+        if(getDescricao().trim().isEmpty()) {
+            return false;
+        }
+        if(getPreco() <= 0) {
+            return false;
+        }
+        if(getAnimal() == null){
+            return false;
+        }
+
+        if(this.data == null) {
+            return false;
+        }
+        if(this.hora == null) {
+            return false;
+        }
+        if(status ==  null) {
+            return false;
+        }
+        if(this.listaDeVeterinarios.isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
 
     private int id;
     private LocalDate data;
@@ -39,6 +74,10 @@ public class Consulta extends Servico {
         // Registrar a consulta para cada veterinário envolvido
         for (Veterinario vet : listaDeVeterinarios) {
             vet.registrarConsulta(this);
+        }
+
+        if(!validarCreateConsulta()) {
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, descrição, preço, data, hora, motivo, animal e lista de veterinários) são obrigatórios");
         }
     }
 
