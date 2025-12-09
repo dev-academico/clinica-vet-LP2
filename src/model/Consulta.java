@@ -165,7 +165,7 @@ public class Consulta extends Servico {
         System.out.println("-- Animal envolvido na consulta:");
         System.out.println(PURPLE + "-- [ Nome: " + this.getAnimal().getNome()
                 + " | Espécie: " + this.getAnimal().getEspecie()
-                + " | Raça: " + this.getAnimal().getRaca() + " ]");
+                + " | Raça: " + this.getAnimal().getRaca() + " ]" + RESET);
         System.out.println();
 
     }
