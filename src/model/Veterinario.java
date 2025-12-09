@@ -92,7 +92,8 @@ public class Veterinario extends Pessoa implements INotificavel, IValidavel {
             return;
         }
 
-        System.out.println(BLUE + "[" + this.getNome() + "|" + this.getCRMV() + "|" + this.getCpf() + "|" + this.getEndereco() + "|" + this.getTelefone() + "]" + RESET);
+        System.out.println(BLUE + "[" + this.getNome() + "|" + this.getCRMV() + "|" + this.getCpf() + "|" + this.getEndereco() + "|" + this.getTelefone() + "|" + this.getSalario() +  "]" + RESET);
+        System.out.println("-- Lista de Consultas:");
         mostrarConsultas();
     }
 

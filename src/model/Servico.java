@@ -21,6 +21,9 @@ public class Servico extends ItemComercial implements IValidavel {
         if (getAnimal() == null) {
             return false;
         }
+        if(getPreco() <= 0) {
+            return false;
+        }
 
         return true;
     }
@@ -34,7 +37,7 @@ public class Servico extends ItemComercial implements IValidavel {
         this.listaDeFuncionarios = listaDeFuncionarios;
 
         if(!this.validarCreate()){
-            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, descrição, animal e lista de funcionários) são obrigatórios");
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, descrição, preço, animal e lista de funcionários) são obrigatórios");
         }
 
     }
@@ -56,14 +59,12 @@ public class Servico extends ItemComercial implements IValidavel {
     }
 
     public void atualizarDados(String nome, String desc, float preco, Animal animal, ArrayList<Funcionario> listaDeFuncionarios){
-        if(preco<=0) System.err.println("Preço deve ser maior que zero\n.");
-
-        setPreco(preco);
-        if(nome==null || desc==null || animal==null || listaDeFuncionarios==null){
-            throw new DadosObrigatoriosException("Informe todos os dados necessários");
+        if(nome.trim().isEmpty() || desc.isEmpty() || preco <= 0 || animal == null || listaDeFuncionarios == null) {
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, descrição, preço, animal e lista de funcionários) são obrigatórios");
         }
         this.setNome(nome);
         this.setDesc(desc);
+        this.setPreco(preco);
 
         this.animal=animal;
         this.listaDeFuncionarios=listaDeFuncionarios;

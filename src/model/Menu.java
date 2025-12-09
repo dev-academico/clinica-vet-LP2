@@ -37,7 +37,8 @@ public class Menu {
             System.out.println("[6] Gerenciar animais de um cliente");
             System.out.println("[7] Gerenciar serviços");
             System.out.println("[8] Gerenciar planos pets");
-            System.out.println("[9] Sair");
+            System.out.println("[9] Gerenciar preferências do usuário");
+            System.out.println("[10] Sair");
 
             Scanner scanner = new Scanner(System.in);
             int escolha = scanner.nextInt();
@@ -62,12 +63,38 @@ public class Menu {
                     MenuPlanoPet(clinica, line);
                 }
                 case 9 -> {
+                    MenuArquivo();
+                }
+                case 10 -> {
                     System.out.println("Saindo do sistema...");
                     return;
                 }
                 default ->
                     System.out.println("Opção inválida. Tente novamente.");
             }
+        }
+    }
+    public static void MenuArquivo(){
+        try (FileWriter fileWriter = new FileWriter("infoUsuario.txt");) {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.print("Qual é o seu nome? ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Qual tema voce prefere para o terminal? ");
+            String tema = scanner.nextLine();
+
+            if(tema.toUpperCase().equals("ESCURO")){
+                tema = "Escuro";
+            }
+            if(tema.toUpperCase().equals("CLARO")){
+                tema = "Claro";
+            }
+
+            fileWriter.write("Nome: " + nome + " | Tema: " + tema + "\n");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Por favor, tente novamente.");
         }
     }
 
@@ -1179,8 +1206,6 @@ public class Menu {
                         System.out.print("Preço do serviço: ");
                         float preco = Float.parseFloat(scanner.nextLine());
 
-                        System.out.print("Escolha um animal: ");
-
                         if (clinica.getClientesDaClinica().isEmpty()) {
                             System.out.println("Não há clientes cadastrados!");
                             break;
@@ -1366,7 +1391,7 @@ public class Menu {
                         ArrayList<Funcionario> funcionarios = new ArrayList<>();
 
                         for (int num : numeros) {
-                            funcionarios.add(clinica.getFuncionariosDaClinica().get(num));
+                            funcionarios.add(clinica.getFuncionariosDaClinica().get(num-1));
                         }
 
                         clinica.getServicosDaClinica().get(indiceServico).atualizarDados(nome, desc, preco, animalSelecionado, funcionarios);

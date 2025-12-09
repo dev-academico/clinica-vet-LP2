@@ -46,6 +46,10 @@ public class PlanoPet extends ItemComercial implements IValidavel {
     }
 
     public void AtualizarPlanoPet(String nome, String descricao, Float preco, String tipoPlano, ArrayList<String> termos) {
+        if(nome.trim().isEmpty() || descricao.isEmpty() || preco <= 0 || descricao.isEmpty() || termos == null) {
+            throw new DadosObrigatoriosException("Dados incorretos! Todos os campos (nome, descrição, preço, tipo de plano e termos) são obrigátorios!");
+        }
+
         setNome(nome);
         setDesc(descricao);
         setPreco(preco);
