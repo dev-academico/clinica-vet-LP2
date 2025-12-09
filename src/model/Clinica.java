@@ -297,7 +297,7 @@ public class Clinica {
     }
 
     public void removerPlanoPet(PlanoPet planoPet) {
-        servicosDaClinica.remove(planoPet);
+        planosDaClinica.remove(planoPet);
     }
 
 }

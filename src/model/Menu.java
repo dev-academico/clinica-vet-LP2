@@ -1298,8 +1298,6 @@ public class Menu {
                         System.out.print("Preço do serviço: ");
                         float preco = Float.parseFloat(scanner.nextLine());
 
-                        System.out.print("Escolha um animal: ");
-
                         if (clinica.getClientesDaClinica().isEmpty()) {
                             System.out.println("Não há clientes cadastrados!");
                             break;
@@ -1444,7 +1442,7 @@ public class Menu {
                         System.out.print("Preço do plano: ");
                         float preco = Float.parseFloat(scanner.nextLine());
 
-                        System.out.print("Digite os termos: ");
+                        System.out.println("Digite os termos: ");
 
                         ArrayList<String> termos = new ArrayList<>();
 
@@ -1507,7 +1505,7 @@ public class Menu {
                         System.out.print("Preço do plano: ");
                         float preco = Float.parseFloat(scanner.nextLine());
 
-                        System.out.print("Digite os termos: ");
+                        System.out.println("Digite os termos: ");
 
                         ArrayList<String> termos = new ArrayList<>();
 
@@ -1570,7 +1568,7 @@ public class Menu {
 
                         ArrayList<Cliente> clientes = clinica.getClientesDaClinica();
 
-                        System.out.println("Clientes disponíveis:");
+                        System.out.println("=== CLIENTES ===");
 
                         for (Cliente cliente : clientes) {
                             System.out.print("[" + (clinica.getClientesDaClinica().indexOf(cliente) + 1) + "]");
@@ -1587,12 +1585,13 @@ public class Menu {
 
                         Cliente cliente =  clinica.getClientesDaClinica().get(indiceCliente);
 
+                        System.out.println("\n=== ANIMAIS DE " + cliente.getNome().toUpperCase() + " ===");
                         for (Animal animal : cliente.getAnimais()) {
                             System.out.print("[" + (cliente.getAnimais().indexOf(animal) + 1) + "]");
                             animal.exibirAnimal();
                         }
 
-                        System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                        System.out.println("\nEscolha o número do animal (ou 0 para cancelar):");
                         int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
 
                         if(indiceAnimal == -1) {
@@ -1644,6 +1643,7 @@ public class Menu {
 
                         plano.ListarAnimais();
 
+                        System.out.println("=== ANIMAIS ===");
                         System.out.println("\nEscolha o número do animal (ou 0 para cancelar):");
                         int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
 
