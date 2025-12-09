@@ -2,6 +2,7 @@ package model;
 
 import exception.AnimalInexistenteException;
 import exception.ClienteInexistenteException;
+import exception.PessoasComMesmoIdentificadorException;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -22,6 +23,11 @@ public class Clinica {
     }
 
     public void adicionarVeterinário(Veterinario veterinario) {
+        for(Veterinario v : veterinariosDaClinica) {
+            if(v.getCRMV().equals(veterinario.getCRMV())) {
+                throw new PessoasComMesmoIdentificadorException("Veterinários com mesmo CRMV");
+            }
+        }
         veterinariosDaClinica.add(veterinario);
         veterinario.enviarNotificacao("Veterinário adicionado com sucesso!");
     }
@@ -64,6 +70,11 @@ public class Clinica {
     }
 
     public void adicionarFuncionario(Funcionario funcionario) {
+        for(Funcionario v : funcionariosDaClinica) {
+            if(v.getIdentificadorCarteiraTrabalho().equals(funcionario.getIdentificadorCarteiraTrabalho())) {
+                throw new PessoasComMesmoIdentificadorException("Funcionários com mesmo Identificador de Carteira de Trabalho");
+            }
+        }
         funcionariosDaClinica.add(funcionario);
         funcionario.enviarNotificacao("Funcionário adicionado com sucesso!");
     }
@@ -97,6 +108,11 @@ public class Clinica {
     }
 
     public void adicionarCliente(Cliente cliente) {
+        for(Cliente v : clientesDaClinica) {
+            if(v.getCpf().equals(cliente.getCpf())) {
+                throw new PessoasComMesmoIdentificadorException("Clientes com mesmo CPF");
+            }
+        }
         clientesDaClinica.add(cliente);
         cliente.enviarNotificacao("Cliente adicionado com sucesso!");
     }

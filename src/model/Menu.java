@@ -134,9 +134,8 @@ public class Menu {
 
                             ArrayList<Animal> animals = new ArrayList<>();
                             Cliente cliente = new Cliente(nome, cpf, endereco, telefone, animals);
-                            animals.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
-
                             clinica.adicionarCliente(cliente);
+                            animals.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
                             break;
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
