@@ -2,6 +2,9 @@ package model;
 
 import exception.AnimalInexistenteException;
 import exception.ClienteInexistenteException;
+import exception.PessoasComMesmoIdentificadorException;
+
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class Clinica {
@@ -10,147 +13,144 @@ public class Clinica {
     private ArrayList<Funcionario> funcionariosDaClinica = new ArrayList<>();
     private ArrayList<Cliente> clientesDaClinica = new ArrayList<>();
     private ArrayList<Consulta> consultasDaClinica = new ArrayList<>();
+    private ArrayList<Servico>  servicosDaClinica = new ArrayList<>();
+    private ArrayList<PlanoPet> planosDaClinica  = new ArrayList<>();
 
     // talvez aqui fosse melhor um map para mostrar cada cliente associado a um produto/serviço
     private ArrayList<Produto> produtosDaClinica = new ArrayList<>();
-    private ArrayList<Servico> servicosDoCliente_Cons = new ArrayList<>();
 
     public Clinica() {
     }
 
-    // create Veterinário
     public void adicionarVeterinário(Veterinario veterinario) {
+        for(Veterinario v : veterinariosDaClinica) {
+            if(v.getCRMV().equals(veterinario.getCRMV())) {
+                throw new PessoasComMesmoIdentificadorException("Veterinários com mesmo CRMV");
+            }
+        }
         veterinariosDaClinica.add(veterinario);
-        System.out.println("Veterinário adicionado com sucesso!");
+        veterinario.enviarNotificacao("Veterinário adicionado com sucesso!");
     }
 
-    // remove Veterinário
     public void removerVeterinário(Veterinario veterinario) {
-        veterinariosDaClinica.remove(veterinario);
-        System.out.println("Veterinário removido com sucesso!");
-    }
-
-    // update Veterinário
-    public void atualizarVeterinário(Veterinario veterinario, String nome, String endereco, String telefone, float salario) {
-        Veterinario veterinario1 = veterinariosDaClinica.stream()
-                .filter(veterinarioAntigo -> veterinarioAntigo.getCRMV().equals(veterinario.getCRMV())).findFirst().orElse(null);
-
-        if (veterinario1 != null) {
-            veterinario1.atualizarDados(nome, endereco, telefone, salario);
-
+        if(veterinariosDaClinica.contains(veterinario)) {
+            veterinariosDaClinica.remove(veterinario);
+            veterinario.enviarNotificacao("Veterinário removido com sucesso!");
+        } else {
+            throw new InvalidParameterException("Veterinário não encontrado!");
         }
     }
 
-    // read Veterinario
+    public void atualizarVeterinário(Veterinario veterinario, String nome, String endereco, String telefone, float salario) {
+        if (veterinariosDaClinica.contains(veterinario)) {
+            veterinario.atualizarDados(nome, endereco, telefone, salario);
+            veterinario.enviarNotificacao("Veterinário atualizado com sucesso!");
+        } else {
+            throw new InvalidParameterException("Veterinário não encontrado!");
+        }
+    }
+
     public void listarVeterinarios() {
+        System.out.println("Veterinários da clínica");
         for (Veterinario veterinario : veterinariosDaClinica) {
             veterinario.exibirDados(true);
         }
     }
 
-    // get list de veterinarios
     public ArrayList<Veterinario> getTotalVeterinariosDaClinica() {
         return this.veterinariosDaClinica;
     }
 
-    // get lista particionada de veterinarios
     public ArrayList<Veterinario> getParteVeterinariosDaClinica(int[] numeros) {
         ArrayList<Veterinario> veterinarios = new ArrayList<>();
-        for (int i = 0; i < numeros.length; i++) {
-            veterinarios.add(veterinariosDaClinica.get(numeros[i] - 1));
+        for (int numero : numeros) {
+            veterinarios.add(veterinariosDaClinica.get(numero - 1));
         }
         return veterinarios;
     }
 
-    // create funcionário
     public void adicionarFuncionario(Funcionario funcionario) {
+        for(Funcionario v : funcionariosDaClinica) {
+            if(v.getIdentificadorCarteiraTrabalho().equals(funcionario.getIdentificadorCarteiraTrabalho())) {
+                throw new PessoasComMesmoIdentificadorException("Funcionários com mesmo Identificador de Carteira de Trabalho");
+            }
+        }
         funcionariosDaClinica.add(funcionario);
-        System.out.println("Funcionário adicionado com sucesso!");
+        funcionario.enviarNotificacao("Funcionário adicionado com sucesso!");
     }
 
-    // remove funcionário
     public void removerFuncionario(Funcionario funcionario) {
-        funcionariosDaClinica.remove(funcionario);
-        System.out.println("Funcionário removido com sucesso!");
-    }
-
-    // update funcionario
-    public void atualizarFuncionario(Funcionario funcionario, String nome, String endereco, String telefone, float salario, Cargo cargo) {
-        Funcionario funcionarioClinica = funcionariosDaClinica.stream()
-                .filter(funcionarioAntigo -> funcionarioAntigo.getIdentificadorCarteiraTrabalho().equals(funcionario.getIdentificadorCarteiraTrabalho())).findFirst().orElse(null);
-
-        if (funcionarioClinica != null) {
-            funcionarioClinica.atualizarDados(nome, endereco, telefone, salario, cargo);
+        if (funcionariosDaClinica.contains(funcionario)) {
+            funcionariosDaClinica.remove(funcionario);
+            funcionario.enviarNotificacao("Funcionario removido com sucesso!");
+        } else {
+            throw new InvalidParameterException("Funcionário não encontrado!");
         }
     }
 
-    // listar funcionario
+    public void atualizarFuncionario(Funcionario funcionario, String nome, String endereco, String telefone, float salario, Cargo cargo) {
+        if (funcionariosDaClinica.contains(funcionario)) {
+            funcionario.atualizarDados(nome, endereco, telefone, salario, cargo);
+        } else {
+            throw new InvalidParameterException("Funcionário não encontrado!");
+        }
+    }
+
     public void listarFuncionarios() {
+        System.out.println("Funcionários da clínica:");
         for (Funcionario funcionario : funcionariosDaClinica) {
             funcionario.exibirDados(true);
         }
     }
 
-    // get lista funcionarios
     public ArrayList<Funcionario> getFuncionariosDaClinica() {
         return funcionariosDaClinica;
     }
 
-    // create cliente
     public void adicionarCliente(Cliente cliente) {
+        for(Cliente v : clientesDaClinica) {
+            if(v.getCpf().equals(cliente.getCpf())) {
+                throw new PessoasComMesmoIdentificadorException("Clientes com mesmo CPF");
+            }
+        }
         clientesDaClinica.add(cliente);
-        System.out.println("Cliente adicionado com sucesso!");
+        cliente.enviarNotificacao("Cliente adicionado com sucesso!");
     }
 
-    // listar clientes
     public void listarClientes() {
-        System.out.println("Lista de Clientes da Clínica:");
+        System.out.println("Clientes da clínica:");
         for (Cliente cliente : clientesDaClinica) {
             cliente.exibirDados(true);
         }
     }
 
-    // get cliente
-    public Cliente getCliente(String cpf) {
-        Cliente clienteEncontrado = clientesDaClinica.stream().filter(cliente -> cliente.getCpf().equals(cpf))
-                .findFirst().orElse(null);
-
-        if (clienteEncontrado != null) {
-            return clienteEncontrado;
-
-        } else {
-            throw new ClienteInexistenteException("Cliente não encontrado");
-
-        }
-    }
-
-    // update cliente
     public void atualizarCliente(Cliente cliente, String nome, String endereco, String telefone) {
-        Cliente clienteClinica = clientesDaClinica.stream()
-                .filter(clienteAntigo -> clienteAntigo.getCpf().equals(cliente.getCpf())).findFirst().orElse(null);
 
-        if (clienteClinica != null) {
-            clienteClinica.atualizarDados(nome, endereco, telefone);
-
+        if (clientesDaClinica.contains(cliente)) {
+            cliente.atualizarDados(nome, endereco, telefone);
         } else {
             throw new ClienteInexistenteException("Cliente não encontrado");
-
         }
     }
 
-    // get lista particionada de veterinarios
     public ArrayList<Cliente> getParteClientesDaClinica(int[] numeros) {
         ArrayList<Cliente> clientes = new ArrayList<>();
-        for (int i = 0; i < numeros.length; i++) {
-            clientes.add(clientesDaClinica.get(numeros[i] - 1));
+        for (int numero : numeros) {
+            clientes.add(clientesDaClinica.get(numero - 1));
         }
         return clientes;
     }
 
     // remove cliente
     public void removerCliente(Cliente cliente) {
-        clientesDaClinica.remove(cliente);
+        if(clientesDaClinica.contains(cliente)) {
+            clientesDaClinica.remove(cliente);
+            cliente.enviarNotificacao("Cliente removido com sucesso!");
+        } else {
+            throw new ClienteInexistenteException("Cliente não encontrado");
+        }
     }
+
 
     // get lista de clientes
     public ArrayList<Cliente> getClientesDaClinica() {
@@ -221,38 +221,6 @@ public class Clinica {
         return consultasDaClinica;
     }
 
-    // CREATE - Cria o serviço e adciona no Array
-    public void AddServico(Servico serv) {
-        servicosDoCliente_Cons.add(serv);
-        System.out.println("Serviço adicionado: " + serv.getNome());
-    }
-
-    // REMOVE - Remove o serviço 
-    public void RemvServico(Servico serv) {
-        servicosDoCliente_Cons.remove(serv);
-        System.out.println("Serviço removido: " + serv.getNome());
-    }
-
-    // READ - leitura do nome do serviço
-    public void lerServico(String sv) {
-        for (Servico s : servicosDoCliente_Cons) {
-            if (s.getNome().equals(sv)) {
-                s.imprimirDados();
-            }
-        }
-    }
-
-    // UPDATE - atualiza o serviço
-    public void atualizaServ(int id, String nome, String desc, float preco, Animal animal,
-            ArrayList<Funcionario> listaDeFuncionarios) {
-        for (Servico s : servicosDoCliente_Cons) {
-            if (s.getID() == id) {
-                s.atualizarDados(id, nome, desc, preco, animal, listaDeFuncionarios);
-            }
-        }
-
-    }
-
     //CREATE - produto
     public void adicionarProduto(Produto produto) {
         produtosDaClinica.add(produto);
@@ -294,6 +262,42 @@ public class Clinica {
             produtoClinica.atualizarDados(nome, desc, preco, etq);
 
         }
+    }
+
+    public void adicionarServico(Servico servico) {
+        servicosDaClinica.add(servico);
+    }
+
+    public void listarServicos() {
+        for (Servico servico : servicosDaClinica) {
+            servico.imprimirDados();
+        }
+    }
+
+    public ArrayList<Servico> getServicosDaClinica() {
+        return servicosDaClinica;
+    }
+
+    public void removerServico(Servico servico) {
+        servicosDaClinica.remove(servico);
+    }
+
+    public void adicionarPlano(PlanoPet planoPet) {
+        planosDaClinica.add(planoPet);
+    }
+
+    public void listarPlanos() {
+        for (PlanoPet planoPet : planosDaClinica) {
+            planoPet.imprimirDados();
+        }
+    }
+
+    public ArrayList<PlanoPet> getPlanosDaClinica() {
+        return planosDaClinica;
+    }
+
+    public void removerPlanoPet(PlanoPet planoPet) {
+        planosDaClinica.remove(planoPet);
     }
 
 }

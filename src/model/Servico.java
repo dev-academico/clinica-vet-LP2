@@ -1,21 +1,43 @@
 package model;
 
+import Interfaces.IValidavel;
 import exception.DadosObrigatoriosException;
 import exception.DescontoInvalidoException;
+
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-public class Servico extends ItemComercial {
+public class Servico extends ItemComercial implements IValidavel {
+
+    @Override
+    public boolean validarCreate() {
+
+        if (getNome().trim().isEmpty()) {
+            return false;
+        }
+        if (getDescricao().trim().isEmpty()) {
+            return false;
+        }
+        if (getAnimal() == null) {
+            return false;
+        }
+        if(getPreco() <= 0) {
+            return false;
+        }
+
+        return true;
+    }
 
     private ArrayList<Funcionario> listaDeFuncionarios;
     private Animal animal;
 
     Servico(int id, String nome, String desc, float preco, Animal animal, ArrayList<Funcionario> listaDeFuncionarios) {
         super(id, nome, desc, preco);
-
         this.animal = animal;
+        this.listaDeFuncionarios = listaDeFuncionarios;
 
-        if (listaDeFuncionarios != null) {
-            this.listaDeFuncionarios = listaDeFuncionarios;
+        if(!this.validarCreate()){
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, descrição, preço, animal e lista de funcionários) são obrigatórios");
         }
 
     }
@@ -36,15 +58,13 @@ public class Servico extends ItemComercial {
         }
     }
 
-    public void atualizarDados(int id, String nome, String desc, float preco, Animal animal, ArrayList<Funcionario> listaDeFuncionarios){
-        if(preco<=0) System.err.println("Preço deve ser maior que zero\n.");
-
-        setPreco(preco);
-        if(nome==null || desc==null || animal==null || listaDeFuncionarios==null){
-            throw new DadosObrigatoriosException("Informe todos os dados necessários");
+    public void atualizarDados(String nome, String desc, float preco, Animal animal, ArrayList<Funcionario> listaDeFuncionarios){
+        if(nome.trim().isEmpty() || desc.isEmpty() || preco <= 0 || animal == null || listaDeFuncionarios == null) {
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, descrição, preço, animal e lista de funcionários) são obrigatórios");
         }
         this.setNome(nome);
         this.setDesc(desc);
+        this.setPreco(preco);
 
         this.animal=animal;
         this.listaDeFuncionarios=listaDeFuncionarios;
@@ -60,8 +80,10 @@ public class Servico extends ItemComercial {
         for (Funcionario f : listaDeFuncionarios) {
             System.out.print(f.getNome() + "; ");
         }
-        System.out.println("\n");
+        System.out.println();
     }
+
+
 
     public Animal getAnimal() {
         return this.animal;

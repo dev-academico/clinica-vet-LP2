@@ -1,5 +1,6 @@
 package model;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -11,6 +12,22 @@ public class Menu {
 
     public static void iniciarMenu(Clinica clinica) {
         while (true) {
+            String line = "Nome: | Tema: \n";
+            String lineTemp;
+
+            String fileName= "infoUsuario.txt";
+            File file = new File(fileName);
+            if(file.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                    while ((lineTemp = reader.readLine()) != null) {
+                        System.out.println(lineTemp);
+                        line = lineTemp;
+                    }
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Por favor, tente novamente.");
+                }
+            }
             System.out.println("[Menu Principal]");
             System.out.println("[1] Gerenciar clientes");
             System.out.println("[2] Gerenciar funcionarios");
@@ -18,25 +35,37 @@ public class Menu {
             System.out.println("[4] Gerenciar consultas");
             System.out.println("[5] Gerenciar produtos");
             System.out.println("[6] Gerenciar animais de um cliente");
-            System.out.println("[7] Sair");
+            System.out.println("[7] Gerenciar serviços");
+            System.out.println("[8] Gerenciar planos pets");
+            System.out.println("[9] Gerenciar preferências do usuário");
+            System.out.println("[10] Sair");
 
             Scanner scanner = new Scanner(System.in);
             int escolha = scanner.nextInt();
 
             switch (escolha) {
                 case 1 ->
-                    MenuClientes(clinica);
+                    MenuClientes(clinica, line);
                 case 2 ->
-                    MenuFuncionarios(clinica);
+                    MenuFuncionarios(clinica, line);
                 case 3 ->
-                    MenuVeterinarios(clinica);
+                    MenuVeterinarios(clinica, line);
                 case 4 ->
-                    MenuConsultas(clinica);
+                    MenuConsultas(clinica, line);
                 case 5 ->
-                    MenuProdutos(clinica);
+                    MenuProdutos(clinica, line);
                 case 6 ->
-                    MenuAnimais(clinica);
+                    MenuAnimais(clinica, line);
                 case 7 -> {
+                    MenuServico(clinica, line);
+                }
+                case 8 -> {
+                    MenuPlanoPet(clinica, line);
+                }
+                case 9 -> {
+                    MenuArquivo();
+                }
+                case 10 -> {
                     System.out.println("Saindo do sistema...");
                     return;
                 }
@@ -45,9 +74,33 @@ public class Menu {
             }
         }
     }
+    public static void MenuArquivo(){
+        try (FileWriter fileWriter = new FileWriter("infoUsuario.txt");) {
+            Scanner scanner = new Scanner(System.in);
 
-    public static void MenuClientes(Clinica clinica) {
+            System.out.print("Qual é o seu nome? ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Qual tema voce prefere para o terminal? ");
+            String tema = scanner.nextLine();
+
+            if(tema.toUpperCase().equals("ESCURO")){
+                tema = "Escuro";
+            }
+            if(tema.toUpperCase().equals("CLARO")){
+                tema = "Claro";
+            }
+
+            fileWriter.write("Nome: " + nome + " | Tema: " + tema + "\n");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Por favor, tente novamente.");
+        }
+    }
+
+    public static void MenuClientes(Clinica clinica, String name) {
         while (true) {
+            System.out.println(name);
             System.out.println("[Menu Cliente]");
             System.out.println("[1 - C] Adicionar cliente");
             System.out.println("[2 - R] Listar clientes");
@@ -80,11 +133,13 @@ public class Menu {
                             String nomeAnimal = scanner.nextLine();
 
                             System.out.println("Escolha uma especie:");
+
                             System.out.println("[1] Cachorro");
                             System.out.println("[2] Gato");
                             System.out.println("[3] Cobra");
                             System.out.println("[4] Papagaio");
                             System.out.println("[5] Tatu");
+
                             int especieEscolhida = Integer.parseInt(scanner.nextLine());
                             Especie especieAnimal = switch (especieEscolhida) {
                                 case 1 ->
@@ -104,11 +159,10 @@ public class Menu {
                             System.out.println("Raça do animal:");
                             String racaAnimal = scanner.nextLine();
 
-                            ArrayList<Animal> animais = new ArrayList<>();
-                            Cliente cliente = new Cliente(nome, cpf, endereco, telefone, animais);
-                            animais.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
-
+                            ArrayList<Animal> animals = new ArrayList<>();
+                            Cliente cliente = new Cliente(nome, cpf, endereco, telefone, animals);
                             clinica.adicionarCliente(cliente);
+                            animals.add(new Animal(nomeAnimal, especieAnimal, racaAnimal, new Date(), cliente));
                             break;
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
@@ -196,10 +250,11 @@ public class Menu {
         }
     }
 
-    public static void MenuFuncionarios(Clinica clinica) {
+    public static void MenuFuncionarios(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
+                System.out.println(name);
                 System.out.println("[Menu Funcionarios]");
                 System.out.println("[1 - C] Adicionar funcionario");
                 System.out.println("[2 - R] Listar funcionarios");
@@ -340,7 +395,6 @@ public class Menu {
 
                             Funcionario func = clinica.getFuncionariosDaClinica().get(indice - 1);
                             clinica.removerFuncionario(func);
-                            System.out.println("Funcionario deletado com sucesso.");
                         } catch (Exception ex) {
                             System.out.println(ex.getMessage());
                         }
@@ -359,10 +413,11 @@ public class Menu {
         }
     }
 
-    public static void MenuVeterinarios(Clinica clinica) {
+    public static void MenuVeterinarios(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
+                System.out.println(name);
                 System.out.println("[Menu Veterinarios]");
                 System.out.println("[1 - C] Adicionar veterinarios");
                 System.out.println("[2 - R] Listar veterinarios");
@@ -461,8 +516,6 @@ public class Menu {
                             Veterinario vet = clinica.getTotalVeterinariosDaClinica().get(indice - 1);
 
                             clinica.removerVeterinário(vet);
-                            System.out.println("Veterinario deletado com sucesso.");
-
                         } catch (Exception ex) {
                             System.out.println(ex.getMessage());
                         }
@@ -481,9 +534,10 @@ public class Menu {
         }
     }
 
-    public static void MenuConsultas(Clinica clinica) {
+    public static void MenuConsultas(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println(name);
             System.out.println("[Menu Consultas]");
             System.out.println("[1 - C] Agendar consulta");
             System.out.println("[2 - R] Listar consultas");
@@ -677,9 +731,10 @@ public class Menu {
         }
     }
 
-    public static void MenuAnimais(Clinica clinica) {
+    public static void MenuAnimais(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println(name);
             System.out.println("[Menu Animais de Cliente]");
             System.out.println("[1 - C] Adicionar animal a um cliente");
             System.out.println("[2 - R] Listar animais de um cliente");
@@ -947,10 +1002,11 @@ public class Menu {
         }
     }
 
-    public static void MenuProdutos(Clinica clinica) {
+    public static void MenuProdutos(Clinica clinica, String name) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
+                System.out.println(name);
                 System.out.println("[Menu Produtos]");
                 System.out.println("[1 - C] Adicionar produto");
                 System.out.println("[2 - R] Listar produtos");
@@ -1115,6 +1171,521 @@ public class Menu {
                     default ->
                         System.out.println("Opção inválida. Tente novamente.");
                 }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Por favor, tente novamente.");
+            }
+        }
+    }
+
+    public static void MenuServico(Clinica clinica, String name) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            try {
+                System.out.println(name);
+                System.out.println("[Menu Serviço]");
+                System.out.println("[1 - C] Adicionar serviço");
+                System.out.println("[2 - R] Listar serviços");
+                System.out.println("[3 - U] Atualizar serviço");
+                System.out.println("[4 - D] Deletar serviço");
+                System.out.println("[5] Voltar para o menu principal");
+
+                int escolha = Integer.parseInt(scanner.nextLine());
+
+                switch (escolha) {
+                    case 1 -> {
+                        System.out.println("Adicionando serviço...");
+
+                        System.out.print("Nome do serviço: ");
+                        String nome = scanner.nextLine();
+
+                        System.out.print("Descrição do serviço: ");
+                        String desc = scanner.nextLine();
+
+                        System.out.print("Preço do serviço: ");
+                        float preco = Float.parseFloat(scanner.nextLine());
+
+                        if (clinica.getClientesDaClinica().isEmpty()) {
+                            System.out.println("Não há clientes cadastrados!");
+                            break;
+                        }
+
+                        System.out.println("=== CLIENTES ===");
+                        for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                            Cliente cliente = clinica.getClientesDaClinica().get(i);
+                            System.out.println("[" + (i + 1) + "] " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                        }
+
+                        System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                        int indiceCliente = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (indiceCliente == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+
+                        Cliente clienteSelecionado = clinica.getClientesDaClinica().get(indiceCliente);
+
+                        if (clienteSelecionado.getAnimais().isEmpty()) {
+                            System.out.println("Este cliente não possui animais cadastrados!");
+                            break;
+                        }
+
+                        System.out.println("\n=== ANIMAIS DE " + clienteSelecionado.getNome().toUpperCase() + " ===");
+                        ArrayList<Animal> animais = clienteSelecionado.getAnimais();
+                        for (int i = 0; i < animais.size(); i++) {
+                            Animal animal = animais.get(i);
+                            System.out.println("[" + (i + 1) + "] ID: " + animal.getId()
+                                    + " | " + animal.getNome()
+                                    + " (" + animal.getEspecie() + " - " + animal.getRaca() + ")");
+                        }
+
+                        System.out.println("\nEscolha o número do animal (ou 0 para cancelar):");
+                        int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (indiceAnimal == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+
+                        Animal animalSelecionado = animais.get(indiceAnimal);
+
+                        System.out.println("Veterinários disponíveis:");
+
+                        for (Funcionario funcionario : clinica.getFuncionariosDaClinica()) {
+                            System.out.println("[" + (clinica.getFuncionariosDaClinica().indexOf(funcionario) + 1) + "]");
+                            funcionario.exibirDados();
+                        }
+
+                        System.out.println("\nEscolha o(s) número(s) dos veterinários (ex: 1,2,3,4) ou 0 para cancelar:");
+                        String entrada = scanner.nextLine();
+                        String[] partes = entrada.split(",");
+
+                        if (partes[0].equals("0")) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+                        int[] numeros = new int[partes.length];
+                        for (int i = 0; i < partes.length; i++) {
+                            numeros[i] = Integer.parseInt(partes[i].trim()) - 1;
+                        }
+
+                        ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
+
+                        for (int num : numeros) {
+                            funcionarios.add(clinica.getFuncionariosDaClinica().get(num));
+                        }
+
+                        int id = 0;
+
+                        if (!clinica.getServicosDaClinica().isEmpty()) {
+                            id = clinica.getServicosDaClinica().size();
+                        }
+
+                        Servico servico = new Servico(id, nome, desc, preco, animalSelecionado, funcionarios);
+
+                        clinica.adicionarServico(servico);
+                    }
+                    case 2 -> {
+                        System.out.println("Listando serviços...");
+                        clinica.listarServicos();
+                    }
+                    case 3 -> {
+                        System.out.println("Atualizando serviço...");
+
+                        ArrayList<Servico> servicos = clinica.getServicosDaClinica();
+
+                        if (servicos.isEmpty()) {
+                            System.out.println("Nenhum servico encontrado!");
+                            break;
+                        }
+
+                        for (Servico servico : servicos) {
+                            System.out.print("[" + (clinica.getServicosDaClinica().indexOf(servico) + 1) + "]");
+                            servico.imprimirDados();
+                        }
+
+                        System.out.println("\nEscolha o número do serviço (ou 0 para cancelar):");
+                        int indiceServico = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (indiceServico == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+
+                        System.out.print("Nome do serviço: ");
+                        String nome = scanner.nextLine();
+
+                        System.out.print("Descrição do serviço: ");
+                        String desc = scanner.nextLine();
+
+                        System.out.print("Preço do serviço: ");
+                        float preco = Float.parseFloat(scanner.nextLine());
+
+                        if (clinica.getClientesDaClinica().isEmpty()) {
+                            System.out.println("Não há clientes cadastrados!");
+                            break;
+                        }
+
+                        System.out.println("=== CLIENTES ===");
+                        for (int i = 0; i < clinica.getClientesDaClinica().size(); i++) {
+                            Cliente cliente = clinica.getClientesDaClinica().get(i);
+                            System.out.println("[" + (i + 1) + "] " + cliente.getNome() + " (CPF: " + cliente.getCpf() + ")");
+                        }
+
+                        System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                        int indiceCliente = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (indiceCliente == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+
+                        Cliente clienteSelecionado = clinica.getClientesDaClinica().get(indiceCliente);
+
+                        if (clienteSelecionado.getAnimais().isEmpty()) {
+                            System.out.println("Este cliente não possui animais cadastrados!");
+                            break;
+                        }
+
+                        System.out.println("\n=== ANIMAIS DE " + clienteSelecionado.getNome().toUpperCase() + " ===");
+                        ArrayList<Animal> animais = clienteSelecionado.getAnimais();
+                        for (int i = 0; i < animais.size(); i++) {
+                            Animal animal = animais.get(i);
+                            System.out.println("[" + (i + 1) + "] ID: " + animal.getId()
+                                    + " | " + animal.getNome()
+                                    + " (" + animal.getEspecie() + " - " + animal.getRaca() + ")");
+                        }
+
+                        System.out.println("\nEscolha o número do animal (ou 0 para cancelar):");
+                        int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (indiceAnimal == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+
+                        Animal animalSelecionado = animais.get(indiceAnimal);
+
+                        System.out.println("Veterinários disponíveis:");
+
+                        for (Funcionario funcionario : clinica.getFuncionariosDaClinica()) {
+                            System.out.println("[" + (clinica.getFuncionariosDaClinica().indexOf(funcionario) + 1) + "]");
+                            funcionario.exibirDados();
+                        }
+
+                        System.out.println("\nEscolha o(s) número(s) dos veterinários (ex: 1,2,3,4) ou 0 para cancelar:");
+                        String entrada = scanner.nextLine();
+                        String[] partes = entrada.split(",");
+
+                        if (partes[0].equals("0")) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+                        int[] numeros = new int[partes.length];
+                        for (int i = 0; i < partes.length; i++) {
+                            numeros[i] = Integer.parseInt(partes[i].trim());
+                        }
+
+                        ArrayList<Funcionario> funcionarios = new ArrayList<>();
+
+                        for (int num : numeros) {
+                            funcionarios.add(clinica.getFuncionariosDaClinica().get(num-1));
+                        }
+
+                        clinica.getServicosDaClinica().get(indiceServico).atualizarDados(nome, desc, preco, animalSelecionado, funcionarios);
+                    }
+                    case 4 -> {
+                        System.out.println("Deletando Serviço...");
+
+                        ArrayList<Servico> servicos = clinica.getServicosDaClinica();
+
+                        if (servicos.isEmpty()) {
+                            System.out.println("Nenhum servico encontrado!");
+                            break;
+                        }
+
+                        for (Servico servico : servicos) {
+                            System.out.print("[" + (clinica.getServicosDaClinica().indexOf(servico) + 1) + "]");
+                            servico.imprimirDados();
+                        }
+
+                        System.out.println("\nEscolha o número do serviço (ou 0 para cancelar):");
+                        int indiceServico = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (indiceServico == -1) {
+                            System.out.println("Operação cancelada.");
+                            break;
+                        }
+
+                        clinica.removerServico(clinica.getServicosDaClinica().get(indiceServico));
+                    }
+                    case 5 -> {
+                        System.out.println("Saindo do menu de serviços...");
+                        return;
+                    }
+                    default -> {
+                        System.out.println("Por favor, tente novamente.");
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Por favor, tente novamente.");
+            }
+        }
+    }
+
+    public static void MenuPlanoPet(Clinica clinica, String name) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            try {
+                System.out.println(name);
+                System.out.println("[Menu Plano Pet]");
+                System.out.println("[1 - C] Adicionar plano");
+                System.out.println("[2 - R] Listar planos");
+                System.out.println("[3 - U] Atualizar plano");
+                System.out.println("[4 - D] Deletar plano");
+                System.out.println("[5 - AA] Adicionar animal ao plano");
+                System.out.println("[6 - RA] Remover animal do plano");
+                System.out.println("[7] Voltar para o menu principal");
+
+                int escolha = Integer.parseInt(scanner.nextLine());
+
+                switch (escolha) {
+                    case 1 -> {
+                        System.out.print("Nome do plano: ");
+                        String nome = scanner.nextLine();
+
+                        System.out.print("Tipo do plano: ");
+                        String tipoPlano = scanner.nextLine();
+
+                        System.out.print("Descrição do plano: ");
+                        String desc = scanner.nextLine();
+
+                        System.out.print("Preço do plano: ");
+                        float preco = Float.parseFloat(scanner.nextLine());
+
+                        System.out.println("Digite os termos: ");
+
+                        ArrayList<String> termos = new ArrayList<>();
+
+                        while (true) {
+                            System.out.print("Termo ou 0 pra cancelar: ");
+                            String termo = scanner.nextLine();
+
+                            if(termo.equals("0")) {
+                                break;
+                            }
+
+                            termos.add(termo);
+                        }
+
+                        int id = 0;
+
+                        if (!clinica.getPlanosDaClinica().isEmpty()) {
+                            id = clinica.getServicosDaClinica().size();
+                        }
+
+                        PlanoPet planoPet = new PlanoPet(id, nome, desc, preco, tipoPlano, termos);
+
+                        clinica.adicionarPlano(planoPet);
+                    }
+                    case 2 -> {
+                        System.out.println("Listando planos...");
+                        clinica.listarPlanos();
+                    }
+                    case 3 -> {
+                        System.out.println("Atualizando planos...");
+
+                        if (clinica.getPlanosDaClinica().isEmpty()) {
+                            System.out.println("Nenhum servico encontrado!");
+                            break;
+                        }
+
+                        ArrayList<PlanoPet> planos = clinica.getPlanosDaClinica();
+
+                        for (PlanoPet plano : planos) {
+                            System.out.print("[" + (clinica.getPlanosDaClinica().indexOf(plano) + 1) + "]");
+                            plano.imprimir();
+                        }
+
+                        System.out.println("\nEscolha o número do plano (ou 0 para cancelar):");
+                        int indicePlano = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if(indicePlano == -1) {
+                            System.out.println("Operação cancelada!");
+                        }
+
+                        System.out.print("Nome do plano: ");
+                        String nome = scanner.nextLine();
+
+                        System.out.print("Tipo do plano: ");
+                        String tipoPlano = scanner.nextLine();
+
+                        System.out.print("Descrição do plano: ");
+                        String desc = scanner.nextLine();
+
+                        System.out.print("Preço do plano: ");
+                        float preco = Float.parseFloat(scanner.nextLine());
+
+                        System.out.println("Digite os termos: ");
+
+                        ArrayList<String> termos = new ArrayList<>();
+
+                        while (true) {
+                            System.out.print("Termo ou 0 pra cancelar: ");
+                            String termo = scanner.nextLine();
+
+                            if(termo.equals("0")) {
+                                break;
+                            }
+
+                            termos.add(termo);
+                        }
+
+                        int id = 0;
+
+                        if (!clinica.getPlanosDaClinica().isEmpty()) {
+                            id = clinica.getServicosDaClinica().size();
+                        }
+
+                        clinica.getPlanosDaClinica().get(indicePlano).AtualizarPlanoPet(nome, desc, preco, tipoPlano, termos);
+                    }
+                    case 4 -> {
+                        System.out.println("Deletando planos...");
+
+                        if (clinica.getPlanosDaClinica().isEmpty()) {
+                            System.out.println("Nenhum plano encontrado!");
+                            break;
+                        }
+
+                        ArrayList<PlanoPet> planos = clinica.getPlanosDaClinica();
+
+                        for (PlanoPet plano : planos) {
+                            System.out.print("[" + (clinica.getPlanosDaClinica().indexOf(plano) + 1) + "]");
+                            plano.imprimir();
+                        }
+
+                        System.out.println("\nEscolha o número do plano (ou 0 para cancelar):");
+                        int indicePlano = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if(indicePlano == -1) {
+                            System.out.println("Operação cancelada!");
+                            break;
+                        }
+
+                        clinica.removerPlanoPet(clinica.getPlanosDaClinica().get(indicePlano));
+                    }
+                    case 5 -> {
+                        System.out.println("Adicionando animal...");
+
+                        if (clinica.getPlanosDaClinica().isEmpty()) {
+                            System.out.println("Nenhum plano encontrado!");
+                            break;
+                        }
+
+                        if (clinica.getClientesDaClinica().isEmpty()) {
+                            System.out.println("Nenhum cliente encontrado!");
+                            break;
+                        }
+
+                        ArrayList<Cliente> clientes = clinica.getClientesDaClinica();
+
+                        System.out.println("=== CLIENTES ===");
+
+                        for (Cliente cliente : clientes) {
+                            System.out.print("[" + (clinica.getClientesDaClinica().indexOf(cliente) + 1) + "]");
+                            cliente.exibirDados();
+                        }
+
+                        System.out.println("\nEscolha o número do cliente (ou 0 para cancelar):");
+                        int indiceCliente = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if(indiceCliente == -1) {
+                            System.out.println("Operação cancelada!");
+                            break;
+                        }
+
+                        Cliente cliente =  clinica.getClientesDaClinica().get(indiceCliente);
+
+                        System.out.println("\n=== ANIMAIS DE " + cliente.getNome().toUpperCase() + " ===");
+                        for (Animal animal : cliente.getAnimais()) {
+                            System.out.print("[" + (cliente.getAnimais().indexOf(animal) + 1) + "]");
+                            animal.exibirAnimal();
+                        }
+
+                        System.out.println("\nEscolha o número do animal (ou 0 para cancelar):");
+                        int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if(indiceAnimal == -1) {
+                            System.out.println("Operação cancelada!");
+                            break;
+                        }
+
+                        Animal animal = cliente.getAnimais().get(indiceAnimal);
+
+                        for (PlanoPet plano : clinica.getPlanosDaClinica()) {
+                            System.out.print("[" + (clinica.getPlanosDaClinica().indexOf(plano) + 1) + "]");
+                            plano.imprimir();
+                        }
+
+                        System.out.println("\nEscolha o número do plano (ou 0 para cancelar):");
+                        int indicePlano = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        PlanoPet plano = clinica.getPlanosDaClinica().get(indicePlano);
+
+                        plano.AdicionarAnimal(animal);
+
+                        System.out.println("Animal adicionado ao plano!");
+                    }
+                    case 6 -> {
+                        System.out.println("Removendo animal...");
+
+                        if (clinica.getPlanosDaClinica().isEmpty()) {
+                            System.out.println("Nenhum plano encontrado!");
+                            break;
+                        }
+
+                        ArrayList<PlanoPet> planos = clinica.getPlanosDaClinica();
+
+                        for (PlanoPet plano : planos) {
+                            System.out.print("[" + (clinica.getPlanosDaClinica().indexOf(plano) + 1) + "]");
+                            plano.imprimir();
+                        }
+
+
+                        System.out.println("\nEscolha o número do plano (ou 0 para cancelar):");
+                        int indicePlano = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        PlanoPet plano = clinica.getPlanosDaClinica().get(indicePlano);
+
+                        if(plano.getAnimalSize() <= 0) {
+                            System.out.println("Nenhum animal no plano encontrado!");
+                            break;
+                        }
+
+                        plano.ListarAnimais();
+
+                        System.out.println("=== ANIMAIS ===");
+                        System.out.println("\nEscolha o número do animal (ou 0 para cancelar):");
+                        int indiceAnimal = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        plano.RemoverAnimal(plano.getAnimal(indiceAnimal));
+
+                        System.out.println("Animal removido do plano!");
+
+                    }
+                    case 7 -> {
+                        System.out.println("Voltando para o menu...");
+                        return;
+                    }
+                    default -> {
+                        System.out.println("Por favor, tente novamente.");
+                    }
+                }
+
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println("Por favor, tente novamente.");

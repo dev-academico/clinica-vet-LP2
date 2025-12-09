@@ -1,9 +1,40 @@
 package model;
 
+import Interfaces.IValidavel;
+
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Animal {
+public class Animal implements IValidavel {
+
+    @Override
+    public boolean validarCreate() {
+        if (this.nome == null || this.nome.trim().isEmpty()) {
+            return false;
+        }
+        if(this.raca == null || this.raca.trim().isEmpty()) {
+            return false;
+        }
+
+        if (this.especie == null) {
+            return false;
+        }
+
+        if (this.dataNascimento == null) {
+            return false;
+        }
+
+        if (this.cliente == null) {
+            return false;
+        }
+
+        if (this.id < 0) {
+            return false;
+        }
+
+        return true;
+    }
 
     static public int animalCount = 0;
 
@@ -28,6 +59,10 @@ public class Animal {
         this.dataNascimento = dataNascimento;
         this.id = animalCount++;
         this.cliente = cliente;
+
+        if(!validarCreate()) {
+            throw new InvalidParameterException("Dados incorretos!Todos os campos (nome, especie, raça, data de nascimento e cliente) são obrigátorios!");
+        }
     }
 
     void registrarPeso(Float peso) {
@@ -107,4 +142,6 @@ public class Animal {
             System.out.println("Consulta ID: 123");
         }
     }
+
+
 }

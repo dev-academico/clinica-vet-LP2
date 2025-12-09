@@ -48,7 +48,7 @@ abstract class ItemComercial {
     } 
 
     public void setDesc(String desc){
-        if(desc.length()<=10) System.err.println("Desc. inválida. Insira mais informações\n");
+        //if(desc.length()<=10) System.err.println("Desc. inválida. Insira mais informações\n");
         this.descricao=desc;
     }
 

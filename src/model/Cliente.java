@@ -1,11 +1,32 @@
 package model;
 
+import Interfaces.INotificavel;
+import Interfaces.IValidavel;
 import exception.AnimalInexistenteException;
 import exception.DadosObrigatoriosException;
 
 import java.util.ArrayList;
 
-public class Cliente extends Pessoa {
+public class Cliente extends Pessoa implements INotificavel, IValidavel {
+
+    @Override
+    public boolean validarCreate() {
+
+        if(getNome() == null || getNome().trim().isEmpty()) {
+            return false;
+        }
+        if(getCpf() == null || getCpf().trim().isEmpty()) {
+            return false;
+        }
+        if(getEndereco() == null || getEndereco().trim().isEmpty()) {
+            return false;
+        }
+        if(getTelefone() == null || getTelefone().trim().isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
 
     private ArrayList<Animal> listaDeAnimais;
     private ArrayList<Produto> listaDeProdutos;
@@ -17,17 +38,17 @@ public class Cliente extends Pessoa {
         }
         this.listaDeAnimais = listaDeAnimais;
         this.listaDeProdutos = new ArrayList<>();
-    }
 
-    public void agendarConsulta() {
-        // Implementar
+        if(!validarCreate()) {
+            throw new DadosObrigatoriosException("Dados Obrigatorios! Todos os campos (nome, cpf, endereco, telefone e 1 animal) são obrigatórios");
+        }
     }
 
     public void atualizarDados(String nome, String endereco, String telefone) {
         if (listaDeAnimais == null) {
             throw new DadosObrigatoriosException("Um cliente deverá ter pelo menos um animal");
         }
-        super.atualizarDados(nome, endereco, telefone); //sobrecarga do pai
+        super.atualizarDados(nome, endereco, telefone);
     }
 
     public void exibirDados(Boolean mostrarDetalhes) {
@@ -145,5 +166,12 @@ public class Cliente extends Pessoa {
             }
         }
     }
+
+    @Override
+    public void enviarNotificacao(String mensagem) {
+        System.out.print("Mensagem: " + mensagem + " ");
+        this.exibirDados();
+    }
+
 
 }
